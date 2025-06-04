@@ -24,7 +24,7 @@ class AppServiceProvider extends ServiceProvider
 
         JsonResource::withoutWrapping();
 
-        Vite::prefetch(concurrency: 3);
+        Vite::useAggressivePrefetching();
 
         Health::checks([
             UsedDiskSpaceCheck::new(),
