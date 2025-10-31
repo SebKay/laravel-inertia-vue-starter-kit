@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\Environment;
 use App\Models\User;
+use Filament\Tables\Table;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
@@ -29,6 +30,10 @@ class AppServiceProvider extends ServiceProvider
         JsonResource::withoutWrapping();
 
         Vite::useAggressivePrefetching();
+
+        Table::configureUsing(function (Table $table): void {
+            $table->defaultPaginationPageOption(50);
+        });
 
         Health::checks([
             UsedDiskSpaceCheck::new(),
