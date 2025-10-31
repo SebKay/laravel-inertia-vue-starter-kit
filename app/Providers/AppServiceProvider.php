@@ -2,9 +2,11 @@
 
 namespace App\Providers;
 
+use App\Enums\Environment;
 use App\Models\User;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pulse\Facades\Pulse;
@@ -20,6 +22,8 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        URL::forceHttps(in_array(app()->environment(), [Environment::PRODUCTION, Environment::STAGING]));
+
         RequestException::dontTruncate();
 
         JsonResource::withoutWrapping();
