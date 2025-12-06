@@ -35,6 +35,9 @@ jobs:
           cp .env.testing .env
           php artisan key:generate
 
+      - name: Build Assets
+        run: composer assets:build
+
       - name: Run Linter
         run: composer lint
 
