@@ -1,5 +1,3 @@
-import * as Sentry from "@sentry/vue";
-
 import { createApp, defineAsyncComponent, h } from 'vue';
 import { createInertiaApp, Link, Head } from '@inertiajs/vue3';
 
@@ -19,12 +17,6 @@ createInertiaApp({
 
     setup({ el, App, props, plugin }) {
         const VueApp = createApp({ render: () => h(App, props) });
-
-        Sentry.init({
-            app: VueApp,
-            dsn: import.meta.env.VITE_SENTRY_DSN_PUBLIC,
-            environment: import.meta.env.VITE_APP_ENV,
-        });
 
         VueApp.use(plugin);
 
