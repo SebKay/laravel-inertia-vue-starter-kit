@@ -10,7 +10,6 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
-use Laravel\Pulse\Facades\Pulse;
 use Spatie\Health\Checks\Checks\DatabaseCheck;
 use Spatie\Health\Checks\Checks\DatabaseConnectionCountCheck;
 use Spatie\Health\Checks\Checks\DebugModeCheck;
@@ -45,15 +44,5 @@ class AppServiceProvider extends ServiceProvider
             EnvironmentCheck::new(),
             SecurityAdvisoriesCheck::new(),
         ]);
-
-        // @codeCoverageIgnoreStart
-        Pulse::users(function ($ids) {
-            return User::findMany($ids)->map(fn ($user) => [
-                'id' => $user->id,
-                'name' => $user->fullName,
-                'extra' => "{$user->email} ({$user->roles->pluck('name')->implode(', ')})",
-            ]);
-        });
-        // @codeCoverageIgnoreEnd
     }
 }
