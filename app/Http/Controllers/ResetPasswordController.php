@@ -7,6 +7,7 @@ use App\Http\Requests\ResetPassword\ResetPasswordUpdateRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -43,9 +44,9 @@ class ResetPasswordController extends Controller
 
     public function update(ResetPasswordUpdateRequest $request)
     {
-        $status = Password::reset($request->only('token', 'email', 'password', 'token'), function (User $user, string $password) {
+        $status = Password::reset($request->only('token', 'email', 'password', 'password_confirmation'), function (User $user, string $password) {
             $user->forceFill([
-                'password' => $password,
+                'password' => Hash::make($password),
             ])->setRememberToken(Str::random(60));
 
             $user->save();

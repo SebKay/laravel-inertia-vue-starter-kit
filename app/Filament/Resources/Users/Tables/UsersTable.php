@@ -2,11 +2,15 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Enums\Role;
+use App\Models\User;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Tables\Columns\IconColumn;
+use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 
 class UsersTable
@@ -21,28 +25,46 @@ class UsersTable
                     ->sortable(),
 
                 TextColumn::make('email')
+                    ->tooltip(fn (User $user) => $user->hasVerifiedEmail() ? 'Email Verified' : 'Email Not Verified')
+                    ->icon(fn (User $user) => match ($user->hasVerifiedEmail()) {
+                        true => Heroicon::OutlinedCheckCircle,
+                        false => Heroicon::OutlinedXCircle,
+                    })
+                    ->iconColor(fn (User $user) => match ($user->hasVerifiedEmail()) {
+                        true => 'success',
+                        false => 'danger',
+                    })
                     ->searchable()
                     ->sortable(),
 
-                IconColumn::make('email_verified')
-                    ->getStateUsing(fn ($record) => $record->email_verified_at)
-                    ->boolean()
-                    ->sortable(),
-
                 TextColumn::make('roles')
-                    ->getStateUsing(fn ($record) => $record->roles->pluck('name')->join(', '))
+                    ->badge()
+                    ->getStateUsing(fn ($record) => $record->roles->pluck('name'))
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('created_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable(),
 
                 TextColumn::make('updated_at')
-                    ->dateTime()
-                    ->sortable()
-                    ->toggleable(isToggledHiddenByDefault: true),
+                    ->toggleable(isToggledHiddenByDefault: true)
+                    ->sortable(),
+            ])
+            ->filters([
+                TernaryFilter::make('email_verified_at')
+                    ->label('Email Verification')
+                    ->nullable()
+                    ->placeholder('All')
+                    ->trueLabel('Verified')
+                    ->falseLabel('Unverified'),
+
+                SelectFilter::make('roles')
+                    ->label('Roles')
+                    ->relationship('roles', 'name')
+                    ->options(Role::values())
+                    ->multiple()
+                    ->preload(),
             ])
             ->recordActions([
                 EditAction::make(),
