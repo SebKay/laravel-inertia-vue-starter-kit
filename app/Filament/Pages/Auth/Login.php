@@ -3,9 +3,8 @@
 namespace App\Filament\Pages\Auth;
 
 use App\Enums\Environment;
-use Filament\Pages\Auth\Login as BasePage;
 
-class Login extends BasePage
+class Login extends \Filament\Auth\Pages\Login
 {
     public function mount(): void
     {
