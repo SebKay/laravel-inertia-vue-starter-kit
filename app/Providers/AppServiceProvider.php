@@ -3,7 +3,6 @@
 namespace App\Providers;
 
 use App\Enums\Environment;
-use App\Models\User;
 use Filament\Tables\Table;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Resources\Json\JsonResource;
