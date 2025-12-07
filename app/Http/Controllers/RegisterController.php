@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use Filament\Auth\Events\Registered;
 use App\Enums\Environment;
 use App\Enums\Role;
 use App\Http\Requests\Register\RegisterStoreRequest;
 use App\Models\User;
+use Filament\Auth\Events\Registered;
 
 class RegisterController extends Controller
 {
