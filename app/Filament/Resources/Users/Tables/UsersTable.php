@@ -8,12 +8,10 @@ use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
-use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 
 class UsersTable
 {
@@ -66,7 +64,7 @@ class UsersTable
                     ->relationship('roles', 'name')
                     ->options(Role::values())
                     ->multiple()
-                    ->preload()
+                    ->preload(),
             ])
             ->recordActions([
                 EditAction::make(),
