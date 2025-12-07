@@ -2,6 +2,7 @@
 
 use App\Enums\Environment;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Inertia\Testing\AssertableInertia as Assert;
 
 use function Pest\Faker\fake;
@@ -54,7 +55,7 @@ describe('Guests', function () {
     test('Can login', function () {
         $password = fake()->password();
         $user = User::factory()->create([
-            'password' => $password,
+            'password' => Hash::make($password),
         ]);
 
         assertGuest();
@@ -72,7 +73,7 @@ describe('Guests', function () {
     test('Can be redirected after login', function () {
         $password = fake()->password();
         $user = User::factory()->create([
-            'password' => $password,
+            'password' => Hash::make($password),
         ]);
 
         $redirectUrl = 'https://www.google.com/';
@@ -93,7 +94,7 @@ describe('Guests', function () {
 
     test("Can't login with invalid credentials", function () {
         $user = User::factory()->create([
-            'password' => fake()->password(),
+            'password' => Hash::make(fake()->password()),
         ]);
 
         assertGuest();
