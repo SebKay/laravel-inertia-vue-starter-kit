@@ -2,10 +2,21 @@
 
 namespace App\Filament\Resources;
 
+use Filament\Schemas\Schema;
+use Filament\Actions\EditAction;
+use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteBulkAction;
+use App\Filament\Resources\UserResource\Pages\ListUsers;
+use App\Filament\Resources\UserResource\Pages\CreateUser;
+use App\Filament\Resources\UserResource\Pages\EditUser;
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\DateTimePicker;
+use Filament\Forms\Components\Select;
+use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Columns\IconColumn;
 use App\Filament\Resources\UserResource\Pages;
 use App\Models\User;
 use Filament\Forms;
-use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
@@ -14,26 +25,26 @@ class UserResource extends Resource
 {
     protected static ?string $model = User::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-users';
+    protected static string | \BackedEnum | null $navigationIcon = 'heroicon-o-users';
 
     protected static ?string $recordTitleAttribute = 'full_name';
 
-    public static function form(Form $form): Form
+    public static function form(Schema $schema): Schema
     {
-        return $form
-            ->schema(self::formSchema());
+        return $schema
+            ->components(self::formSchema());
     }
 
     public static function table(Table $table): Table
     {
         return $table
             ->columns(self::tableSchema())
-            ->actions([
-                Tables\Actions\EditAction::make(),
+            ->recordActions([
+                EditAction::make(),
             ])
-            ->bulkActions([
-                Tables\Actions\BulkActionGroup::make([
-                    Tables\Actions\DeleteBulkAction::make(),
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
                 ]),
             ]);
     }
@@ -41,41 +52,41 @@ class UserResource extends Resource
     public static function getPages(): array
     {
         return [
-            'index' => Pages\ListUsers::route('/'),
-            'create' => Pages\CreateUser::route('/create'),
-            'edit' => Pages\EditUser::route('/{record}/edit'),
+            'index' => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 
     public static function formSchema()
     {
         return [
-            Forms\Components\TextInput::make('first_name')
+            TextInput::make('first_name')
                 ->autofocus()
                 ->required()
                 ->maxLength(255),
 
-            Forms\Components\TextInput::make('last_name')
+            TextInput::make('last_name')
                 ->required()
                 ->maxLength(255),
 
-            Forms\Components\TextInput::make('email')
+            TextInput::make('email')
                 ->required()
                 ->email()
                 ->maxLength(255),
 
-            Forms\Components\TextInput::make('password')
+            TextInput::make('password')
                 ->required(fn (string $operation): bool => $operation === 'create')
                 ->password()
-                ->afterStateHydrated(function (Forms\Components\TextInput $component, $state) {
+                ->afterStateHydrated(function (TextInput $component, $state) {
                     $component->state('');
                 })
                 ->dehydrated(fn (?string $state): bool => filled($state))
                 ->maxLength(255),
 
-            Forms\Components\DateTimePicker::make('email_verified_at'),
+            DateTimePicker::make('email_verified_at'),
 
-            Forms\Components\Select::make('roles')
+            Select::make('roles')
                 ->preload()
                 ->multiple()
                 ->relationship('roles', 'name'),
@@ -85,31 +96,31 @@ class UserResource extends Resource
     public static function tableSchema()
     {
         return [
-            Tables\Columns\TextColumn::make('name')
+            TextColumn::make('name')
                 ->getStateUsing(fn ($record) => $record->fullName)
                 ->searchable()
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('email')
+            TextColumn::make('email')
                 ->searchable()
                 ->sortable(),
 
-            Tables\Columns\IconColumn::make('email_verified')
+            IconColumn::make('email_verified')
                 ->getStateUsing(fn ($record) => $record->email_verified_at)
                 ->boolean()
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('roles')
+            TextColumn::make('roles')
                 ->getStateUsing(fn ($record) => $record->roles->pluck('name')->join(', '))
                 ->searchable()
                 ->sortable(),
 
-            Tables\Columns\TextColumn::make('created_at')
+            TextColumn::make('created_at')
                 ->dateTime()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),
 
-            Tables\Columns\TextColumn::make('updated_at')
+            TextColumn::make('updated_at')
                 ->dateTime()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),
