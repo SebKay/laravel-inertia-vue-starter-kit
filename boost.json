@@ -1,0 +1,12 @@
+{
+    "agents": [
+        "cursor"
+    ],
+    "editors": [
+        "cursor"
+    ],
+    "guidelines": [
+        "filament/filament"
+    ],
+    "herd_mcp": true
+}
