@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Tables;
 
+use App\Enums\Role;
 use App\Models\User;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
@@ -9,7 +10,10 @@ use Filament\Actions\EditAction;
 use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\IconColumn;
 use Filament\Tables\Columns\TextColumn;
+use Filament\Tables\Filters\SelectFilter;
+use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class UsersTable
 {
@@ -48,6 +52,21 @@ class UsersTable
                 TextColumn::make('updated_at')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
+            ])
+            ->filters([
+                TernaryFilter::make('email_verified_at')
+                    ->label('Email Verification')
+                    ->nullable()
+                    ->placeholder('All')
+                    ->trueLabel('Verified')
+                    ->falseLabel('Unverified'),
+
+                SelectFilter::make('roles')
+                    ->label('Roles')
+                    ->relationship('roles', 'name')
+                    ->options(Role::values())
+                    ->multiple()
+                    ->preload()
             ])
             ->recordActions([
                 EditAction::make(),
