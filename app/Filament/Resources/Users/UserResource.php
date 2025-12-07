@@ -32,35 +32,7 @@ class UserResource extends Resource
     public static function form(Schema $schema): Schema
     {
         return $schema
-            ->components(self::formSchema());
-    }
-
-    public static function table(Table $table): Table
-    {
-        return $table
-            ->columns(self::tableSchema())
-            ->recordActions([
-                EditAction::make(),
-            ])
-            ->toolbarActions([
-                BulkActionGroup::make([
-                    DeleteBulkAction::make(),
-                ]),
-            ]);
-    }
-
-    public static function getPages(): array
-    {
-        return [
-            'index' => ListUsers::route('/'),
-            'create' => CreateUser::route('/create'),
-            'edit' => EditUser::route('/{record}/edit'),
-        ];
-    }
-
-    public static function formSchema()
-    {
-        return [
+            ->components([
             TextInput::make('first_name')
                 ->autofocus()
                 ->required()
@@ -90,12 +62,13 @@ class UserResource extends Resource
                 ->preload()
                 ->multiple()
                 ->relationship('roles', 'name'),
-        ];
+        ]);
     }
 
-    public static function tableSchema()
+    public static function table(Table $table): Table
     {
-        return [
+        return $table
+            ->columns([
             TextColumn::make('name')
                 ->getStateUsing(fn ($record) => $record->fullName)
                 ->searchable()
@@ -124,6 +97,23 @@ class UserResource extends Resource
                 ->dateTime()
                 ->sortable()
                 ->toggleable(isToggledHiddenByDefault: true),
+        ])
+            ->recordActions([
+                EditAction::make(),
+            ])
+            ->toolbarActions([
+                BulkActionGroup::make([
+                    DeleteBulkAction::make(),
+                ]),
+            ]);
+    }
+
+    public static function getPages(): array
+    {
+        return [
+            'index' => ListUsers::route('/'),
+            'create' => CreateUser::route('/create'),
+            'edit' => EditUser::route('/{record}/edit'),
         ];
     }
 }
