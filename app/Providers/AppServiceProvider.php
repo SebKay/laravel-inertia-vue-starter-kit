@@ -30,7 +30,9 @@ class AppServiceProvider extends ServiceProvider
         Vite::useAggressivePrefetching();
 
         Table::configureUsing(function (Table $table): void {
-            $table->defaultPaginationPageOption(50);
+            $table
+                ->defaultPaginationPageOption(50)
+                ->paginationPageOptions([5, 10, 25, 50, 'all']);
         });
 
         Health::checks([
