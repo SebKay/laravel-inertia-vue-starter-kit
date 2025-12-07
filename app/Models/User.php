@@ -42,13 +42,6 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
         ];
     }
 
-    protected function password(): Attribute
-    {
-        return Attribute::make(
-            set: fn ($value) => Hash::make($value),
-        );
-    }
-
     protected function fullName(): Attribute
     {
         return Attribute::make(
@@ -71,7 +64,7 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
     public function updatePassword(?string $new_password = '')
     {
         if ($new_password && $new_password != $this->password) {
-            $this->password = $new_password;
+            $this->password = Hash::make($new_password);
 
             $this->save();
         }

@@ -7,6 +7,7 @@ use App\Enums\Role;
 use App\Http\Requests\Register\RegisterStoreRequest;
 use App\Models\User;
 use Filament\Auth\Events\Registered;
+use Illuminate\Support\Facades\Hash;
 
 class RegisterController extends Controller
 {
@@ -24,7 +25,7 @@ class RegisterController extends Controller
     {
         $user = new User($request->only('first_name', 'last_name', 'email'));
 
-        $user->password = $request->validated('password');
+        $user->password = Hash::make($request->validated('password'));
         $user->save();
 
         $user->assignRole(Role::USER->value);

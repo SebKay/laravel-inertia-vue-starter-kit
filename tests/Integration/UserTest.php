@@ -15,7 +15,7 @@ it("can get it's \"full_name\" correctly", function () {
 
 it("can update it's password", function () {
     $user = User::factory()->create([
-        'password' => 'oldPassword#123',
+        'password' => Hash::make('oldPassword#123'),
     ]);
 
     expect(Hash::check('oldPassword#123', $user->password))->toBeTrue();
@@ -27,7 +27,7 @@ it("can update it's password", function () {
 
 it("doesn't update it's password if the value is empty", function () {
     $user = User::factory()->create([
-        'password' => 'oldPassword#123',
+        'password' => Hash::make('oldPassword#123'),
     ]);
 
     expect(Hash::check('oldPassword#123', $user->password))->toBeTrue();

@@ -69,7 +69,7 @@ test('The password reset page can be accessed', function () {
 
 test('Users can reset their passwords', function () {
     $user = User::factory()->create([
-        'password' => fake()->password(6),
+        'password' => Hash::make(fake()->password(6)),
     ]);
 
     $token = Password::createToken($user);
