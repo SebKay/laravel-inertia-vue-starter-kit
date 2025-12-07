@@ -1,13 +1,11 @@
 import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
-import { run } from "vite-plugin-run";
 import tailwindcss from "@tailwindcss/vite";
 import vue from '@vitejs/plugin-vue';
+import { wayfinder } from "@laravel/vite-plugin-wayfinder";
 
 export default defineConfig({
     plugins: [
-        tailwindcss(),
-
         laravel({
             input: [
                 'resources/css/app.css',
@@ -25,13 +23,9 @@ export default defineConfig({
             },
         }),
 
-        run([
-            {
-                name: "wayfinder",
-                run: ["php", "artisan", "wayfinder:generate"],
-                pattern: ["routes/**/*.php", "app/**/Http/**/*.php"],
-            },
-        ]),
+        tailwindcss(),
+
+        wayfinder(),
     ],
 
     resolve: {

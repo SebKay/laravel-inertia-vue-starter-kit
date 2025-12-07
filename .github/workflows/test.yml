@@ -9,6 +9,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+      - uses: oven-sh/setup-bun@v2
 
       - name: Setup PHP and Composer
         uses: shivammathur/setup-php@v2
@@ -34,6 +35,9 @@ jobs:
         run: |
           cp .env.testing .env
           php artisan key:generate
+
+      - name: Build Assets
+        run: composer assets:build
 
       - name: Run Linter
         run: composer lint
