@@ -10,6 +10,7 @@ export default defineConfig({
             input: [
                 'resources/css/app.css',
                 'resources/js/app.js',
+                'resources/css/filament/admin/theme.css',
             ],
             refresh: true,
         }),
@@ -35,23 +36,6 @@ export default defineConfig({
             '@img': '/public/img',
             '@js': '/resources/js',
             '@css': '/resources/css',
-        },
-    },
-
-    build: {
-        sourcemap: false,
-        rollupOptions: {
-            output: {
-                manualChunks: (id) => {
-                    if (id.includes('node_modules')) {
-                        return 'vendor';
-                    }
-
-                    if (id.includes('resources/js')) {
-                        return 'app';
-                    }
-                },
-            },
         },
     },
 });
