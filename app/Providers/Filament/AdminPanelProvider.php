@@ -25,11 +25,12 @@ class AdminPanelProvider extends PanelProvider
             ->default()
             ->id('admin')
             ->path('admin')
-            ->login(Login::class)
+            ->topbar(false)
+            ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => '#1e293b',
             ])
-            ->viteTheme('resources/css/filament/admin/theme.css')
+            ->login(Login::class)
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\\Filament\\Resources')
             ->discoverPages(in: app_path('Filament/Pages'), for: 'App\\Filament\\Pages')
             ->pages([
