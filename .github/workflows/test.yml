@@ -39,6 +39,9 @@ jobs:
       - name: Build Assets
         run: composer assets:build
 
+      - name: Run Rector
+        run: composer rector --dry-run
+
       - name: Run Linter
         run: composer lint
 

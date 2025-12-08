@@ -31,7 +31,7 @@ class ResetPasswordController extends Controller
 
         session()->flash('success', __('passwords.sent'));
 
-        return redirect()->route('login');
+        return to_route('login');
     }
 
     public function edit(Request $request, string $token)
@@ -60,6 +60,6 @@ class ResetPasswordController extends Controller
 
         session()->flash('success', __('passwords.reset'));
 
-        return redirect()->route('login');
+        return to_route('login');
     }
 }
