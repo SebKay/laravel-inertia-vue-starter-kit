@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\Enum;
+
 enum Permission: string
 {
     use Enum;

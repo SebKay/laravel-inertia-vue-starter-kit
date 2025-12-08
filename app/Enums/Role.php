@@ -2,6 +2,8 @@
 
 namespace App\Enums;
 
+use App\Enums\Concerns\Enum;
+
 enum Role: string
 {
     use Enum;
