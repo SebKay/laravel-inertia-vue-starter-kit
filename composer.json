@@ -60,6 +60,9 @@
         "build:test": [
             "composer install --no-interaction"
         ],
+        "rector": [
+            "./vendor/bin/rector"
+        ],
         "lint": [
             "./vendor/bin/pint --test"
         ],
