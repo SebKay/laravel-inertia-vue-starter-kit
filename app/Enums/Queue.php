@@ -2,15 +2,12 @@
 
 namespace App\Enums;
 
-use Illuminate\Support\Collection;
+use App\Enums\Concerns\Enum;
 
 enum Queue: string
 {
+    use Enum;
+
     case DEFAULT = 'default';
     case MAIL = 'mail';
-
-    public static function values(): Collection
-    {
-        return collect(self::cases())->map(fn ($case): string => $case->value);
-    }
 }
