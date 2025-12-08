@@ -29,7 +29,7 @@ describe('Users', function () {
             ->withoutMiddleware(Illuminate\Routing\Middleware\ValidateSignature::class)
             ->get(route('verification.verify', [
                 'id' => $user->getKey(),
-                'hash' => sha1($user->getEmailForVerification()),
+                'hash' => sha1((string) $user->getEmailForVerification()),
             ]))
             ->assertSessionDoesntHaveErrors()
             ->assertRedirectToRoute('home');

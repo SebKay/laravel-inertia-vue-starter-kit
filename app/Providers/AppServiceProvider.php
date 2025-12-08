@@ -21,7 +21,7 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-        URL::forceHttps(in_array(app()->environment(), [Environment::PRODUCTION, Environment::STAGING]));
+        URL::forceHttps(app()->environment([Environment::PRODUCTION, Environment::STAGING]));
 
         RequestException::dontTruncate();
 

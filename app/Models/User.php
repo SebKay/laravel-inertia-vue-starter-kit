@@ -56,7 +56,8 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
         );
     }
 
-    protected function scopeHasRoles(Builder $query, array $roles): void
+    #[\Illuminate\Database\Eloquent\Attributes\Scope]
+    protected function hasRoles(Builder $query, array $roles): void
     {
         $query->whereHas('roles', fn (Builder $query) => $query->whereIn('name', $roles));
     }
