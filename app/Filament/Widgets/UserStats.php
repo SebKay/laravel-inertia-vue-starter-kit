@@ -12,8 +12,8 @@ class UserStats extends BaseWidget
     {
         return [
             Stat::make('Users', User::query()->count()),
-            Stat::make('New users (last 7 days)', User::query()->where('created_at', '>=', \now()->subDays(7))->count()),
-            Stat::make('New users (last 30 days)', User::query()->where('created_at', '>=', \now()->subDays(30))->count()),
+            Stat::make('New users (last 7 days)', User::query()->where('created_at', '>=', now()->subDays(7))->count()),
+            Stat::make('New users (last 30 days)', User::query()->where('created_at', '>=', now()->subDays(30))->count()),
         ];
     }
 }
