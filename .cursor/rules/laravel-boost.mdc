@@ -657,7 +657,7 @@ Forms\Components\Select::make('user_id')
 - All action classes extend `Filament\Actions\Action`. No action classes exist in `Filament\Tables\Actions`.
 - The `Form` & `Infolist` layout components have been moved to `Filament\Schemas\Components`, for example `Grid`, `Section`, `Fieldset`, `Tabs`, `Wizard`, etc.
 - A new `Repeater` component for Forms has been added.
-- Icons now use the `Filament\Support\Icons\Heroicon` Enum by default. Other options are available and documented.
+- Icons now use the `CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon` Enum by default. Other options are available and documented.
 
 ### Organize Component Classes Structure
 - Schema components: `Schemas/Components/`

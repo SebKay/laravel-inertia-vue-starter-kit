@@ -4,10 +4,10 @@ namespace App\Filament\Resources\Users\Tables;
 
 use App\Enums\Role;
 use App\Models\User;
+use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use Filament\Support\Icons\Heroicon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
@@ -27,8 +27,8 @@ class UsersTable
                 TextColumn::make('email')
                     ->tooltip(fn (User $user) => $user->hasVerifiedEmail() ? 'Email Verified' : 'Email Not Verified')
                     ->icon(fn (User $user) => match ($user->hasVerifiedEmail()) {
-                        true => Heroicon::OutlinedCheckCircle,
-                        false => Heroicon::OutlinedXCircle,
+                        true => LucideIcon::CircleCheck,
+                        false => LucideIcon::XCircle,
                     })
                     ->iconColor(fn (User $user) => match ($user->hasVerifiedEmail()) {
                         true => 'success',
