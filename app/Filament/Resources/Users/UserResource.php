@@ -11,6 +11,7 @@ use App\Models\User;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 
 class UserResource extends Resource
 {
@@ -18,7 +19,21 @@ class UserResource extends Resource
 
     protected static string|\BackedEnum|null $navigationIcon = 'heroicon-o-users';
 
-    protected static ?string $recordTitleAttribute = 'full_name';
+    protected static ?string $recordTitleAttribute = 'email';
+
+    public static function getGloballySearchableAttributes(): array
+    {
+        return ['email', 'first_name', 'last_name', 'roles.name'];
+    }
+
+    public static function getGlobalSearchResultDetails(Model $record): array
+    {
+        return [
+            'Name' => $record->fullName,
+            'Roles' => $record->roles->pluck('name')->join(', '),
+            'Verified' => $record->hasVerifiedEmail() ? 'Yes' : 'No',
+        ];
+    }
 
     public static function form(Schema $schema): Schema
     {
