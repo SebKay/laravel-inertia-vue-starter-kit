@@ -4,10 +4,10 @@ namespace App\Filament\Resources\Users\Tables;
 
 use App\Enums\Role;
 use App\Models\User;
+use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 use Filament\Actions\BulkActionGroup;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
-use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
