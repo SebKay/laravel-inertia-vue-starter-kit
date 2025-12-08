@@ -4,6 +4,8 @@ namespace App\Enums;
 
 enum Permission: string
 {
+    use Enum;
+
     case ACCESS_ADMIN = 'access-filament';
 
     case CREATE_POSTS = 'create-posts';
@@ -11,9 +13,4 @@ enum Permission: string
     case EDIT_POSTS = 'edit-posts';
     case UPDATE_POSTS = 'update-posts';
     case DELETE_POSTS = 'delete-posts';
-
-    public static function values(): array
-    {
-        return collect(self::cases())->map(fn ($case): string => $case->value)->toArray();
-    }
 }

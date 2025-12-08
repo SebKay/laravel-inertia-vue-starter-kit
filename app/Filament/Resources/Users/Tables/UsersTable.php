@@ -62,7 +62,7 @@ class UsersTable
                 SelectFilter::make('roles')
                     ->label('Roles')
                     ->relationship('roles', 'name')
-                    ->options(Role::values())
+                    ->options(Role::values()->all())
                     ->multiple()
                     ->preload(),
             ])
