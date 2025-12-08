@@ -5,6 +5,7 @@ namespace Database\Factories;
 use App\Enums\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 /**
@@ -19,7 +20,7 @@ class UserFactory extends Factory
             'last_name' => \fake()->lastName(),
             'email' => \fake()->unique()->safeEmail(),
             'email_verified_at' => \now(),
-            'password' => '12345',
+            'password' => Hash::make(config('seed.users.super.password')),
             'remember_token' => Str::random(10),
         ];
     }
@@ -35,8 +36,8 @@ class UserFactory extends Factory
     {
         return $this
             ->state(fn (array $attributes) => [
-                'email' => \config('seed.users.super.email'),
-                'password' => \config('seed.users.super.password'),
+                'email' => config('seed.users.super.email'),
+                'password' => Hash::make(config('seed.users.super.password')),
             ])
             ->afterCreating(function (User $user) {
                 $user->assignRole(Role::SUPER_ADMIN);
@@ -47,8 +48,8 @@ class UserFactory extends Factory
     {
         return $this
             ->state(fn (array $attributes) => [
-                'email' => \config('seed.users.admin.email'),
-                'password' => \config('seed.users.admin.password'),
+                'email' => config('seed.users.admin.email'),
+                'password' => Hash::make(config('seed.users.admin.password')),
             ])
             ->afterCreating(function (User $user) {
                 $user->assignRole(Role::ADMIN);
@@ -59,8 +60,8 @@ class UserFactory extends Factory
     {
         return $this
             ->state(fn (array $attributes) => [
-                'email' => \config('seed.users.user.email'),
-                'password' => \config('seed.users.user.password'),
+                'email' => config('seed.users.user.email'),
+                'password' => Hash::make(config('seed.users.user.password')),
             ])
             ->afterCreating(function (User $user) {
                 $user->assignRole(Role::USER);
