@@ -34,6 +34,6 @@ class LoginController extends Controller
             return redirect()->to($request->validated('redirect'));
         }
 
-        return redirect()->intended(\route('home'));
+        return redirect()->intended(route('home'));
     }
 }

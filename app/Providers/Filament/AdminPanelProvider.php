@@ -26,6 +26,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->topbar(false)
+            ->globalSearchKeyBindings(['command+k', 'ctrl+k'])
+            ->globalSearchFieldKeyBindingSuffix()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
                 'primary' => '#1e293b',
