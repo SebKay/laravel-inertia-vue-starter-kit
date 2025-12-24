@@ -65,23 +65,23 @@
     }
 </script>
 
-<script setup>
-    import { ref } from "vue";
+<script setup lang="ts">
+    import { ref, type PropType } from "vue";
     import { useForm } from "@inertiajs/vue3";
 
     import { update } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
     const props = defineProps({
-        email: String,
-        token: String,
+        email: String as PropType<string>,
+        token: String as PropType<string>,
     })
 
-    const title = ref("Reset Password");
+    const title = ref<string>("Reset Password");
     const resetPasswordForm = useForm({
-        email: props.email,
+        email: props.email as string,
         password: "",
         password_confirmation: "",
-        token: props.token,
+        token: props.token as string,
     });
 
     const submitForm = () => {
