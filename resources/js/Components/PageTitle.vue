@@ -5,8 +5,10 @@
     ></h1>
 </template>
 
-<script setup>
-    const props = defineProps({
-        text: String,
+<script setup lang="ts">
+    import { type PropType } from "vue";
+
+    defineProps({
+        text: String as PropType<string>,
     });
 </script>
