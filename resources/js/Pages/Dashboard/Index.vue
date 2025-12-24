@@ -13,8 +13,8 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
     import { ref } from "vue";
 
-    const title = ref("Dashboard");
+    const title = ref < string > ("Dashboard");
 </script>
