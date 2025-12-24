@@ -113,10 +113,10 @@
 
     const title = ref<string>("Log In");
     const loginForm = useForm({
-        email: props.email as string,
-        password: props.password as string,
-        remember: props.remember as boolean,
-        redirect: props.redirect as string,
+        email: props.email ?? "",
+        password: props.password ?? "",
+        remember: props.remember ?? false,
+        redirect: props.redirect ?? "",
     });
 
     const submitForm = () => {
