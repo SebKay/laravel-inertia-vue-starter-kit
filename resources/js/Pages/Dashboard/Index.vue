@@ -16,5 +16,5 @@
 <script setup lang="ts">
     import { ref } from "vue";
 
-    const title = ref < string > ("Dashboard");
+    const title = ref<string>("Dashboard");
 </script>
