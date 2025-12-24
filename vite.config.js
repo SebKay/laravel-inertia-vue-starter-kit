@@ -26,7 +26,9 @@ export default defineConfig({
 
         tailwindcss(),
 
-        wayfinder(),
+        wayfinder({
+            formVariants: true,
+        }),
     ],
 
     resolve: {
