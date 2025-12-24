@@ -10,8 +10,8 @@ const AppLayout = defineAsyncComponent(() => import("@js/Layouts/App.vue"));
 createInertiaApp({
     resolve: async (name) => {
         const page = await resolvePageComponent(
-            `./pages/${name}.vue`,
-            import.meta.glob<DefineComponent>("./pages/**/*.vue")
+            `./Pages/${name}.vue`,
+            import.meta.glob<DefineComponent>("./Pages/**/*.vue")
         );
 
         page.default.layout = page.default.layout || AppLayout;
