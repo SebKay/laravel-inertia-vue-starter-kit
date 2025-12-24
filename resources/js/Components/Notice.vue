@@ -25,7 +25,7 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
     import { ref, onMounted } from 'vue';
     import { router, usePage } from "@inertiajs/vue3";
 
@@ -40,21 +40,21 @@
     const active = ref(false);
     const icon = ref("");
     const type = ref("");
-    const message = ref("");
+    const message = ref<string>("");
 
     onMounted(() => {
         router.on('finish', () => {
-            let error = Object.values(page.props.errors)[0] || page.props.error;
+            const error = (Object.values(page.props.errors)[0] || page.props.error) as string;
 
             if (page.props.success) {
                 type.value = "success";
-                message.value = page.props.success;
+                message.value = page.props.success as string;
             } else if (error) {
                 type.value = "error";
-                message.value = error;
+                message.value = error as string;
             } else if (page.props.warning) {
                 type.value = "warning";
-                message.value = page.props.warning;
+                message.value = page.props.warning as string;
             }
 
             setActive();
