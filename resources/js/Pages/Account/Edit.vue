@@ -86,21 +86,25 @@
     </div>
 </template>
 
-<script setup>
-    import { ref } from "vue";
+<script setup lang="ts">
+    import { ref, type PropType } from "vue";
     import { useForm } from "@inertiajs/vue3";
 
     import { update } from "@js/actions/App/Http/Controllers/AccountController";
 
-    const title = ref("Update Account");
+    const title = ref<string>("Update Account");
     const props = defineProps({
-        user: Object,
+        user: Object as PropType<{
+            first_name: string;
+            last_name: string;
+            email: string;
+        }>,
     });
 
     const accountForm = useForm({
-        first_name: props.user.first_name,
-        last_name: props.user.last_name,
-        email: props.user.email,
+        first_name: props.user?.first_name,
+        last_name: props.user?.last_name,
+        email: props.user?.email,
         password: "",
     });
 
