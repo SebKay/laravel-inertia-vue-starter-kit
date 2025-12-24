@@ -45,14 +45,14 @@
     }
 </script>
 
-<script setup>
+<script setup lang="ts">
     import { ref } from "vue";
     import { router } from "@inertiajs/vue3";
 
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
     import { update } from "@js/actions/App/Http/Controllers/EmailVerificationController";
 
-    const title = ref("Verify Your Email");
+    const title = ref<string>("Verify Your Email");
 
     const resend = () => {
         router.post(update().url, {
