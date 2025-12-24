@@ -3,7 +3,7 @@ import { createInertiaApp, Link, Head } from "@inertiajs/vue3";
 import type { DefineComponent } from "vue";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
-import { userCan } from "@js/utilities/permissions.js";
+import { userCan } from "@js/utilities/permissions";
 
 const appName = import.meta.env.VITE_APP_NAME || "Template";
 
