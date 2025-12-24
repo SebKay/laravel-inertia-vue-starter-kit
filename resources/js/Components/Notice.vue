@@ -44,14 +44,14 @@
 
     onMounted(() => {
         router.on('finish', () => {
-            const error = (Object.values(page.props.errors)[0] || page.props.error) as string;
+            const errorMessage = (Object.values(page.props.errors)[0] || page.props.error) as string;
 
             if (page.props.success) {
                 type.value = "success";
                 message.value = page.props.success as string;
-            } else if (error) {
+            } else if (errorMessage) {
                 type.value = "error";
-                message.value = error as string;
+                message.value = errorMessage as string;
             } else if (page.props.warning) {
                 type.value = "warning";
                 message.value = page.props.warning as string;
