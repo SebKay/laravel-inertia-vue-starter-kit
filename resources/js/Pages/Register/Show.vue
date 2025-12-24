@@ -109,18 +109,20 @@
 </script>
 
 <script setup lang="ts">
-    import { ref, type PropType } from "vue";
+    import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
+
+    import type { PageProps } from "@js/types/inertia";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/RegisterController";
 
-    const props = defineProps({
-        first_name: String as PropType<string>,
-        last_name: String as PropType<string>,
-        email: String as PropType<string>,
-        password: String as PropType<string>,
-    });
+    const props = defineProps<PageProps<{
+        first_name?: string;
+        last_name?: string;
+        email?: string;
+        password?: string;
+    }>>();
 
     const title = ref<string>("Register");
     const registerForm = useForm({

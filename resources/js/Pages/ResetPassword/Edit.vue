@@ -66,22 +66,24 @@
 </script>
 
 <script setup lang="ts">
-    import { ref, type PropType } from "vue";
+    import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
+
+    import type { PageProps } from "@js/types/inertia";
 
     import { update } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
-    const props = defineProps({
-        email: String as PropType<string>,
-        token: String as PropType<string>,
-    })
+    const props = defineProps<PageProps<{
+        email?: string;
+        token?: string;
+    }>>();
 
     const title = ref<string>("Reset Password");
     const resetPasswordForm = useForm({
-        email: props.email as string,
+        email: props.email ?? "",
         password: "",
         password_confirmation: "",
-        token: props.token as string,
+        token: props.token ?? "",
     });
 
     const submitForm = () => {

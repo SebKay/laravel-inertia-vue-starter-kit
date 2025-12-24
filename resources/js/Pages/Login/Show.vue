@@ -97,19 +97,21 @@
 </script>
 
 <script setup lang="ts">
-    import { ref, type PropType } from "vue";
+    import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
+
+    import type { PageProps } from "@js/types/inertia";
 
     import { show as forgotPassword } from "@js/actions/App/Http/Controllers/ResetPasswordController";
     import { show as register } from "@js/actions/App/Http/Controllers/RegisterController";
     import { store } from "@js/actions/App/Http/Controllers/LoginController";
 
-    const props = defineProps({
-        email: String as PropType<string>,
-        password: String as PropType<string>,
-        remember: Boolean as PropType<boolean>,
-        redirect: String as PropType<string>,
-    });
+    const props = defineProps<PageProps<{
+        email?: string;
+        password?: string;
+        remember?: boolean;
+        redirect?: string;
+    }>>();
 
     const title = ref<string>("Log In");
     const loginForm = useForm({

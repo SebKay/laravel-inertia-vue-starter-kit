@@ -29,13 +29,15 @@
     import { ref, onMounted } from 'vue';
     import { router, usePage } from "@inertiajs/vue3";
 
+    import type { PageProps } from "@js/types/inertia";
+
     import {
         CircleCheck as CircleCheckIcon,
         CircleX as CircleXIcon,
         CircleAlert as CircleAlertIcon,
     } from 'lucide-vue-next';
 
-    const page = usePage();
+    const page = usePage<PageProps>();
 
     const active = ref(false);
     const icon = ref("");
