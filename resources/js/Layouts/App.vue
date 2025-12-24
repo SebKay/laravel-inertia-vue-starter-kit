@@ -35,13 +35,7 @@
         condition: boolean;
         components: string[];
         method?: "get" | "post";
-    }[]>((): {
-        label: string;
-        route: string;
-        condition: boolean;
-        components: string[];
-        method?: "get" | "post";
-    }[] => {
+    }[]>(() => {
         return [
             {
                 label: "Dashboard",
