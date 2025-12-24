@@ -3,8 +3,6 @@ import { createInertiaApp, Link, Head } from "@inertiajs/vue3";
 import type { DefineComponent } from "vue";
 import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
 
-import { userCan } from "@js/utilities/permissions";
-
 const appName = import.meta.env.VITE_APP_NAME || "Template";
 
 const AppLayout = defineAsyncComponent(() => import("@js/Layouts/App.vue"));
@@ -25,8 +23,6 @@ createInertiaApp({
         const VueApp = createApp({ render: () => h(App, props) });
 
         VueApp.use(plugin);
-
-        VueApp.mixin({ methods: { userCan } });
 
         VueApp.component("Head", Head)
             .component("Link", Link)

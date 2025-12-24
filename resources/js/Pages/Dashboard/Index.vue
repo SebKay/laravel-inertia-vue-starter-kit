@@ -16,5 +16,7 @@
 <script setup lang="ts">
     import { ref } from "vue";
 
+    import { userCan } from "@js/utilities/permissions";
+
     const title = ref<string>("Dashboard");
 </script>
