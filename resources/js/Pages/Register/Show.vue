@@ -124,10 +124,10 @@
 
     const title = ref<string>("Register");
     const registerForm = useForm({
-        first_name: props.first_name as string,
-        last_name: props.last_name as string,
-        email: props.email as string,
-        password: props.password as string,
+        first_name: props.first_name ?? "",
+        last_name: props.last_name ?? "",
+        email: props.email ?? "",
+        password: props.password ?? "",
     });
 
     const submitForm = () => {
