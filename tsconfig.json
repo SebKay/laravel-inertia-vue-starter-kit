@@ -1,8 +1,37 @@
 {
-  "compilerOptions": {
-    "baseUrl": "./",
-    "paths": {
-      "@js/*": ["resources/js/*"],
-    }
-  }
+    "compilerOptions": {
+        "target": "ESNext",
+        "useDefineForClassFields": true,
+        "lib": [
+            "ESNext",
+            "DOM",
+            "DOM.Iterable"
+        ],
+        "jsx": "preserve",
+        "jsxImportSource": "vue",
+        "module": "ESNext",
+        "moduleResolution": "bundler",
+        "paths": {
+            "@js/*": ["./resources/js/*"],
+        },
+        "types": [
+            "vite/client",
+            "./resources/js/types"
+        ],
+        "resolveJsonModule": true,
+        "allowJs": true,
+        "sourceMap": true,
+        "noEmit": true,
+        "isolatedModules": true,
+        "esModuleInterop": true,
+        "forceConsistentCasingInFileNames": true,
+        "strict": true,
+        "skipLibCheck": true
+    },
+    "include": [
+        "resources/js/**/*.ts",
+        "resources/js/**/*.d.ts",
+        "resources/js/**/*.tsx",
+        "resources/js/**/*.vue"
+    ]
 }
