@@ -7,5 +7,7 @@ export function userCan(props: PageProps, permission: string): boolean {
         return false;
     }
 
-    return user.can.includes(permission);
+    const { can } = user as { can: string[] };
+
+    return can.includes(permission);
 }
