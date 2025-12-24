@@ -61,7 +61,7 @@
 </script>
 
 <script setup lang="ts">
-    import { ref, type PropType } from "vue";
+    import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
