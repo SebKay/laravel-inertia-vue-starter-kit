@@ -57,7 +57,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import Layout from '@js/Layouts/Guest.vue';
 
     export default {
@@ -65,23 +65,25 @@
     }
 </script>
 
-<script setup>
+<script setup lang="ts">
     import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
 
+    import type { PageProps } from "@js/types/inertia";
+
     import { update } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
-    const props = defineProps({
-        email: String,
-        token: String,
-    })
+    const props = defineProps<PageProps<{
+        email?: string;
+        token?: string;
+    }>>();
 
-    const title = ref("Reset Password");
+    const title = ref<string>("Reset Password");
     const resetPasswordForm = useForm({
-        email: props.email,
+        email: props.email ?? "",
         password: "",
         password_confirmation: "",
-        token: props.token,
+        token: props.token ?? "",
     });
 
     const submitForm = () => {

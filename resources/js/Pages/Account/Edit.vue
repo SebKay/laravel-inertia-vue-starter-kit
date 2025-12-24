@@ -86,21 +86,23 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
     import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
 
+    import type { PageProps, User } from "@js/types/inertia";
+
     import { update } from "@js/actions/App/Http/Controllers/AccountController";
 
-    const title = ref("Update Account");
-    const props = defineProps({
-        user: Object,
-    });
+    const title = ref<string>("Update Account");
+    const props = defineProps<PageProps<{
+        user: User;
+    }>>();
 
     const accountForm = useForm({
-        first_name: props.user.first_name,
-        last_name: props.user.last_name,
-        email: props.user.email,
+        first_name: props.user.first_name ?? "",
+        last_name: props.user.last_name ?? "",
+        email: props.user.email ?? "",
         password: "",
     });
 

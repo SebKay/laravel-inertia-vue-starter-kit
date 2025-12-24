@@ -88,7 +88,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import Layout from '@js/Layouts/Guest.vue';
 
     export default {
@@ -96,27 +96,29 @@
     }
 </script>
 
-<script setup>
+<script setup lang="ts">
     import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
+
+    import type { PageProps } from "@js/types/inertia";
 
     import { show as forgotPassword } from "@js/actions/App/Http/Controllers/ResetPasswordController";
     import { show as register } from "@js/actions/App/Http/Controllers/RegisterController";
     import { store } from "@js/actions/App/Http/Controllers/LoginController";
 
-    const props = defineProps({
-        email: String,
-        password: String,
-        remember: Boolean,
-        redirect: String,
-    });
+    const props = defineProps<PageProps<{
+        email?: string;
+        password?: string;
+        remember?: boolean;
+        redirect?: string;
+    }>>();
 
-    const title = ref("Log In");
+    const title = ref<string>("Log In");
     const loginForm = useForm({
-        email: props.email,
-        password: props.password,
-        remember: props.remember,
-        redirect: props.redirect,
+        email: props.email ?? "",
+        password: props.password ?? "",
+        remember: props.remember ?? false,
+        redirect: props.redirect ?? "",
     });
 
     const submitForm = () => {

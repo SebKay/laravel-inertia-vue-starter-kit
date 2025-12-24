@@ -5,8 +5,9 @@
     ></h1>
 </template>
 
-<script setup>
-    const props = defineProps({
+<script setup lang="ts">
+
+    defineProps({
         text: String,
     });
 </script>

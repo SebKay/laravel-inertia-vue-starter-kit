@@ -25,9 +25,11 @@
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
     import { ref, onMounted } from 'vue';
     import { router, usePage } from "@inertiajs/vue3";
+
+    import type { PageProps } from "@js/types/inertia";
 
     import {
         CircleCheck as CircleCheckIcon,
@@ -35,26 +37,26 @@
         CircleAlert as CircleAlertIcon,
     } from 'lucide-vue-next';
 
-    const page = usePage();
+    const page = usePage<PageProps>();
 
     const active = ref(false);
     const icon = ref("");
     const type = ref("");
-    const message = ref("");
+    const message = ref<string>("");
 
     onMounted(() => {
         router.on('finish', () => {
-            let error = Object.values(page.props.errors)[0] || page.props.error;
+            const errorMessage = (Object.values(page.props.errors)[0] || page.props.error) as string;
 
             if (page.props.success) {
                 type.value = "success";
-                message.value = page.props.success;
-            } else if (error) {
+                message.value = page.props.success as string;
+            } else if (errorMessage) {
                 type.value = "error";
-                message.value = error;
+                message.value = errorMessage as string;
             } else if (page.props.warning) {
                 type.value = "warning";
-                message.value = page.props.warning;
+                message.value = page.props.warning as string;
             }
 
             setActive();

@@ -19,7 +19,7 @@
     <Notice />
 </template>
 
-<script setup>
+<script setup lang="ts">
     import { computed, defineAsyncComponent } from "vue";
 
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
@@ -29,23 +29,29 @@
     const Header = defineAsyncComponent(() => import("@js/Components/Header.vue"));
     const Footer = defineAsyncComponent(() => import("@js/Components/Footer.vue"));
 
-    const menu = computed(() => {
+    const menu = computed<{
+        label: string;
+        route: string;
+        condition: boolean;
+        components: string[];
+        method?: "get" | "post";
+    }[]>(() => {
         return [
             {
                 label: "Dashboard",
-                route: home(),
+                route: home().url,
                 condition: true,
                 components: ['Dashboard/Index'],
             },
             {
                 label: "Account",
-                route: editAccount(),
+                route: editAccount().url,
                 condition: true,
                 components: ['Account/Edit', 'EmailVerification/Show'],
             },
             {
                 label: "Logout",
-                route: LogoutController(),
+                route: LogoutController().url,
                 method: "post",
                 condition: true,
                 components: [],

@@ -52,7 +52,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import Layout from '@js/Layouts/Guest.vue';
 
     export default {
@@ -60,14 +60,14 @@
     }
 </script>
 
-<script setup>
+<script setup lang="ts">
     import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
-    const title = ref("Forgot Password");
+    const title = ref<string>("Forgot Password");
     const forgotPasswordForm = useForm({
         email: "",
     });

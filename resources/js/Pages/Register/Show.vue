@@ -100,7 +100,7 @@
     </div>
 </template>
 
-<script>
+<script lang="ts">
     import Layout from '@js/Layouts/Guest.vue';
 
     export default {
@@ -108,26 +108,28 @@
     }
 </script>
 
-<script setup>
+<script setup lang="ts">
     import { ref } from "vue";
     import { useForm } from "@inertiajs/vue3";
+
+    import type { PageProps } from "@js/types/inertia";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/RegisterController";
 
-    const props = defineProps({
-        first_name: String,
-        last_name: String,
-        email: String,
-        password: String,
-    });
+    const props = defineProps<PageProps<{
+        first_name?: string;
+        last_name?: string;
+        email?: string;
+        password?: string;
+    }>>();
 
-    const title = ref("Register");
+    const title = ref<string>("Register");
     const registerForm = useForm({
-        first_name: props.first_name,
-        last_name: props.last_name,
-        email: props.email,
-        password: props.password,
+        first_name: props.first_name ?? "",
+        last_name: props.last_name ?? "",
+        email: props.email ?? "",
+        password: props.password ?? "",
     });
 
     const submitForm = () => {
