@@ -108,26 +108,26 @@
     }
 </script>
 
-<script setup>
-    import { ref } from "vue";
+<script setup lang="ts">
+    import { ref, type PropType } from "vue";
     import { useForm } from "@inertiajs/vue3";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/RegisterController";
 
     const props = defineProps({
-        first_name: String,
-        last_name: String,
-        email: String,
-        password: String,
+        first_name: String as PropType<string>,
+        last_name: String as PropType<string>,
+        email: String as PropType<string>,
+        password: String as PropType<string>,
     });
 
-    const title = ref("Register");
+    const title = ref<string>("Register");
     const registerForm = useForm({
-        first_name: props.first_name,
-        last_name: props.last_name,
-        email: props.email,
-        password: props.password,
+        first_name: props.first_name as string,
+        last_name: props.last_name as string,
+        email: props.email as string,
+        password: props.password as string,
     });
 
     const submitForm = () => {
