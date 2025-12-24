@@ -16,6 +16,6 @@
     <Notice />
 </template>
 
-<script setup>
+<script setup lang="ts">
     import { Sparkles as SparklesIcon } from 'lucide-vue-next';
 </script>
