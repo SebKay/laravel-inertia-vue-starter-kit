@@ -81,8 +81,8 @@
     </header>
 </template>
 
-<script setup>
-    import { ref, onMounted } from "vue";
+<script setup lang="ts">
+    import { ref, onMounted, type PropType } from "vue";
     import { router } from '@inertiajs/vue3';
 
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
@@ -93,8 +93,14 @@
         X as CloseIcon,
     } from 'lucide-vue-next';
 
-    const props = defineProps({
-        menu: Array,
+    defineProps({
+        menu: Array as PropType<{
+            label: string;
+            route: string;
+            condition: boolean;
+            components: string[];
+            method?: string;
+        }[]>,
     });
 
     const mobileMenuOpen = ref(false);
