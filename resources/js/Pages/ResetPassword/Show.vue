@@ -69,7 +69,7 @@
 
     const title = ref<string>("Forgot Password");
     const forgotPasswordForm = useForm({
-        email: "" as string,
+        email: "",
     });
 
     const submitForm = () => {
