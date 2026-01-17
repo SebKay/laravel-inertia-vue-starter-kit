@@ -4,7 +4,7 @@ on: [pull_request]
 
 jobs:
   assets:
-    name: Build Assets
+    name: Assets
     runs-on: ubuntu-latest
 
     steps:
