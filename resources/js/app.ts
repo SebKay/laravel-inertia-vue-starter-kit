@@ -11,7 +11,7 @@ createInertiaApp({
     resolve: async (name) => {
         const page = await resolvePageComponent(
             `./Pages/${name}.vue`,
-            import.meta.glob<DefineComponent>("./Pages/**/*.vue")
+            import.meta.glob<DefineComponent>("./Pages/**/*.vue"),
         );
 
         page.default.layout = page.default.layout || AppLayout;
@@ -29,15 +29,23 @@ createInertiaApp({
             .component(
                 "PageTitle",
                 defineAsyncComponent(
-                    () => import("@js/Components/PageTitle.vue")
-                )
+                    () => import("@js/Components/PageTitle.vue"),
+                ),
             )
             .component(
                 "Notice",
-                defineAsyncComponent(() => import("@js/Components/Notice.vue"))
+                defineAsyncComponent(() => import("@js/Components/Notice.vue")),
             );
 
         VueApp.mount(el);
+    },
+
+    defaults: {
+        visitOptions: (href, options) => {
+            return {
+                viewTransition: true,
+            };
+        },
     },
 
     title: (title) => (title ? `${title} | ${appName}` : appName),
