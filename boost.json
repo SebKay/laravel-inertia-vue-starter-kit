@@ -1,9 +1,13 @@
 {
     "agents": [
+        "claude_code",
+        "copilot",
         "cursor"
     ],
     "editors": [
-        "cursor"
+        "claude_code",
+        "cursor",
+        "vscode"
     ],
     "guidelines": [
         "filament/filament"
