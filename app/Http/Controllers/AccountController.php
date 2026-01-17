@@ -22,6 +22,6 @@ class AccountController extends Controller
 
         session()->flash('success', __('account.updated'));
 
-        return redirect()->back();
+        return back();
     }
 }
