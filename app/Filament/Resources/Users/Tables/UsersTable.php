@@ -20,7 +20,6 @@ class UsersTable
         return $table
             ->columns([
                 TextColumn::make('name')
-                    ->getStateUsing(fn ($record) => $record->fullName)
                     ->searchable()
                     ->sortable(),
 
