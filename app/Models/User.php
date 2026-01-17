@@ -42,13 +42,6 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
         ];
     }
 
-    protected function fullName(): Attribute
-    {
-        return Attribute::make(
-            get: fn () => trim($this->name),
-        );
-    }
-
     protected function allPermissions(): Attribute
     {
         return Attribute::make(
@@ -78,6 +71,6 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
 
     public function getFilamentName(): string
     {
-        return $this->fullName;
+        return $this->name;
     }
 }
