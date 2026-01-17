@@ -6,14 +6,18 @@ export interface User {
     can: string[];
 }
 
+export interface FlashData {
+    success?: string;
+    error?: string;
+    warning?: string;
+}
+
 export interface SharedPageProps {
     auth: {
         loggedIn: boolean;
         user: User | [];
     };
-    success?: string;
-    error?: string;
-    warning?: string;
+    flash: FlashData;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, never>> = T & SharedPageProps;

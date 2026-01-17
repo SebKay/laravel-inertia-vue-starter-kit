@@ -42,8 +42,12 @@ describe('Users', function () {
                 'password' => 'newPassword123#',
             ])
             ->assertSessionDoesntHaveErrors()
-            ->assertSessionHas('success', __('account.updated'))
             ->assertRedirectToRoute('account.edit');
+
+        get(route('account.edit'))
+            ->assertInertia(
+                fn (Assert $page) => $page->hasFlash('success', __('account.updated'))
+            );
 
         expect($user->refresh())
             ->name->toBe($newData['name'])

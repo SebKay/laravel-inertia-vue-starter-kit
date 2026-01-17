@@ -15,9 +15,6 @@ class HandleInertiaRequests extends Middleware
                 'loggedIn' => auth()->guard()->check(),
                 'user' => $request->user() ? UserResource::make($request->user()) : [],
             ],
-            'success' => $request->session()->get('success'),
-            'error' => $request->session()->get('error'),
-            'warning' => $request->session()->get('warning'),
         ]);
     }
 }

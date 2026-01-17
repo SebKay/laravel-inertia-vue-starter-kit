@@ -26,10 +26,10 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
-    import { router, usePage } from "@inertiajs/vue3";
+    import { ref, onMounted, onUnmounted } from 'vue';
+    import { router } from "@inertiajs/vue3";
 
-    import type { PageProps } from "@js/types/inertia";
+    import type { FlashData } from "@js/types/inertia";
 
     import {
         CircleCheck as CircleCheckIcon,
@@ -37,40 +37,42 @@
         CircleAlert as CircleAlertIcon,
     } from 'lucide-vue-next';
 
-    const page = usePage<PageProps>();
-
     const active = ref(false);
-    const icon = ref("");
     const type = ref("");
     const message = ref<string>("");
 
-    onMounted(() => {
-        router.on('finish', () => {
-            const errorMessage = (Object.values(page.props.errors)[0] || page.props.error) as string;
+    let removeListener: (() => void) | null = null;
 
-            if (page.props.success) {
+    onMounted(() => {
+        removeListener = router.on('flash', (event) => {
+            const flash = event.detail.flash as FlashData;
+
+            if (flash.success) {
                 type.value = "success";
-                message.value = page.props.success as string;
-            } else if (errorMessage) {
+                message.value = flash.success;
+            } else if (flash.error) {
                 type.value = "error";
-                message.value = errorMessage as string;
-            } else if (page.props.warning) {
+                message.value = flash.error;
+            } else if (flash.warning) {
                 type.value = "warning";
-                message.value = page.props.warning as string;
+                message.value = flash.warning;
             }
 
             setActive();
         });
     });
 
+    onUnmounted(() => {
+        removeListener?.();
+    });
+
     function reset() {
-        icon.value = "";
         type.value = "";
         message.value = "";
     }
 
     function setActive() {
-        if (!type && !message) {
+        if (!type.value && !message.value) {
             return;
         }
 

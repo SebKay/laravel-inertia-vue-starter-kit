@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use Inertia\Inertia;
 
 class ResetPasswordController extends Controller
 {
@@ -29,7 +30,7 @@ class ResetPasswordController extends Controller
 
         session()->regenerate();
 
-        session()->flash('success', __('passwords.sent'));
+        Inertia::flash('success', __('passwords.sent'));
 
         return to_route('login');
     }
@@ -58,7 +59,7 @@ class ResetPasswordController extends Controller
             'reset' => __($status),
         ]));
 
-        session()->flash('success', __('passwords.reset'));
+        Inertia::flash('success', __('passwords.reset'));
 
         return to_route('login');
     }
