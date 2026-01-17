@@ -8,12 +8,16 @@ use Filament\Widgets\StatsOverviewWidget\Stat;
 
 class UserStats extends BaseWidget
 {
+    protected ?bool $isPolling = false;
+
+    protected int|string|array $columnSpan = 3;
+
+    protected int|array|null $columns = 1;
+
     protected function getStats(): array
     {
         return [
-            Stat::make('Users', User::query()->count()),
-            Stat::make('New users (last 7 days)', User::query()->where('created_at', '>=', now()->subDays(7))->count()),
-            Stat::make('New users (last 30 days)', User::query()->where('created_at', '>=', now()->subDays(30))->count()),
+            Stat::make('Total Users', User::query()->count()),
         ];
     }
 }
