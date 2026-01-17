@@ -2,9 +2,9 @@
 
 namespace App\Filament\Pages;
 
-use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
+use Filament\Support\Icons\Heroicon;
 
 class Dashboard extends \Filament\Pages\Dashboard
 {
-    protected static string|\BackedEnum|null $navigationIcon = LucideIcon::House;
+    protected static string|\BackedEnum|null $navigationIcon = Heroicon::Home;
 }
