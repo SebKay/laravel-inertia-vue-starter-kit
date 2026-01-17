@@ -4,15 +4,6 @@ use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 use Illuminate\Support\Facades\Hash;
 
-it("can get it's \"full_name\" correctly", function () {
-    $user = User::factory()->create([
-        'first_name' => 'John',
-        'last_name' => 'Doe',
-    ]);
-
-    expect($user->full_name)->toBe('John Doe');
-});
-
 it("can update it's password", function () {
     $user = User::factory()->create([
         'password' => Hash::make('oldPassword#123'),

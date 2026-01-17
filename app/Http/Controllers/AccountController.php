@@ -17,11 +17,11 @@ class AccountController extends Controller
 
     public function update(AccountUpdateRequest $request)
     {
-        $request->user()->update($request->only('first_name', 'last_name', 'email'));
+        $request->user()->update($request->only('name', 'email'));
         $request->user()->updatePassword($request->validated('password'));
 
         session()->flash('success', __('account.updated'));
 
-        return redirect()->back();
+        return back();
     }
 }

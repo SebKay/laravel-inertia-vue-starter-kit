@@ -19,27 +19,11 @@
                             First Name
                         </label>
                         <input
-                            id="first-name"
+                            id="name"
                             class="input"
                             type="text"
                             required
-                            v-model="registerForm.first_name"
-                        />
-                    </div>
-
-                    <div class="form-col">
-                        <label
-                            class="label"
-                            for="last-name"
-                        >
-                            Last Name
-                        </label>
-                        <input
-                            id="last-name"
-                            class="input"
-                            type="text"
-                            required
-                            v-model="registerForm.last_name"
+                            v-model="registerForm.name"
                         />
                     </div>
 
@@ -118,16 +102,14 @@
     import { store } from "@js/actions/App/Http/Controllers/RegisterController";
 
     const props = defineProps<PageProps<{
-        first_name?: string;
-        last_name?: string;
+        name?: string;
         email?: string;
         password?: string;
     }>>();
 
     const title = ref<string>("Register");
     const registerForm = useForm({
-        first_name: props.first_name ?? "",
-        last_name: props.last_name ?? "",
+        name: props.name ?? "",
         email: props.email ?? "",
         password: props.password ?? "",
     });

@@ -13,32 +13,16 @@
                 <div class="form-col">
                     <label
                         class="label"
-                        for="first-name"
+                        for="name"
                     >
-                        First Name
+                        Name
                     </label>
                     <input
-                        id="first-name"
+                        id="name"
                         class="input"
                         type="text"
                         required
-                        v-model="accountForm.first_name"
-                    />
-                </div>
-
-                <div class="form-col">
-                    <label
-                        class="label"
-                        for="last-name"
-                    >
-                        Last Name
-                    </label>
-                    <input
-                        id="last-name"
-                        class="input"
-                        type="text"
-                        required
-                        v-model="accountForm.last_name"
+                        v-model="accountForm.name"
                     />
                 </div>
 
@@ -100,8 +84,7 @@
     }>>();
 
     const accountForm = useForm({
-        first_name: props.user.first_name ?? "",
-        last_name: props.user.last_name ?? "",
+        name: props.user.name ?? "",
         email: props.user.email ?? "",
         password: "",
     });
