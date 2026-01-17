@@ -14,17 +14,12 @@ class UserForm
     {
         return $schema->columns(6)
             ->components([
-
                 Section::make('Settings')
                     ->columnSpanFull()
                     ->columns(2)
                     ->schema([
-                        TextInput::make('first_name')
+                        TextInput::make('name')
                             ->autofocus()
-                            ->required()
-                            ->maxLength(255),
-
-                        TextInput::make('last_name')
                             ->required()
                             ->maxLength(255),
 

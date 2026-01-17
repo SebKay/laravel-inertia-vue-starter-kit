@@ -14,8 +14,7 @@ class RegisterController extends Controller
     public function show()
     {
         return inertia('Register/Show', app()->environment([Environment::LOCAL->value, Environment::TESTING->value]) ? [
-            'first_name' => 'Jim',
-            'last_name' => 'Gordon',
+            'name' => 'Jim Gordon',
             'email' => 'test@test.com',
             'password' => '123456Ab#',
         ] : []);
@@ -23,7 +22,7 @@ class RegisterController extends Controller
 
     public function store(RegisterStoreRequest $request)
     {
-        $user = new User($request->only('first_name', 'last_name', 'email'));
+        $user = new User($request->only('name', 'email'));
 
         $user->password = Hash::make($request->validated('password'));
         $user->save();

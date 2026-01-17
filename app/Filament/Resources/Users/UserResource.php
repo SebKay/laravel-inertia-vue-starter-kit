@@ -20,17 +20,17 @@ class UserResource extends Resource
 
     protected static string|\BackedEnum|null $navigationIcon = Heroicon::Users;
 
-    protected static ?string $recordTitleAttribute = 'email';
+    protected static ?string $recordTitleAttribute = 'name';
 
     public static function getGloballySearchableAttributes(): array
     {
-        return ['email', 'first_name', 'last_name', 'roles.name'];
+        return ['email', 'name', 'roles.name'];
     }
 
     public static function getGlobalSearchResultDetails(Model $record): array
     {
         return [
-            'Name' => $record->fullName,
+            'Name' => $record->name,
             'Roles' => $record->roles->pluck('name')->join(', '),
             'Verified' => $record->hasVerifiedEmail() ? 'Yes' : 'No',
         ];

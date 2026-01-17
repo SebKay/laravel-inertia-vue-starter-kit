@@ -30,8 +30,7 @@ describe('Guests', function () {
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Register/Show')
-                    ->has('first_name')
-                    ->has('last_name')
+                    ->has('name')
                     ->has('email')
                     ->has('password')
             );
@@ -45,8 +44,7 @@ describe('Guests', function () {
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Register/Show')
-                    ->missing('first_name')
-                    ->missing('last_name')
+                    ->missing('name')
                     ->missing('email')
                     ->missing('password')
             );
@@ -58,8 +56,7 @@ describe('Guests', function () {
         assertGuest();
 
         post(route('register.store'), [
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
+            'name' => fake()->name(),
             'email' => $email,
             'password' => 'Pa$$word12345#',
         ])
@@ -84,8 +81,7 @@ describe('Guests', function () {
 
         from(route('register'))
             ->post(route('register.store'), [
-                'first_name' => fake()->firstName(),
-                'last_name' => fake()->lastName(),
+                'name' => fake()->name(),
                 'email' => $email,
                 'password' => 'P$ssword12345#',
             ])

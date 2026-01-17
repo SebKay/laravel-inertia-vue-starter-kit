@@ -22,16 +22,14 @@ describe('Users', function () {
                 fn (Assert $page) => $page
                     ->component('Account/Edit')
                     ->has('user')
-                    ->where('user.first_name', $user->first_name)
-                    ->where('user.last_name', $user->last_name)
+                    ->where('user.name', $user->name)
                     ->where('user.email', $user->email)
             );
     });
 
     test('Can update their details', function () {
         $user = User::factory()->create([
-            'first_name' => fake()->firstName(),
-            'last_name' => fake()->lastName(),
+            'name' => fake()->name(),
             'email' => fake()->safeEmail(),
             'password' => fake()->password(),
         ]);
@@ -39,8 +37,7 @@ describe('Users', function () {
         actingAs($user)
             ->fromRoute('account.edit')
             ->patch(route('account.update'), $newData = [
-                'first_name' => fake()->firstName(),
-                'last_name' => fake()->lastName(),
+                'name' => fake()->name(),
                 'email' => fake()->safeEmail(),
                 'password' => 'newPassword123#',
             ])
@@ -49,8 +46,7 @@ describe('Users', function () {
             ->assertRedirectToRoute('account.edit');
 
         expect($user->refresh())
-            ->first_name->toBe($newData['first_name'])
-            ->last_name->toBe($newData['last_name'])
+            ->name->toBe($newData['name'])
             ->email->toBe($newData['email']);
 
         expect(Hash::check($newData['password'], $user->password))->toBeTrue();
