@@ -9,7 +9,10 @@
         />
 
         <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
-            <form @submit.prevent="submitForm">
+            <Form
+                v-bind="store.form()"
+                #default="{ errors, processing }"
+            >
                 <div class="form-row">
                     <div class="form-col">
                         <label
@@ -22,21 +25,22 @@
                             id="email"
                             class="input"
                             type="email"
+                            name="email"
                             required
-                            v-model="forgotPasswordForm.email"
                         />
+                        <FieldError :message="errors.email" />
                     </div>
 
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="forgotPasswordForm.processing"
+                            :disabled="processing"
                         >
                             Email Reset Link
                         </button>
                     </div>
                 </div>
-            </form>
+            </Form>
 
             <div class="mt-6 xl:mt-10">
                 <p class="text-center">
@@ -61,18 +65,12 @@
 </script>
 
 <script setup lang="ts">
-    import { ref } from "vue";
-    import { useForm } from "@inertiajs/vue3";
+    import { Form } from "@inertiajs/vue3";
+
+    import FieldError from "@js/Components/FieldError.vue";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
-    const title = ref<string>("Forgot Password");
-    const forgotPasswordForm = useForm({
-        email: "",
-    });
-
-    const submitForm = () => {
-        forgotPasswordForm.submit(store());
-    };
+    const title = "Forgot Password";
 </script>

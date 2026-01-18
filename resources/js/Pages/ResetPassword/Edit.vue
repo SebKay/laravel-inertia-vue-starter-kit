@@ -9,8 +9,22 @@
         />
 
         <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
-            <form @submit.prevent="submitForm">
+            <Form
+                v-bind="update.form()"
+                #default="{ errors, processing }"
+            >
                 <div class="form-row">
+                    <input
+                        type="hidden"
+                        name="email"
+                        :value="email"
+                    />
+                    <input
+                        type="hidden"
+                        name="token"
+                        :value="token"
+                    />
+
                     <div class="form-col">
                         <label
                             class="label"
@@ -22,9 +36,10 @@
                             id="password"
                             class="input"
                             type="password"
+                            name="password"
                             required
-                            v-model="resetPasswordForm.password"
                         />
+                        <FieldError :message="errors.password" />
                     </div>
 
                     <div class="form-col">
@@ -38,21 +53,22 @@
                             id="password-confirmation"
                             class="input"
                             type="password"
+                            name="password_confirmation"
                             required
-                            v-model="resetPasswordForm.password_confirmation"
                         />
+                        <FieldError :message="errors.password_confirmation" />
                     </div>
 
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="resetPasswordForm.processing"
+                            :disabled="processing"
                         >
                             Reset Password
-                        </Button>
+                        </button>
                     </div>
                 </div>
-            </form>
+            </Form>
         </div>
     </div>
 </template>
@@ -66,10 +82,11 @@
 </script>
 
 <script setup lang="ts">
-    import { ref } from "vue";
-    import { useForm } from "@inertiajs/vue3";
+    import { Form } from "@inertiajs/vue3";
 
     import type { PageProps } from "@js/types/inertia";
+
+    import FieldError from "@js/Components/FieldError.vue";
 
     import { update } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
@@ -78,15 +95,7 @@
         token?: string;
     }>>();
 
-    const title = ref<string>("Reset Password");
-    const resetPasswordForm = useForm({
-        email: props.email ?? "",
-        password: "",
-        password_confirmation: "",
-        token: props.token ?? "",
-    });
-
-    const submitForm = () => {
-        resetPasswordForm.submit(update());
-    };
+    const title = "Reset Password";
+    const email = props.email ?? "";
+    const token = props.token ?? "";
 </script>

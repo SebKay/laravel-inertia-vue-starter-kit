@@ -70,3 +70,11 @@
         @apply text-sm;
     }
 }
+
+@utility field-error {
+    @apply mt-2 text-sm text-red-600;
+}
+
+@utility field-hint {
+    @apply mt-2 text-sm text-neutral-500;
+}
