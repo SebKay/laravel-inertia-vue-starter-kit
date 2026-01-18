@@ -61,6 +61,7 @@
                                 class="sr-only peer"
                                 type="checkbox"
                                 name="remember"
+                                value="1"
                                 :checked="remember"
                             />
                             <div>
