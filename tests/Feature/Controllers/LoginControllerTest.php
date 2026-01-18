@@ -8,6 +8,7 @@ use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Faker\fake;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertAuthenticated;
+use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\assertGuest;
 use function Pest\Laravel\from;
 use function Pest\Laravel\get;
@@ -66,6 +67,30 @@ describe('Guests', function () {
         ])
             ->assertSessionDoesntHaveErrors()
             ->assertRedirectToRoute('home');
+
+        assertAuthenticated();
+    });
+
+    test('Can login and be remembered', function () {
+        $password = fake()->password();
+        $user = User::factory()->create([
+            'password' => Hash::make($password),
+        ]);
+
+        assertGuest();
+
+        post(route('login'), [
+            'email' => $user->email,
+            'password' => $password,
+            'remember' => true,
+        ])
+            ->assertSessionDoesntHaveErrors()
+            ->assertRedirectToRoute('home');
+
+        assertDatabaseHas('users', [
+            'id' => $user->id,
+            'remember_token' => $user->fresh()->remember_token,
+        ]);
 
         assertAuthenticated();
     });
