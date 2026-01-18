@@ -11,7 +11,7 @@ class LoginStoreRequest extends FormRequest
         return [
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required'],
-            'remember' => ['boolean'],
+            'remember' => ['nullable', 'accepted'],
             'redirect' => ['nullable', 'string'],
         ];
     }

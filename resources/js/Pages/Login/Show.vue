@@ -11,9 +11,8 @@
         <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
             <Form
                 v-bind="store.form()"
-                #default="{ errors, processing, hasErrors }"
+                #default="{ errors, processing }"
             >
-                <pre v-if="hasErrors" class="text-red-500 text-xs mb-4">{{ JSON.stringify(errors, null, 2) }}</pre>
                 <div class="form-row">
                     <div class="form-col">
                         <label

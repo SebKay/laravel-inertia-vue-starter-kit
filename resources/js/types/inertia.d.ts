@@ -16,7 +16,6 @@ export interface SharedPageProps {
         loggedIn: boolean;
         user: User | [];
     };
-    flash: FlashData;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, never>> = T & SharedPageProps;
