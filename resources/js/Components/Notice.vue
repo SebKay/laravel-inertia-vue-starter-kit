@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="active && type && message"
-        class="flex items-center p-5 text-base fixed bottom-4 right-4 z-50 rounded-xl"
+        class="inline-flex items-center gap-2 md:gap-3 p-3 md:p-5 fixed bottom-4 sm:bottom-6 xl:bottom-8 max-sm:right-4 max-md:sm:right-6 md:left-1/2 md:-translate-x-1/2 z-50 rounded-lg md:rounded-xl shadow-lg"
         :class='{
             "bg-green-50 border-green-200 text-green-800": type === "success",
             "bg-red-50 border-red-200 text-red-800": type === "error",
@@ -11,17 +11,20 @@
     >
         <CircleCheckIcon
             v-if="type === 'success'"
-            class="shrink-0 inline size-5 me-3"
+            class="shrink-0 inline size-4 md:size-5"
         />
         <CircleXIcon
             v-else-if="type === 'error'"
-            class="shrink-0 inline size-5 me-3"
+            class="shrink-0 inline size-4 md:size-5"
         />
         <CircleAlertIcon
             v-else
-            class="shrink-0 inline size-5 me-3"
+            class="shrink-0 inline size-4 md:size-5"
         />
-        <p v-text="message"></p>
+        <p
+            v-text="message"
+            class="max-md:text-sm"
+        ></p>
     </div>
 </template>
 
