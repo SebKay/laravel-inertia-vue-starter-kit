@@ -89,9 +89,9 @@ describe('Guests', function () {
 
         assertDatabaseHas('users', [
             'id' => $user->id,
-            'remember_token' => $user->fresh()->remember_token,
         ]);
 
+        expect($user->fresh()->remember_token)->not->toBeNull();
         assertAuthenticated();
     });
 
