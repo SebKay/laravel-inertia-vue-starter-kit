@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="active && type && message"
-        class="flex items-center p-5 text-base fixed bottom-4 right-4 z-50 rounded-xl"
+        class="inline-flex items-center gap-2 md:gap-3 p-3 md:p-5 fixed bottom-4 sm:bottom-6 xl:bottom-8 max-sm:right-4 max-md:sm:right-6 md:left-1/2 md:-translate-x-1/2 z-50 rounded-lg md:rounded-xl shadow-lg"
         :class='{
             "bg-green-50 border-green-200 text-green-800": type === "success",
             "bg-red-50 border-red-200 text-red-800": type === "error",
@@ -11,25 +11,28 @@
     >
         <CircleCheckIcon
             v-if="type === 'success'"
-            class="shrink-0 inline size-5 me-3"
+            class="shrink-0 inline size-4 md:size-5"
         />
         <CircleXIcon
             v-else-if="type === 'error'"
-            class="shrink-0 inline size-5 me-3"
+            class="shrink-0 inline size-4 md:size-5"
         />
         <CircleAlertIcon
             v-else
-            class="shrink-0 inline size-5 me-3"
+            class="shrink-0 inline size-4 md:size-5"
         />
-        <p v-text="message"></p>
+        <p
+            v-text="message"
+            class="max-md:text-sm"
+        ></p>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted } from 'vue';
-    import { router, usePage } from "@inertiajs/vue3";
+    import { ref, onMounted, onUnmounted } from 'vue';
+    import { router } from "@inertiajs/vue3";
 
-    import type { PageProps } from "@js/types/inertia";
+    import type { FlashData } from "@js/types/inertia";
 
     import {
         CircleCheck as CircleCheckIcon,
@@ -37,40 +40,42 @@
         CircleAlert as CircleAlertIcon,
     } from 'lucide-vue-next';
 
-    const page = usePage<PageProps>();
-
     const active = ref(false);
-    const icon = ref("");
     const type = ref("");
     const message = ref<string>("");
 
-    onMounted(() => {
-        router.on('finish', () => {
-            const errorMessage = (Object.values(page.props.errors)[0] || page.props.error) as string;
+    let removeListener: (() => void) | null = null;
 
-            if (page.props.success) {
+    onMounted(() => {
+        removeListener = router.on('flash', (event) => {
+            const flash = event.detail.flash as FlashData;
+
+            if (flash.success) {
                 type.value = "success";
-                message.value = page.props.success as string;
-            } else if (errorMessage) {
+                message.value = flash.success;
+            } else if (flash.error) {
                 type.value = "error";
-                message.value = errorMessage as string;
-            } else if (page.props.warning) {
+                message.value = flash.error;
+            } else if (flash.warning) {
                 type.value = "warning";
-                message.value = page.props.warning as string;
+                message.value = flash.warning;
             }
 
             setActive();
         });
     });
 
+    onUnmounted(() => {
+        removeListener?.();
+    });
+
     function reset() {
-        icon.value = "";
         type.value = "";
         message.value = "";
     }
 
     function setActive() {
-        if (!type && !message) {
+        if (!type.value && !message.value) {
             return;
         }
 

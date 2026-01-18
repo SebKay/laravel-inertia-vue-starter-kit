@@ -9,22 +9,27 @@
         />
 
         <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
-            <form @submit.prevent="submitForm">
+            <Form
+                v-bind="store.form()"
+                #default="{ errors, processing }"
+            >
                 <div class="form-row">
                     <div class="form-col">
                         <label
                             class="label"
-                            for="first-name"
+                            for="name"
                         >
-                            First Name
+                            Name
                         </label>
                         <input
                             id="name"
                             class="input"
                             type="text"
+                            name="name"
                             required
-                            v-model="registerForm.name"
+                            :value="name"
                         />
+                        <FieldError :message="errors.name" />
                     </div>
 
                     <div class="form-col">
@@ -38,9 +43,11 @@
                             id="email"
                             class="input"
                             type="email"
+                            name="email"
                             required
-                            v-model="registerForm.email"
+                            :value="email"
                         />
+                        <FieldError :message="errors.email" />
                     </div>
 
                     <div class="form-col">
@@ -54,21 +61,22 @@
                             id="password"
                             class="input"
                             type="password"
+                            name="password"
                             required
-                            v-model="registerForm.password"
                         />
+                        <FieldError :message="errors.password" />
                     </div>
 
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="registerForm.processing"
+                            :disabled="processing"
                         >
                             Register
                         </button>
                     </div>
                 </div>
-            </form>
+            </Form>
 
             <div class="mt-6 xl:mt-10">
                 <p class="text-center">
@@ -93,10 +101,11 @@
 </script>
 
 <script setup lang="ts">
-    import { ref } from "vue";
-    import { useForm } from "@inertiajs/vue3";
+    import { Form } from "@inertiajs/vue3";
 
     import type { PageProps } from "@js/types/inertia";
+
+    import FieldError from "@js/Components/FieldError.vue";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/RegisterController";
@@ -104,17 +113,9 @@
     const props = defineProps<PageProps<{
         name?: string;
         email?: string;
-        password?: string;
     }>>();
 
-    const title = ref<string>("Register");
-    const registerForm = useForm({
-        name: props.name ?? "",
-        email: props.email ?? "",
-        password: props.password ?? "",
-    });
-
-    const submitForm = () => {
-        registerForm.submit(store());
-    };
+    const title = "Register";
+    const name = props.name ?? "";
+    const email = props.email ?? "";
 </script>

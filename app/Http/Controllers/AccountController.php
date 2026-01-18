@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Account\AccountUpdateRequest;
 use App\Http\Resources\UserResource;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class AccountController extends Controller
 {
@@ -20,8 +21,6 @@ class AccountController extends Controller
         $request->user()->update($request->only('name', 'email'));
         $request->user()->updatePassword($request->validated('password'));
 
-        session()->flash('success', __('account.updated'));
-
-        return back();
+        return Inertia::flash('success', __('account.updated'))->back();
     }
 }

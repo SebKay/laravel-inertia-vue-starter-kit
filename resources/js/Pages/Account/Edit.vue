@@ -8,7 +8,11 @@
     ></h1>
 
     <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
-        <form @submit.prevent="submitForm">
+        <Form
+            v-bind="update.form()"
+            :data="{ preserveScroll: true, preserveState: 'errors' }"
+            #default="{ errors, processing }"
+        >
             <div class="form-row">
                 <div class="form-col">
                     <label
@@ -21,9 +25,11 @@
                         id="name"
                         class="input"
                         type="text"
+                        name="name"
                         required
-                        v-model="accountForm.name"
+                        :value="user.name"
                     />
+                    <FieldError :message="errors.name" />
                 </div>
 
                 <div class="form-col">
@@ -37,9 +43,11 @@
                         id="email"
                         class="input"
                         type="email"
+                        name="email"
                         required
-                        v-model="accountForm.email"
+                        :value="user.email"
                     />
+                    <FieldError :message="errors.email" />
                 </div>
 
                 <div class="form-col">
@@ -53,46 +61,38 @@
                         id="password"
                         class="input"
                         type="password"
-                        v-model="accountForm.password"
+                        name="password"
                     />
+                    <p class="field-hint">Leave blank to keep current password</p>
+                    <FieldError :message="errors.password" />
                 </div>
 
                 <div class="form-col">
                     <button
                         class="button"
-                        :disabled="accountForm.processing"
+                        :disabled="processing"
                     >
                         Update
                     </button>
                 </div>
             </div>
-        </form>
+        </Form>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { ref } from "vue";
-    import { useForm } from "@inertiajs/vue3";
+    import { Form } from "@inertiajs/vue3";
 
     import type { PageProps, User } from "@js/types/inertia";
 
+    import FieldError from "@js/Components/FieldError.vue";
+
     import { update } from "@js/actions/App/Http/Controllers/AccountController";
 
-    const title = ref<string>("Update Account");
+    const title = "Update Account";
     const props = defineProps<PageProps<{
         user: User;
     }>>();
 
-    const accountForm = useForm({
-        name: props.user.name ?? "",
-        email: props.user.email ?? "",
-        password: "",
-    });
-
-    const submitForm = () => {
-        accountForm.submit(update(), {
-            preserveScroll: true,
-            preserveState: 'errors',
-        });
-    };
+    const user = props.user;
 </script>
