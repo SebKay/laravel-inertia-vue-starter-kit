@@ -45,13 +45,14 @@ class RolesAndPermissionsService
     {
         $tableNames = config('permission.table_names');
 
-        SpatieRole::query()->delete();
-        SpatiePermission::query()->delete();
-
-        // Clear pivot tables
+        // Clear pivot tables first to avoid foreign key constraint issues
         DB::table($tableNames['role_has_permissions'])->truncate();
         DB::table($tableNames['model_has_roles'])->truncate();
         DB::table($tableNames['model_has_permissions'])->truncate();
+
+        // Then truncate roles and permissions tables for a complete fresh start
+        DB::table($tableNames['roles'])->truncate();
+        DB::table($tableNames['permissions'])->truncate();
     }
 
     /**
