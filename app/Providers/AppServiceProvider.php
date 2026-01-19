@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Enums\Environment;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\URL;
@@ -22,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         URL::forceHttps(app()->environment([Environment::PRODUCTION->value, Environment::STAGING->value]));
+
+        Model::automaticallyEagerLoadRelationships();
 
         RequestException::dontTruncate();
 
