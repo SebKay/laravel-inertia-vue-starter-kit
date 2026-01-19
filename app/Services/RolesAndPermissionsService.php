@@ -90,10 +90,12 @@ class RolesAndPermissionsService
     protected function assignPermissionsToRoles(): void
     {
         foreach (Role::cases() as $role) {
-            $roleModel = $this->roles->get($role->value);
-            $permissionValues = collect($role->permissions())->map(fn (Permission $permission) => $permission->value);
+            $permissionValues = array_map(
+                fn (Permission $permission) => $permission->value,
+                $role->permissions(),
+            );
 
-            $roleModel->syncPermissions($permissionValues);
+            $this->roles->get($role->value)->syncPermissions($permissionValues);
         }
     }
 
