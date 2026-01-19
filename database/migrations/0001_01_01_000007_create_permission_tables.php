@@ -1,7 +1,5 @@
 <?php
 
-use App\Enums\Permission;
-use App\Enums\Role;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -24,14 +22,7 @@ return new class extends Migration
 
         Schema::create($tableNames['permissions'], function (Blueprint $table) {
             $table->bigIncrements('id'); // permission id
-            $table->enum('name', Permission::only([
-                Permission::ACCESS_ADMIN,
-                Permission::CREATE_POSTS,
-                Permission::VIEW_POSTS,
-                Permission::EDIT_POSTS,
-                Permission::UPDATE_POSTS,
-                Permission::DELETE_POSTS,
-            ], true)->all());
+            $table->string('name');
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
             $table->timestamps();
 
@@ -44,11 +35,7 @@ return new class extends Migration
                 $table->unsignedBigInteger($columnNames['team_foreign_key'])->nullable();
                 $table->index($columnNames['team_foreign_key'], 'roles_team_foreign_key_index');
             }
-            $table->enum('name', Role::only([
-                Role::SUPER_ADMIN,
-                Role::ADMIN,
-                Role::USER,
-            ], true)->all());
+            $table->string('name');
             $table->string('guard_name'); // For MySQL 8.0 use string('guard_name', 125);
             $table->timestamps();
             if ($teams || config('permission.testing')) {
