@@ -7,7 +7,7 @@
         class="xl:text-4xl text-3xl font-medium text-neutral-900 xl:mb-8 mb-4"
     ></h1>
 
-    <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
+    <div class="bg-white rounded-2xl xl:p-10 p-6">
         <div class="space-y-10 divide-y divide-brand-200">
             <div class="space-y-6 pb-10">
                 <h4 class="heading h4">
