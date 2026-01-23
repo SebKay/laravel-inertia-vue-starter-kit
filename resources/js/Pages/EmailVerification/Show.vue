@@ -8,7 +8,7 @@
             :text="title"
         />
 
-        <div class="bg-white rounded-2xl xl:p-10 p-6 border border-brand-200">
+        <div class="bg-white rounded-2xl xl:p-10 p-6">
             <div class="text-center">
                 <p>
                     Please verify your email address by clicking on the link we just emailed to you.

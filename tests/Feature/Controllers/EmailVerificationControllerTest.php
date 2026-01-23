@@ -7,8 +7,6 @@ use Inertia\Testing\AssertableInertia as Assert;
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
-mutates(\App\Http\Controllers\EmailVerificationController::class);
-
 describe('Users', function () {
     test('Can access the verification page', function () {
         actingAs(User::factory()->unverified()->create())

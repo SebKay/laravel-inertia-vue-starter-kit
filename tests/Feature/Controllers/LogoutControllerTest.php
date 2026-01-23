@@ -6,8 +6,6 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertGuest;
 use function Pest\Laravel\post;
 
-mutates(\App\Http\Controllers\LogoutController::class);
-
 describe('Users', function () {
     test('Can logout', function () {
         session()->regenerateToken();

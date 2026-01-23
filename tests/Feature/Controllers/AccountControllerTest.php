@@ -9,8 +9,6 @@ use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 use function Pest\Laravel\patch;
 
-mutates(\App\Http\Controllers\AccountController::class);
-
 describe('Users', function () {
     test('Can access the edit page', function () {
         $user = User::factory()->create();

@@ -57,9 +57,6 @@
             "@php artisan optimize",
             "@assets:build"
         ],
-        "build:test": [
-            "composer install --no-interaction"
-        ],
         "rector": [
             "./vendor/bin/rector"
         ],
@@ -74,9 +71,6 @@
         ],
         "test:coverage": [
             "XDEBUG_MODE=coverage ./vendor/bin/pest --parallel --stop-on-failure --coverage --min=85"
-        ],
-        "test:mutations": [
-            "XDEBUG_MODE=coverage ./vendor/bin/pest --parallel --mutate"
         ],
         "assets:build": [
             "bun install",
