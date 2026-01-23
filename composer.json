@@ -75,9 +75,6 @@
         "test:coverage": [
             "XDEBUG_MODE=coverage ./vendor/bin/pest --parallel --stop-on-failure --coverage --min=85"
         ],
-        "test:mutations": [
-            "XDEBUG_MODE=coverage ./vendor/bin/pest --parallel --mutate"
-        ],
         "assets:build": [
             "bun install",
             "bun run build"
