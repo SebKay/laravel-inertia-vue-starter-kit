@@ -1,13 +1,23 @@
 {
     "agents": [
         "claude_code",
-        "copilot"
-    ],
-    "editors": [
-        "claude_code",
-        "cursor",
-        "vscode"
+        "copilot",
+        "cursor"
     ],
     "guidelines": true,
-    "herd_mcp": true
+    "herd_mcp": true,
+    "mcp": true,
+    "packages": [
+        "filament/filament",
+        "spatie/laravel-ray"
+    ],
+    "sail": false,
+    "skills": [
+        "wayfinder-development",
+        "livewire-development",
+        "pest-testing",
+        "inertia-vue-development",
+        "tailwindcss-development",
+        "debugging-output-and-previewing-html-using-ray"
+    ]
 }
