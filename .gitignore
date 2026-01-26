@@ -24,6 +24,8 @@ yarn-error.log
 /.vscode
 .phpunit.cache/
 .claude/settings.local.json
-.claude/plans/
 .cursor/mcp.json
+.cursor/skills
+.claude/skills
+.github/copilot/skills
 .mcp.json
