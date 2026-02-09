@@ -26,9 +26,9 @@
         "laravel/pint": "^1.17",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.3",
-        "pestphp/pest": "^3.0",
-        "pestphp/pest-plugin-faker": "^3.0",
-        "pestphp/pest-plugin-laravel": "^3.0",
+        "pestphp/pest": "^4.0",
+        "pestphp/pest-plugin-faker": "^4.0",
+        "pestphp/pest-plugin-laravel": "^4.0",
         "rector/rector": "^2.2",
         "spatie/laravel-ray": "^1.37"
     },
