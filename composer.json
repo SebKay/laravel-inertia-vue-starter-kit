@@ -48,14 +48,16 @@
         "build:dev": [
             "composer install",
             "@php artisan migrate:fresh --seed",
-            "@assets:build"
+            "bun install",
+            "bun run build"
         ],
         "build:prod": [
-            "composer install --no-interaction --prefer-dist --optimize-autoloader",
-            "@php artisan migrate --force",
-            "@php artisan optimize:clear",
+            "composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader",
             "@php artisan optimize",
-            "@assets:build"
+            "@php artisan storage:link",
+            "@php artisan migrate --force",
+            "bun install --frozen-lockfile",
+            "bun run build"
         ],
         "rector": [
             "./vendor/bin/rector"
@@ -71,10 +73,6 @@
         ],
         "test:coverage": [
             "XDEBUG_MODE=coverage ./vendor/bin/pest --parallel --stop-on-failure --coverage --min=85"
-        ],
-        "assets:build": [
-            "bun install",
-            "bun run build"
         ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
