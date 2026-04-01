@@ -163,7 +163,7 @@
     const page = usePage<PageProps<DashboardProps>>();
 
     const dashboard = computed(() => page.props.dashboard ?? {});
-    const userIsSuperAdmin = computed(() => page.props.auth.user && !Array.isArray(page.props.auth.user) && page.props.auth.user.can.includes('access-filament'));
+    const userIsSuperAdmin = computed(() => page.props.auth.user?.data.attributes.can.includes('access-filament') ?? false);
 
     usePoll(30000, {
         only: ['dashboard.stats'],
