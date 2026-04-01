@@ -11,7 +11,9 @@
     "packages": [
         "filament/filament",
         "spatie/laravel-ray",
-        "laravel/nightwatch"
+        "laravel/nightwatch",
+        "fruitcake/laravel-debugbar",
+        "spatie/laravel-permission"
     ],
     "sail": false,
     "skills": [
@@ -21,6 +23,7 @@
         "inertia-vue-development",
         "tailwindcss-development",
         "configure-nightwatch",
+        "laravel-permission-development",
         "debugging-output-and-previewing-html-using-ray"
     ]
 }

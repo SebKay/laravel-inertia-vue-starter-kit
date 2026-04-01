@@ -79,6 +79,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 - `inertia-vue-development` — Develops Inertia.js v2 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using <Link>, <Form>, useForm, or router; working with deferred props, prefetching, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
 - `tailwindcss-development` — Always invoke when the user's message includes 'tailwind' in any form. Also invoke for: building responsive grid layouts (multi-column card grids, product grids), flex/grid page structures (dashboards with sidebars, fixed topbars, mobile-toggle navs), styling UI components (cards, tables, navbars, pricing sections, forms, inputs, badges), adding dark mode variants, fixing spacing or typography, and Tailwind v3/v4 work. The core use case: writing or fixing Tailwind utility classes in HTML templates (Blade, JSX, Vue). Skip for backend PHP logic, database queries, API routes, JavaScript with no HTML/CSS component, CSS file audits, build tool configuration, and vanilla CSS.
 - `configure-nightwatch` — Configures Laravel Nightwatch data collection, sampling rates, filtering rules, and redaction policies. Use when setting up Nightwatch, managing data volume, protecting sensitive data (PII), or optimizing event collection for production workloads.
+- `laravel-permission-development` — Build and work with Spatie Laravel Permission features, including roles, permissions, middleware, policies, teams, and Blade directives.
 - `debugging-output-and-previewing-html-using-ray` — Use when user says "send to Ray," "show in Ray," "debug in Ray," "log to Ray," "display in Ray," or wants to visualize data, debug output, or show diagrams in the Ray desktop application.
 
 ## Conventions
@@ -394,5 +395,79 @@ livewire(ListUsers::class)
 
 - **Never assume public file visibility.** File visibility is `private` by default. Always use `->visibility('public')` when public access is needed.
 - **Never assume full-width layout.** `Grid`, `Section`, and `Fieldset` do not span all columns by default. Explicitly set column spans when needed.
+
+=== fruitcake/laravel-debugbar rules ===
+
+## Laravel Debugbar
+
+Laravel Debugbar stores data from each request (queries, exceptions, views, routes, mail, etc.) for review via Artisan commands.
+
+### Finding Requests
+
+<code-snippet name="Find requests" lang="bash">
+
+# List recent requests (shows summary with status, duration, memory, query count)
+
+php artisan debugbar:find
+
+# Filter by URI pattern (fnmatch) and/or HTTP method
+
+php artisan debugbar:find --uri="/api/*" --method=POST
+
+# Only show requests with issues (exceptions, slow queries, duplicates, errors)
+
+php artisan debugbar:find --issues --max=50
+
+# Customize issue thresholds (defaults: --min-queries=50, --min-duration=1000, --min-duplicates=2)
+
+php artisan debugbar:find --issues --min-queries=10 --min-duration=500
+
+# Threshold options also work standalone, filtering on just that criteria
+
+php artisan debugbar:find --min-queries=20
+</code-snippet>
+
+`--issues` flags: exceptions, non-2xx status, high query count, slow queries, duplicate query groups, slow request duration, and failed queries. Issue filtering applies on top of the fetched result set — increase `--max` to scan further back.
+
+### Inspecting a Request
+
+<code-snippet name="Inspect request" lang="bash">
+
+# Summary of all collectors (available collectors depend on config)
+
+php artisan debugbar:get latest
+php artisan debugbar:get {id}
+
+# Full data for a specific collector
+
+php artisan debugbar:get {id} --collector=exceptions
+</code-snippet>
+
+Use the collector name from the summary table. Common ones by issue type:
+- **Error/500** → `exceptions` · **Slow page** → `queries`, `time` · **Auth** → `auth`, `gate` · **Cache** → `cache`
+
+### Analyzing Queries
+
+<code-snippet name="Query analysis" lang="bash">
+
+# Overview with duplicate detection and slow query flags
+
+php artisan debugbar:queries {id}
+
+# Backtrace and params for a specific statement
+
+php artisan debugbar:queries {id} --statement=N
+
+# EXPLAIN plan or re-execute a SELECT
+
+php artisan debugbar:queries {id} --statement=N --explain
+php artisan debugbar:queries {id} --statement=N --result
+</code-snippet>
+
+Duplicate queries are a strong N+1 signal. Use `--statement=N` to get the backtrace and find the origin.
+
+### Other Commands
+
+- `debugbar:clear` — Clear all stored debugbar data.
 
 </laravel-boost-guidelines>
