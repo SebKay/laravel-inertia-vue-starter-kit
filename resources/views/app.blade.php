@@ -7,11 +7,13 @@
 
     @vite(['resources/css/app.css', 'resources/js/app.ts'])
 
-    @inertiaHead
+    <x-inertia::head>
+        <title>{{ config('app.name') }}</title>
+    </x-inertia::head>
 </head>
 
 <body class="h-full font-text text-neutral-700">
-    @inertia
+    <x-inertia::app />
 </body>
 
 </html>

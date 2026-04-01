@@ -26,6 +26,9 @@ describe('Guests', function () {
     test('Can access the login page', function () {
         get(route('login'))
             ->assertOk()
+            ->assertSee('<title>'.config('app.name').'</title>', escape: false)
+            ->assertSee('<script data-page="app" type="application/json">', escape: false)
+            ->assertSee('<div id="app"></div>', escape: false)
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Login/Show')
