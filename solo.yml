@@ -1,0 +1,59 @@
+name: laravel-inertia-vue-starter-kit
+icon: null
+processes:
+  Pint:
+    command: vendor/bin/pint --test
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Test:
+    command: composer test
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Rector:
+    command: composer rector
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  'Build: Development':
+    command: composer build:dev
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Logs:
+    command: tail -n 50 -f storage/logs/laravel.log
+    working_dir: null
+    auto_start: true
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  'Vite: Dev':
+    command: bun run dev
+    working_dir: null
+    auto_start: true
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  'Vite: Build':
+    command: bun run build
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  'Test: Coverage':
+    command: composer test:coverage
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
