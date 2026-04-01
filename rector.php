@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 use Rector\Config\RectorConfig;
 use Rector\Php83\Rector\ClassMethod\AddOverrideAttributeToOverriddenMethodsRector;
+use RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector;
 use RectorLaravel\Rector\MethodCall\ChangeQueryWhereDateValueWithCarbonRector;
 use RectorLaravel\Set\LaravelLevelSetList;
 use RectorLaravel\Set\LaravelSetList;
@@ -29,7 +30,7 @@ return RectorConfig::configure()
         LaravelSetList::LARAVEL_TESTING,
         LaravelSetList::LARAVEL_TYPE_DECLARATIONS,
     ])
-    ->withConfiguredRule(\RectorLaravel\Rector\FuncCall\RemoveDumpDataDeadCodeRector::class, [
+    ->withConfiguredRule(RemoveDumpDataDeadCodeRector::class, [
         'dd', 'dump', 'var_dump', 'ray',
     ])
     ->withSkip([

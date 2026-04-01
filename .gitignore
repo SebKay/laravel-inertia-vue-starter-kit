@@ -31,3 +31,6 @@ yarn-error.log
 .claude/skills
 .github/copilot/skills
 .mcp.json
+.agents/skills/
+.codex/config.toml
+opencode.json

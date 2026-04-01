@@ -1,5 +1,7 @@
 <?php
 
+use App\Enums\Environment;
+
 return [
-    'env' => env('APP_ENV', \App\Enums\Environment::PRODUCTION->value),
+    'env' => env('APP_ENV', Environment::PRODUCTION->value),
 ];

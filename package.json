@@ -2,21 +2,21 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "caniuse-lite": "^1.0.30001761",
+    "caniuse-lite": "^1.0.30001784",
     "lucide-vue-next": "^0.556.0"
   },
   "devDependencies": {
-    "@inertiajs/vue3": "^2.3.4",
+    "@inertiajs/vue3": "^2.3.18",
     "@laravel/vite-plugin-wayfinder": "^0.1.7",
     "@tailwindcss/forms": "^0.5.11",
-    "@tailwindcss/vite": "^4.1.18",
-    "@vitejs/plugin-vue": "^6.0.3",
-    "laravel-vite-plugin": "^2.0.1",
-    "tailwindcss": "^4.1.18",
-    "typescript": "^5.9.3",
-    "vite": "^8.0.0-beta.4",
+    "@tailwindcss/vite": "^4.2.2",
+    "@vitejs/plugin-vue": "^6.0.5",
+    "laravel-vite-plugin": "^3.0.0",
+    "tailwindcss": "^4.2.2",
+    "typescript": "^6.0.2",
+    "vite": "^8.0.3",
     "vite-plugin-run": "^0.6.1",
-    "vue": "^3.5.26"
+    "vue": "^3.5.31"
   },
   "scripts": {
     "dev": "vite",

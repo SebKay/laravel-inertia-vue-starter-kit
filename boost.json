@@ -1,22 +1,27 @@
 {
     "agents": [
-        "claude_code",
         "copilot",
-        "cursor"
+        "cursor",
+        "opencode",
+        "codex"
     ],
     "guidelines": true,
-    "herd_mcp": true,
     "mcp": true,
+    "nightwatch_mcp": false,
     "packages": [
         "filament/filament",
-        "spatie/laravel-ray"
+        "spatie/laravel-ray",
+        "barryvdh/laravel-debugbar",
+        "laravel/nightwatch"
     ],
     "sail": false,
     "skills": [
+        "laravel-best-practices",
         "wayfinder-development",
         "pest-testing",
         "inertia-vue-development",
         "tailwindcss-development",
+        "configure-nightwatch",
         "debugging-output-and-previewing-html-using-ray"
     ]
 }

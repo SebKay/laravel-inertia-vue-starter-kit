@@ -3,6 +3,8 @@
 use App\Enums\Permission;
 use App\Enums\Role;
 use App\Services\RolesAndPermissionsService;
+use Spatie\Permission\Exceptions\PermissionDoesNotExist;
+use Spatie\Permission\Exceptions\RoleDoesNotExist;
 use Spatie\Permission\Models\Permission as SpatiePermission;
 use Spatie\Permission\Models\Role as SpatieRole;
 
@@ -135,7 +137,7 @@ describe('getPermissions', function () {
 describe('getRole', function () {
     it('throws exception when role does not exist', function () {
         $this->service->getRole(Role::SUPER_ADMIN);
-    })->throws(Spatie\Permission\Exceptions\RoleDoesNotExist::class);
+    })->throws(RoleDoesNotExist::class);
 
     it('returns the correct role after sync', function () {
         $this->service->sync();
@@ -152,7 +154,7 @@ describe('getRole', function () {
 describe('getPermission', function () {
     it('throws exception when permission does not exist', function () {
         $this->service->getPermission(Permission::ACCESS_ADMIN);
-    })->throws(Spatie\Permission\Exceptions\PermissionDoesNotExist::class);
+    })->throws(PermissionDoesNotExist::class);
 
     it('returns the correct permission after sync', function () {
         $this->service->sync();
