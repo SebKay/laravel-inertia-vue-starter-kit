@@ -2,16 +2,20 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\JsonApi\JsonApiResource;
 
-class UserResource extends JsonResource
+class UserResource extends JsonApiResource
 {
-    public function toArray($request)
+    /**
+     * @return array<string, mixed>
+     */
+    public function toAttributes(Request $request): array
     {
         return [
-            'id' => $this->id,
             'email' => $this->whenHas('email'),
             'name' => $this->whenHas('name'),
+            'emailVerified' => $this->hasVerifiedEmail(),
             'can' => $this->all_permissions,
         ];
     }

@@ -1,11 +1,29 @@
 import '@inertiajs/core';
 
-export interface User {
-    id: number;
+export interface UserAttributes {
     email?: string;
     name?: string;
+    emailVerified: boolean;
     can: string[];
 }
+
+export type JsonApiResourceObject<
+    TAttributes extends Record<string, unknown>,
+    TType extends string,
+> = {
+    id: string;
+    type: TType;
+    attributes: TAttributes;
+};
+
+export type JsonApiDocument<
+    TAttributes extends Record<string, unknown>,
+    TType extends string,
+> = {
+    data: JsonApiResourceObject<TAttributes, TType>;
+};
+
+export type UserDocument = JsonApiDocument<UserAttributes, 'users'>;
 
 export interface FlashData {
     success?: string;
@@ -21,7 +39,7 @@ export interface LayoutProps {
 
 export interface SharedPageProps {
     auth: {
-        user: User | [];
+        user: UserDocument | null;
     };
 }
 

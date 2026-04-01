@@ -14,8 +14,7 @@ describe('Users', function () {
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Dashboard/Index')
-                    ->has('dashboard.hero')
-                    ->where('dashboard.hero.emailVerified', true)
+                    ->where('auth.user.data.attributes.emailVerified', true)
                     ->missing('dashboard.stats')
                     ->missing('dashboard.superAdmin')
                     ->loadDeferredProps('dashboard-stats', fn (Assert $reload) => $reload

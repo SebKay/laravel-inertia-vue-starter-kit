@@ -73,7 +73,7 @@
 <script setup lang="ts">
     import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
 
-    import type { PageProps, User } from "@js/types/inertia";
+    import type { PageProps, UserDocument } from "@js/types/inertia";
 
     import FieldError from "@js/Components/FieldError.vue";
 
@@ -81,7 +81,7 @@
 
     const title = "Update Account";
     const props = defineProps<PageProps<{
-        user: User;
+        user: UserDocument;
     }>>();
 
     setLayoutProps({
@@ -91,13 +91,13 @@
 
     const user = props.user ?? props.auth.user;
 
-    if (Array.isArray(user)) {
+    if (!user) {
         throw new Error('Authenticated user data is required for the account page.');
     }
 
-    const form = useForm(`AccountEdit:${user.id}`, {
-        name: user.name ?? "",
-        email: user.email ?? "",
+    const form = useForm(`AccountEdit:${user.data.id}`, {
+        name: (user.data.attributes.name as string | null | undefined) ?? "",
+        email: (user.data.attributes.email as string | null | undefined) ?? "",
         password: "",
     }).dontRemember('password');
 

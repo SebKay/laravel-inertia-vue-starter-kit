@@ -8,8 +8,8 @@
         "lucide-vue-next": "^0.556.0",
       },
       "devDependencies": {
-        "@inertiajs/vite": "^3.0",
-        "@inertiajs/vue3": "^3.0",
+        "@inertiajs/vite": "^3.0.1",
+        "@inertiajs/vue3": "^3.0.1",
         "@laravel/vite-plugin-wayfinder": "^0.1.7",
         "@tailwindcss/forms": "^0.5.11",
         "@tailwindcss/vite": "^4.2.2",
