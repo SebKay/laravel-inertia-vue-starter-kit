@@ -33,7 +33,6 @@ export interface FlashData {
 
 export interface LayoutProps {
     heading?: string;
-    contentClass?: string;
 }
 
 export interface SharedPageProps {

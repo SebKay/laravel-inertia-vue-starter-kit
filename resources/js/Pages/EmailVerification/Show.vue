@@ -2,7 +2,7 @@
     <Head :title="title" />
 
     <div class="mx-auto max-w-2xl">
-        <div class="rounded-2xl bg-white p-6 xl:p-10">
+        <div class="rounded-xl bg-white p-6 xl:p-10">
             <div class="text-center">
                 <p>
                     Please verify your email address by clicking on the link we

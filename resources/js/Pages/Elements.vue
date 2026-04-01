@@ -1,7 +1,7 @@
 <template>
     <Head :title="title" />
 
-    <div class="rounded-2xl bg-white p-6 xl:p-10">
+    <div class="max-w-3xl">
         <div class="space-y-10 divide-y divide-neutral-300">
             <div class="space-y-6 pb-10">
                 <h4 class="h4 heading">Forms</h4>

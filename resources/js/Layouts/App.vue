@@ -3,18 +3,20 @@
         <title></title>
     </Head>
 
-    <div class="flex min-h-full flex-col">
-        <Header />
+    <div data-main class="pl-[60px] lg:pl-72">
+        <Sidebar />
 
-        <main class="px-4 py-8 sm:px-6 xl:px-8 xl:py-16">
-            <div class="mx-auto max-w-7xl" :class="contentClass">
-                <PageHeading :heading="heading" />
+        <main class="flex min-h-screen py-2.5 pr-2.5 lg:py-5 lg:pr-5">
+            <div class="w-full flex-1 rounded-xl bg-white">
+                <div class="p-10">
+                    <PageHeading :heading="heading" />
 
-                <slot />
+                    <slot />
+                </div>
             </div>
         </main>
 
-        <Footer class="mt-auto" />
+        <!-- <Footer class="mt-auto" /> -->
     </div>
 
     <Notice />
@@ -25,8 +27,8 @@
 
     import type { LayoutProps } from "@js/types/inertia";
 
-    const Header = defineAsyncComponent(
-        () => import("@js/Components/Header.vue"),
+    const Sidebar = defineAsyncComponent(
+        () => import("@js/Components/Sidebar.vue"),
     );
     const Footer = defineAsyncComponent(
         () => import("@js/Components/Footer.vue"),
@@ -37,6 +39,5 @@
 
     withDefaults(defineProps<LayoutProps>(), {
         heading: "",
-        contentClass: "",
     });
 </script>

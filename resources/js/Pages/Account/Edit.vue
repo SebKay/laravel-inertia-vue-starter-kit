@@ -1,7 +1,7 @@
 <template>
     <Head :title="title" />
 
-    <div class="rounded-2xl bg-white p-6 xl:p-10">
+    <div class="max-w-3xl">
         <form @submit.prevent="submit">
             <div class="form-row">
                 <div class="form-col">

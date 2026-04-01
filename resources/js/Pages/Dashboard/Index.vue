@@ -1,7 +1,7 @@
 <template>
     <Head :title="title" />
 
-    <div class="rounded-2xl bg-white p-6 xl:p-10">Dashboard</div>
+    <div>Dashboard</div>
 </template>
 
 <script setup lang="ts">
