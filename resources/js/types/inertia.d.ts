@@ -19,4 +19,3 @@ export interface SharedPageProps {
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, never>> = T & SharedPageProps;
-
