@@ -32,7 +32,7 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {
-            if (app()->environment(['local', 'testing'])) {
+            if (app()->environment(['testing'])) {
                 return null;
             }
 

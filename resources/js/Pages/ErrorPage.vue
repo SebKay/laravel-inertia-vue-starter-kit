@@ -1,4 +1,5 @@
 <template>
+
     <Head :title="title" />
 
     <div class="mx-auto max-w-3xl">
@@ -8,8 +9,17 @@
             <p class="mt-4 max-w-2xl text-sm text-neutral-600">{{ description }}</p>
 
             <div class="mt-8 flex flex-wrap gap-3">
-                <Link class="button" :href="home()" prefetch>Back to dashboard</Link>
-                <Link v-if="showLogin" class="button" :href="login()" prefetch>Go to login</Link>
+                <Link
+                    class="button"
+                    :href="home()"
+                    prefetch
+                >Back to dashboard</Link>
+                <Link
+                    v-if="showLogin"
+                    class="button"
+                    :href="login()"
+                    prefetch
+                >Go to login</Link>
             </div>
         </div>
     </div>
