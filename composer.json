@@ -14,7 +14,7 @@
         "laravel/tinker": "^3.0",
         "laravel/wayfinder": "^0.1.5",
         "spatie/laravel-health": "^1.31",
-        "spatie/laravel-permission": "^6.9",
+        "spatie/laravel-permission": "^7.0",
         "spatie/security-advisories-health-check": "^1.2",
         "symfony/http-client": "^7.2",
         "symfony/postmark-mailer": "^7.2"
