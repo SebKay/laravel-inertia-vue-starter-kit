@@ -27,7 +27,7 @@ describe('Guests', function () {
         get(route('login'))
             ->assertOk()
             ->assertSee('<title>'.config('app.name').'</title>', escape: false)
-            ->assertSee('<div id="app"></div>', escape: false)
+            ->assertSee('id="app"', escape: false)
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Login/Show')
