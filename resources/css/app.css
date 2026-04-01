@@ -3,7 +3,7 @@
 
 @import "tailwindcss";
 
-@plugin '@tailwindcss/forms';
+@plugin "@tailwindcss/forms";
 
 @import "./variables.css";
 

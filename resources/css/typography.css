@@ -1,5 +1,5 @@
 @utility heading {
-    @apply text-neutral-900 font-medium leading-none;
+    @apply leading-none font-medium text-neutral-900;
 }
 
 @utility h1 {

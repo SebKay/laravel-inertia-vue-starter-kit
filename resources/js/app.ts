@@ -4,7 +4,9 @@ import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
 const appName = import.meta.env.VITE_APP_NAME || "Template";
 
 const AppLayout = defineAsyncComponent(() => import("@js/Layouts/App.vue"));
-const PageTitle = defineAsyncComponent(() => import("@js/Components/PageTitle.vue"));
+const PageTitle = defineAsyncComponent(
+    () => import("@js/Components/PageTitle.vue"),
+);
 const Notice = defineAsyncComponent(() => import("@js/Components/Notice.vue"));
 
 createInertiaApp({

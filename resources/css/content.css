@@ -41,10 +41,10 @@
     }
 
     blockquote {
-        @apply pl-6 py-3 border-l-3 border-brand-300;
+        @apply border-l-3 border-brand-300 py-3 pl-6;
 
         p {
-            @apply text-xl font-serif italic;
+            @apply font-serif text-xl italic;
         }
     }
 
