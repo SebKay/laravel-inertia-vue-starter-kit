@@ -60,7 +60,7 @@
             "bun run build"
         ],
         "rector": [
-            "./vendor/bin/rector"
+            "./vendor/bin/rector --memory-limit=2G"
         ],
         "lint": [
             "./vendor/bin/pint --test"
