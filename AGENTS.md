@@ -1,7 +1,43 @@
 <laravel-boost-guidelines>
-=== .ai/laravel rules ===
+=== .ai/planning rules ===
 
-Any text meant for display to the user should be translated using the `__()` function. Text should be placed in the `lang/en/` directory and the key should be the text itself.
+When making plans, always use the following skills: brainstorming and planner.
+
+=== .ai/project rules ===
+
+# Project Guidance
+
+- This repo is a starter kit centered on session auth, account management, and a Filament admin for `User`; there are no other first-party domain models in `app/Models`.
+- `routes/web.php` is the main product surface: guest auth flows, password reset, `/` dashboard, `/account`, email verification, a super-admin-only `elements` page, and Spatie Health results behind `auth` + `role:super-admin`.
+- Keep controllers thin like the existing `app/Http/Controllers/*Controller.php` files and put request validation in the matching `app/Http/Requests/**` classes.
+- Inertia shared auth state comes from `app/Http/Middleware/HandleInertiaRequests.php` as `auth.user` via `app/Http/Resources/UserResource.php`; frontend permission checks rely on `resources/js/utilities/permissions.ts`.
+- Do not assume `auth.loggedIn` exists on the page props just because `resources/js/types/inertia.d.ts` declares it; the middleware currently only shares `auth.user`.
+- Frontend navigation uses Inertia Vue in `resources/js/app.ts` with the default `resources/js/Layouts/App.vue`; prefer Wayfinder-generated actions from `@js/actions/...` because `vite.config.js` enables the Wayfinder plugin.
+- `App\Enums\Role`, `App\Enums\Permission`, and `app/Services/RolesAndPermissionsService.php` are the source of truth for authorization; when roles or permissions change, update the enums and sync logic together.
+- Registration in `app/Http/Controllers/RegisterController.php` always assigns `Role::USER`; Filament panel access in `app/Models/User.php` is limited to `super-admin` and `admin`.
+- Seeders depend on the role sync order: `database/seeders/DatabaseSeeder.php` and `TestsSeeder.php` run `RolesAndPermissionsSeeder` before `UsersSeeder`.
+- Default seeded credentials live in `config/seed.php`, and `database/factories/UserFactory.php` states (`superAdmin()`, `admin()`, `user()`) should stay aligned with that config.
+- The Filament admin is mounted at `/admin` from `app/Providers/Filament/AdminPanelProvider.php`; the only resource today is `app/Filament/Resources/Users/UserResource.php`.
+- Filament dashboard widgets in `app/Filament/Widgets` currently report total users and 30-day registrations, so changes to user creation should consider both counts and chart queries.
+- `app/Providers/AppServiceProvider.php` contains important global behavior: HTTPS forcing in staging/production, automatic eager loading, aggressive Vite prefetching, stricter production password rules, Filament table defaults, and Spatie Health check registration.
+- Scheduled/background behavior is intentionally minimal: `routes/console.php` runs Spatie Health checks every minute only in production, `.env.example` defaults `QUEUE_CONNECTION=sync`, and there are no app-owned jobs, listeners, notifications, mailables, observers, or broadcasting channels.
+- Password reset and email verification use Laravel's built-in broker/notifications from `ResetPasswordController` and `EmailVerificationController`; there are no custom notification classes to extend first.
+- The API surface is intentionally tiny: `routes/api.php` only exposes authenticated `GET /user` via Sanctum.
+- Tests are concentrated in `tests/Feature/Controllers` and `tests/Integration/Services/RolesAndPermissionsServiceTest.php`; preserve those conventions when changing auth, account, or permission behavior.
+
+=== .ai/styling rules ===
+
+When styling forms, always use the form styles from @resources/css/forms.css.
+
+Always create reusable components where you can. If you're starting something new, see if a component for that already exists.
+
+=== .ai/ui-implementation rules ===
+
+Always create reusable components where you can. If you're starting something new, see if a component for that already exists.
+
+When adding forms, always use the form styles from @resources/css/forms.css.
+
+When adding forms, always use the @resources/views/components/field-error.blade.php component to display validation errors.
 
 === foundation rules ===
 
@@ -42,6 +78,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 - `pest-testing` — Use this skill for Pest PHP testing in Laravel projects only. Trigger whenever any test is being written, edited, fixed, or refactored — including fixing tests that broke after a code change, adding assertions, converting PHPUnit to Pest, adding datasets, and TDD workflows. Always activate when the user asks how to write something in Pest, mentions test files or directories (tests/Feature, tests/Unit, tests/Browser), or needs browser testing, smoke testing multiple pages for JS errors, or architecture tests. Covers: it()/expect() syntax, datasets, mocking, browser testing (visit/click/fill), smoke testing, arch(), Livewire component tests, RefreshDatabase, and all Pest 4 features. Do not use for factories, seeders, migrations, controllers, models, or non-test PHP code.
 - `inertia-vue-development` — Develops Inertia.js v2 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using <Link>, <Form>, useForm, or router; working with deferred props, prefetching, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
 - `tailwindcss-development` — Always invoke when the user's message includes 'tailwind' in any form. Also invoke for: building responsive grid layouts (multi-column card grids, product grids), flex/grid page structures (dashboards with sidebars, fixed topbars, mobile-toggle navs), styling UI components (cards, tables, navbars, pricing sections, forms, inputs, badges), adding dark mode variants, fixing spacing or typography, and Tailwind v3/v4 work. The core use case: writing or fixing Tailwind utility classes in HTML templates (Blade, JSX, Vue). Skip for backend PHP logic, database queries, API routes, JavaScript with no HTML/CSS component, CSS file audits, build tool configuration, and vanilla CSS.
+- `configure-nightwatch` — Configures Laravel Nightwatch data collection, sampling rates, filtering rules, and redaction policies. Use when setting up Nightwatch, managing data volume, protecting sensitive data (PII), or optimizing event collection for production workloads.
 - `debugging-output-and-previewing-html-using-ray` — Use when user says "send to Ray," "show in Ray," "debug in Ray," "log to Ray," "display in Ray," or wants to visualize data, debug output, or show diagrams in the Ray desktop application.
 
 ## Conventions
@@ -382,5 +419,79 @@ livewire(ListUsers::class)
 
 - **Never assume public file visibility.** File visibility is `private` by default. Always use `->visibility('public')` when public access is needed.
 - **Never assume full-width layout.** `Grid`, `Section`, and `Fieldset` do not span all columns by default. Explicitly set column spans when needed.
+
+=== barryvdh/laravel-debugbar rules ===
+
+## Laravel Debugbar
+
+Laravel Debugbar stores data from each request (queries, exceptions, views, routes, mail, etc.) for review via Artisan commands.
+
+### Finding Requests
+
+<code-snippet name="Find requests" lang="bash">
+
+# List recent requests (shows summary with status, duration, memory, query count)
+
+php artisan debugbar:find
+
+# Filter by URI pattern (fnmatch) and/or HTTP method
+
+php artisan debugbar:find --uri="/api/*" --method=POST
+
+# Only show requests with issues (exceptions, slow queries, duplicates, errors)
+
+php artisan debugbar:find --issues --max=50
+
+# Customize issue thresholds (defaults: --min-queries=50, --min-duration=1000, --min-duplicates=2)
+
+php artisan debugbar:find --issues --min-queries=10 --min-duration=500
+
+# Threshold options also work standalone, filtering on just that criteria
+
+php artisan debugbar:find --min-queries=20
+</code-snippet>
+
+`--issues` flags: exceptions, non-2xx status, high query count, slow queries, duplicate query groups, slow request duration, and failed queries. Issue filtering applies on top of the fetched result set — increase `--max` to scan further back.
+
+### Inspecting a Request
+
+<code-snippet name="Inspect request" lang="bash">
+
+# Summary of all collectors (available collectors depend on config)
+
+php artisan debugbar:get latest
+php artisan debugbar:get {id}
+
+# Full data for a specific collector
+
+php artisan debugbar:get {id} --collector=exceptions
+</code-snippet>
+
+Use the collector name from the summary table. Common ones by issue type:
+- **Error/500** → `exceptions` · **Slow page** → `queries`, `time` · **Auth** → `auth`, `gate` · **Cache** → `cache`
+
+### Analyzing Queries
+
+<code-snippet name="Query analysis" lang="bash">
+
+# Overview with duplicate detection and slow query flags
+
+php artisan debugbar:queries {id}
+
+# Backtrace and params for a specific statement
+
+php artisan debugbar:queries {id} --statement=N
+
+# EXPLAIN plan or re-execute a SELECT
+
+php artisan debugbar:queries {id} --statement=N --explain
+php artisan debugbar:queries {id} --statement=N --result
+</code-snippet>
+
+Duplicate queries are a strong N+1 signal. Use `--statement=N` to get the backtrace and find the origin.
+
+### Other Commands
+
+- `debugbar:clear` — Clear all stored debugbar data.
 
 </laravel-boost-guidelines>
