@@ -56,21 +56,18 @@
     </div>
 </template>
 
-<script lang="ts">
-    import Layout from '@js/Layouts/Guest.vue';
-
-    export default {
-        layout: Layout,
-    }
-</script>
-
 <script setup lang="ts">
     import { Form } from "@inertiajs/vue3";
+    import Layout from '@js/Layouts/Guest.vue';
 
     import FieldError from "@js/Components/FieldError.vue";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
+
+    defineOptions({
+        layout: Layout,
+    });
 
     const title = "Forgot Password";
 </script>

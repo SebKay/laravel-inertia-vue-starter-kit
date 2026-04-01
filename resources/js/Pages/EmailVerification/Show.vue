@@ -37,25 +37,22 @@
     </div>
 </template>
 
-<script lang="ts">
-    import Layout from '@js/Layouts/Guest.vue';
-
-    export default {
-        layout: Layout,
-    }
-</script>
-
 <script setup lang="ts">
     import { ref } from "vue";
     import { router } from "@inertiajs/vue3";
+    import Layout from '@js/Layouts/Guest.vue';
 
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
     import { update } from "@js/actions/App/Http/Controllers/EmailVerificationController";
 
+    defineOptions({
+        layout: Layout,
+    });
+
     const title = ref<string>("Verify Your Email");
 
     const resend = () => {
-        router.post(update().url, {
+        router.post(update(), {}, {
             preserveScroll: true,
         });
     };

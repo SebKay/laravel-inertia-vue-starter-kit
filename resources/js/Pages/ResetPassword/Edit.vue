@@ -73,22 +73,19 @@
     </div>
 </template>
 
-<script lang="ts">
-    import Layout from '@js/Layouts/Guest.vue';
-
-    export default {
-        layout: Layout,
-    }
-</script>
-
 <script setup lang="ts">
     import { Form } from "@inertiajs/vue3";
+    import Layout from '@js/Layouts/Guest.vue';
 
     import type { PageProps } from "@js/types/inertia";
 
     import FieldError from "@js/Components/FieldError.vue";
 
     import { update } from "@js/actions/App/Http/Controllers/ResetPasswordController";
+
+    defineOptions({
+        layout: Layout,
+    });
 
     const props = defineProps<PageProps<{
         email?: string;

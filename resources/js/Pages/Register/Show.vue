@@ -92,16 +92,9 @@
     </div>
 </template>
 
-<script lang="ts">
-    import Layout from '@js/Layouts/Guest.vue';
-
-    export default {
-        layout: Layout,
-    }
-</script>
-
 <script setup lang="ts">
     import { Form } from "@inertiajs/vue3";
+    import Layout from '@js/Layouts/Guest.vue';
 
     import type { PageProps } from "@js/types/inertia";
 
@@ -109,6 +102,10 @@
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/RegisterController";
+
+    defineOptions({
+        layout: Layout,
+    });
 
     const props = defineProps<PageProps<{
         name?: string;
