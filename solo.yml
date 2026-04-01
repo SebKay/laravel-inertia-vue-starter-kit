@@ -1,8 +1,8 @@
 name: laravel-inertia-vue-starter-kit
 icon: null
 processes:
-  Pint:
-    command: vendor/bin/pint --test
+  Rector:
+    command: composer rector
     working_dir: null
     auto_start: false
     auto_restart: false
@@ -15,10 +15,10 @@ processes:
     auto_restart: false
     restart_when_changed: []
     env: {}
-  Rector:
-    command: composer rector
+  Logs:
+    command: tail -n 50 -f storage/logs/laravel.log
     working_dir: null
-    auto_start: false
+    auto_start: true
     auto_restart: false
     restart_when_changed: []
     env: {}
@@ -29,10 +29,10 @@ processes:
     auto_restart: false
     restart_when_changed: []
     env: {}
-  Logs:
-    command: tail -n 50 -f storage/logs/laravel.log
+  'Test: Coverage':
+    command: composer test:coverage
     working_dir: null
-    auto_start: true
+    auto_start: false
     auto_restart: false
     restart_when_changed: []
     env: {}
@@ -43,15 +43,15 @@ processes:
     auto_restart: false
     restart_when_changed: []
     env: {}
-  'Vite: Build':
-    command: bun run build
+  'Pint: Fix':
+    command: vendor/bin/pint --test
     working_dir: null
     auto_start: false
     auto_restart: false
     restart_when_changed: []
     env: {}
-  'Test: Coverage':
-    command: composer test:coverage
+  'Vite: Build':
+    command: bun run build
     working_dir: null
     auto_start: false
     auto_restart: false
