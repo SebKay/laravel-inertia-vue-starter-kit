@@ -163,13 +163,13 @@
 </template>
 
 <script setup lang="ts">
-import { setLayoutProps } from "@inertiajs/vue3";
+    import { setLayoutProps } from "@inertiajs/vue3";
 
-const title = "Elements";
+    const title = "Elements";
 
-setLayoutProps({
-    heading: title,
-    subheading:
-        "A protected style reference for the starter kit's shared UI primitives.",
-});
+    setLayoutProps({
+        heading: title,
+        subheading:
+            "A protected style reference for the starter kit's shared UI primitives.",
+    });
 </script>

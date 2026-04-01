@@ -25,7 +25,7 @@
                                     v-text="link.label"
                                     class="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium transition-colors"
                                     :class="{
-                                        'text-neutral-900 bg-neutral-100/75':
+                                        'bg-neutral-100/75 text-neutral-900':
                                             link.components.includes(
                                                 $page.component,
                                             ),
@@ -83,74 +83,74 @@
 </template>
 
 <script setup lang="ts">
-import { computed, ref, onMounted } from "vue";
-import { router } from "@inertiajs/vue3";
+    import { computed, ref, onMounted } from "vue";
+    import { router } from "@inertiajs/vue3";
 
-import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
-import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
-import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
+    import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
+    import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
+    import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
 
-import {
-    Sparkles as SparklesIcon,
-    Menu as MenuIcon,
-    X as CloseIcon,
-} from "lucide-vue-next";
+    import {
+        Sparkles as SparklesIcon,
+        Menu as MenuIcon,
+        X as CloseIcon,
+    } from "lucide-vue-next";
 
-const menu = computed<
-    {
-        label: string;
-        href:
-            | ReturnType<typeof home>
-            | ReturnType<typeof editAccount>
-            | ReturnType<typeof LogoutController>;
-        condition: boolean;
-        components: string[];
-        prefetch?:
-            | true
-            | "mount"
-            | "hover"
-            | "click"
-            | Array<"mount" | "hover" | "click">;
-        instantComponent?: string;
-    }[]
->(() => [
-    {
-        label: "Dashboard",
-        href: home(),
-        condition: true,
-        components: ["Dashboard/Index"],
-        prefetch: true,
-        instantComponent: "Dashboard/Index",
-    },
-    {
-        label: "Account",
-        href: editAccount(),
-        condition: true,
-        components: ["Account/Edit", "EmailVerification/Show"],
-        prefetch: true,
-        instantComponent: "Account/Edit",
-    },
-    {
-        label: "Elements",
-        href: '/elements',
-        condition: true,
-        components: ["Elements"],
-        prefetch: true,
-        instantComponent: "Elements",
-    },
-    {
-        label: "Logout",
-        href: LogoutController(),
-        condition: true,
-        components: [],
-    },
-]);
+    const menu = computed<
+        {
+            label: string;
+            href:
+                | ReturnType<typeof home>
+                | ReturnType<typeof editAccount>
+                | ReturnType<typeof LogoutController>;
+            condition: boolean;
+            components: string[];
+            prefetch?:
+                | true
+                | "mount"
+                | "hover"
+                | "click"
+                | Array<"mount" | "hover" | "click">;
+            instantComponent?: string;
+        }[]
+    >(() => [
+        {
+            label: "Dashboard",
+            href: home(),
+            condition: true,
+            components: ["Dashboard/Index"],
+            prefetch: true,
+            instantComponent: "Dashboard/Index",
+        },
+        {
+            label: "Account",
+            href: editAccount(),
+            condition: true,
+            components: ["Account/Edit", "EmailVerification/Show"],
+            prefetch: true,
+            instantComponent: "Account/Edit",
+        },
+        {
+            label: "Elements",
+            href: "/elements",
+            condition: true,
+            components: ["Elements"],
+            prefetch: true,
+            instantComponent: "Elements",
+        },
+        {
+            label: "Logout",
+            href: LogoutController(),
+            condition: true,
+            components: [],
+        },
+    ]);
 
-const mobileMenuOpen = ref(false);
+    const mobileMenuOpen = ref(false);
 
-onMounted(() => {
-    router.on("success", () => {
-        mobileMenuOpen.value = false;
+    onMounted(() => {
+        router.on("success", () => {
+            mobileMenuOpen.value = false;
+        });
     });
-});
 </script>

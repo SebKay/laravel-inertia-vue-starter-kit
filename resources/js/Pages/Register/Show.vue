@@ -65,45 +65,45 @@
 </template>
 
 <script setup lang="ts">
-import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
-import Layout from "@js/Layouts/Guest.vue";
+    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import Layout from "@js/Layouts/Guest.vue";
 
-import type { PageProps } from "@js/types/inertia";
+    import type { PageProps } from "@js/types/inertia";
 
-import FieldError from "@js/Components/FieldError.vue";
+    import FieldError from "@js/Components/FieldError.vue";
 
-import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
-import { store } from "@js/actions/App/Http/Controllers/RegisterController";
+    import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
+    import { store } from "@js/actions/App/Http/Controllers/RegisterController";
 
-defineOptions({
-    layout: Layout,
-});
-
-const props = defineProps<
-    PageProps<{
-        name?: string;
-        email?: string;
-    }>
->();
-
-const title = "Register";
-
-setLayoutProps({
-    heading: title,
-    subheading:
-        "Create your account and you'll land straight in the dashboard.",
-});
-
-const form = useForm("RegisterForm", {
-    name: props.name ?? "",
-    email: props.email ?? "",
-    password: "",
-}).dontRemember("password");
-
-const submit = () => {
-    form.submit(store(), {
-        preserveScroll: "errors",
-        onFinish: () => form.reset("password"),
+    defineOptions({
+        layout: Layout,
     });
-};
+
+    const props = defineProps<
+        PageProps<{
+            name?: string;
+            email?: string;
+        }>
+    >();
+
+    const title = "Register";
+
+    setLayoutProps({
+        heading: title,
+        subheading:
+            "Create your account and you'll land straight in the dashboard.",
+    });
+
+    const form = useForm("RegisterForm", {
+        name: props.name ?? "",
+        email: props.email ?? "",
+        password: "",
+    }).dontRemember("password");
+
+    const submit = () => {
+        form.submit(store(), {
+            preserveScroll: "errors",
+            onFinish: () => form.reset("password"),
+        });
+    };
 </script>

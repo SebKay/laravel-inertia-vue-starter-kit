@@ -32,14 +32,14 @@
 </template>
 
 <script setup lang="ts">
-import type { LayoutProps } from "@js/types/inertia";
+    import type { LayoutProps } from "@js/types/inertia";
 
-import PageTitle from "@js/Components/PageTitle.vue";
-import { Sparkles as SparklesIcon } from "lucide-vue-next";
+    import PageTitle from "@js/Components/PageTitle.vue";
+    import { Sparkles as SparklesIcon } from "lucide-vue-next";
 
-withDefaults(defineProps<LayoutProps>(), {
-    heading: undefined,
-    subheading: undefined,
-    contentClass: "",
-});
+    withDefaults(defineProps<LayoutProps>(), {
+        heading: undefined,
+        subheading: undefined,
+        contentClass: "",
+    });
 </script>

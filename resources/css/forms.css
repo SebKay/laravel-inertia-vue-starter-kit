@@ -33,7 +33,7 @@
 }
 
 @utility input {
-    @apply field block w-full text-base h-11;
+    @apply field block h-11 w-full text-base;
 }
 
 @utility textarea {

@@ -48,44 +48,44 @@
 </template>
 
 <script setup lang="ts">
-import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
-import Layout from "@js/Layouts/Guest.vue";
+    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import Layout from "@js/Layouts/Guest.vue";
 
-import type { PageProps } from "@js/types/inertia";
+    import type { PageProps } from "@js/types/inertia";
 
-import FieldError from "@js/Components/FieldError.vue";
+    import FieldError from "@js/Components/FieldError.vue";
 
-import { update } from "@js/actions/App/Http/Controllers/ResetPasswordController";
+    import { update } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
-defineOptions({
-    layout: Layout,
-});
-
-const props = defineProps<
-    PageProps<{
-        email?: string;
-        token?: string;
-    }>
->();
-
-const title = "Reset Password";
-
-setLayoutProps({
-    heading: title,
-    subheading: "Choose a new password for your account.",
-});
-
-const form = useForm("ResetPasswordForm", {
-    email: props.email ?? "",
-    token: props.token ?? "",
-    password: "",
-    password_confirmation: "",
-}).dontRemember("password", "password_confirmation", "token");
-
-const submit = () => {
-    form.submit(update(), {
-        preserveScroll: "errors",
-        onFinish: () => form.reset("password", "password_confirmation"),
+    defineOptions({
+        layout: Layout,
     });
-};
+
+    const props = defineProps<
+        PageProps<{
+            email?: string;
+            token?: string;
+        }>
+    >();
+
+    const title = "Reset Password";
+
+    setLayoutProps({
+        heading: title,
+        subheading: "Choose a new password for your account.",
+    });
+
+    const form = useForm("ResetPasswordForm", {
+        email: props.email ?? "",
+        token: props.token ?? "",
+        password: "",
+        password_confirmation: "",
+    }).dontRemember("password", "password_confirmation", "token");
+
+    const submit = () => {
+        form.submit(update(), {
+            preserveScroll: "errors",
+            onFinish: () => form.reset("password", "password_confirmation"),
+        });
+    };
 </script>

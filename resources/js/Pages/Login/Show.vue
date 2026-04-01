@@ -76,48 +76,48 @@
 </template>
 
 <script setup lang="ts">
-import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
-import Layout from "@js/Layouts/Guest.vue";
+    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import Layout from "@js/Layouts/Guest.vue";
 
-import type { PageProps } from "@js/types/inertia";
+    import type { PageProps } from "@js/types/inertia";
 
-import FieldError from "@js/Components/FieldError.vue";
+    import FieldError from "@js/Components/FieldError.vue";
 
-import { show as forgotPassword } from "@js/actions/App/Http/Controllers/ResetPasswordController";
-import { show as register } from "@js/actions/App/Http/Controllers/RegisterController";
-import { store } from "@js/actions/App/Http/Controllers/LoginController";
+    import { show as forgotPassword } from "@js/actions/App/Http/Controllers/ResetPasswordController";
+    import { show as register } from "@js/actions/App/Http/Controllers/RegisterController";
+    import { store } from "@js/actions/App/Http/Controllers/LoginController";
 
-defineOptions({
-    layout: Layout,
-});
-
-const props = defineProps<
-    PageProps<{
-        email?: string;
-        password?: string;
-        remember?: boolean;
-        redirect?: string;
-    }>
->();
-
-const title = "Log In";
-
-setLayoutProps({
-    heading: title,
-    subheading: "Sign in with your account to continue.",
-});
-
-const form = useForm("LoginForm", {
-    email: props.email ?? "",
-    password: props.password ?? "",
-    remember: props.remember ?? false,
-    redirect: props.redirect ?? "",
-}).dontRemember("password");
-
-const submit = () => {
-    form.submit(store(), {
-        preserveScroll: "errors",
-        onFinish: () => form.reset("password"),
+    defineOptions({
+        layout: Layout,
     });
-};
+
+    const props = defineProps<
+        PageProps<{
+            email?: string;
+            password?: string;
+            remember?: boolean;
+            redirect?: string;
+        }>
+    >();
+
+    const title = "Log In";
+
+    setLayoutProps({
+        heading: title,
+        subheading: "Sign in with your account to continue.",
+    });
+
+    const form = useForm("LoginForm", {
+        email: props.email ?? "",
+        password: props.password ?? "",
+        remember: props.remember ?? false,
+        redirect: props.redirect ?? "",
+    }).dontRemember("password");
+
+    const submit = () => {
+        form.submit(store(), {
+            preserveScroll: "errors",
+            onFinish: () => form.reset("password"),
+        });
+    };
 </script>

@@ -5,13 +5,13 @@
 </template>
 
 <script setup lang="ts">
-import { Head, setLayoutProps } from "@inertiajs/vue3";
+    import { Head, setLayoutProps } from "@inertiajs/vue3";
 
-const title = "Dashboard";
+    const title = "Dashboard";
 
-setLayoutProps({
-    heading: title,
-    subheading:
-        "See the latest account activity and app overview as soon as you sign in.",
-});
+    setLayoutProps({
+        heading: title,
+        subheading:
+            "See the latest account activity and app overview as soon as you sign in.",
+    });
 </script>

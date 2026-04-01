@@ -32,16 +32,20 @@
 </template>
 
 <script setup lang="ts">
-import { defineAsyncComponent } from "vue";
+    import { defineAsyncComponent } from "vue";
 
-import type { LayoutProps } from "@js/types/inertia";
+    import type { LayoutProps } from "@js/types/inertia";
 
-const Header = defineAsyncComponent(() => import("@js/Components/Header.vue"));
-const Footer = defineAsyncComponent(() => import("@js/Components/Footer.vue"));
+    const Header = defineAsyncComponent(
+        () => import("@js/Components/Header.vue"),
+    );
+    const Footer = defineAsyncComponent(
+        () => import("@js/Components/Footer.vue"),
+    );
 
-withDefaults(defineProps<LayoutProps>(), {
-    heading: undefined,
-    subheading: undefined,
-    contentClass: "",
-});
+    withDefaults(defineProps<LayoutProps>(), {
+        heading: undefined,
+        subheading: undefined,
+        contentClass: "",
+    });
 </script>

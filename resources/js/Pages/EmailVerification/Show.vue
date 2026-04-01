@@ -44,39 +44,39 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
-import { Head, setLayoutProps, useHttp } from "@inertiajs/vue3";
-import Layout from "@js/Layouts/Guest.vue";
+    import { ref } from "vue";
+    import { Head, setLayoutProps, useHttp } from "@inertiajs/vue3";
+    import Layout from "@js/Layouts/Guest.vue";
 
-import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
-import { update } from "@js/actions/App/Http/Controllers/EmailVerificationController";
+    import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
+    import { update } from "@js/actions/App/Http/Controllers/EmailVerificationController";
 
-defineOptions({
-    layout: Layout,
-});
-
-const title = "Verify Your Email";
-
-setLayoutProps({
-    heading: title,
-    subheading: "Confirm your address to unlock the rest of the app.",
-});
-
-const resendRequest = useHttp("EmailVerificationResend", {});
-const statusMessage = ref("");
-
-const resend = () => {
-    statusMessage.value = "";
-
-    resendRequest.post(update().url, {
-        onSuccess: () => {
-            statusMessage.value = "Verification email sent.";
-        },
-        onError: (errors) => {
-            statusMessage.value =
-                errors.message ??
-                "Unable to resend verification email right now.";
-        },
+    defineOptions({
+        layout: Layout,
     });
-};
+
+    const title = "Verify Your Email";
+
+    setLayoutProps({
+        heading: title,
+        subheading: "Confirm your address to unlock the rest of the app.",
+    });
+
+    const resendRequest = useHttp("EmailVerificationResend", {});
+    const statusMessage = ref("");
+
+    const resend = () => {
+        statusMessage.value = "";
+
+        resendRequest.post(update().url, {
+            onSuccess: () => {
+                statusMessage.value = "Verification email sent.";
+            },
+            onError: (errors) => {
+                statusMessage.value =
+                    errors.message ??
+                    "Unable to resend verification email right now.";
+            },
+        });
+    };
 </script>
