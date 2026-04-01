@@ -3,4 +3,5 @@ export default {
     plugins: ["prettier-plugin-tailwindcss"],
     tailwindStylesheet: "./resources/css/app.css",
     tabWidth: 4,
+    vueIndentScriptAndStyle: true,
 };

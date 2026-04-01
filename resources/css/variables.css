@@ -14,15 +14,5 @@
     --breakpoint-3xl: 1441px;
     --breakpoint-4xl: 1901px;
 
-    --color-brand-50: #f3f6fb;
-    --color-brand-100: #e5e9f4;
-    --color-brand-200: #d0d9ed;
-    --color-brand-300: #b0c0e0;
-    --color-brand-400: #8a9fd0;
-    --color-brand-500: #6a7fc1;
-    --color-brand-600: #5b6bb5;
-    --color-brand-700: #505aa5;
-    --color-brand-800: #464c87;
-    --color-brand-900: #3c416c;
-    --color-brand-950: #282a43;
+    --color-ui-1-1: #257c53;
 }

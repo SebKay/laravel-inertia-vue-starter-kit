@@ -7,7 +7,7 @@
         <main class="px-4 py-8 sm:px-6 xl:px-8 xl:py-16">
             <div class="mx-auto max-w-7xl">
                 <SparklesIcon
-                    class="mx-auto mb-4 block size-10 text-brand-800 xl:mb-8"
+                    class="mx-auto mb-4 block size-10 text-ui-1-1 xl:mb-8"
                 />
 
                 <div
@@ -15,12 +15,6 @@
                     class="mx-auto mb-4 max-w-2xl text-center xl:mb-8"
                 >
                     <PageTitle :text="heading" />
-
-                    <p
-                        v-if="subheading"
-                        class="mt-3 text-sm text-neutral-600"
-                        v-text="subheading"
-                    ></p>
                 </div>
 
                 <slot />
@@ -32,14 +26,13 @@
 </template>
 
 <script setup lang="ts">
-import type { LayoutProps } from "@js/types/inertia";
+    import type { LayoutProps } from "@js/types/inertia";
 
-import PageTitle from "@js/Components/PageTitle.vue";
-import { Sparkles as SparklesIcon } from "lucide-vue-next";
+    import PageTitle from "@js/Components/PageTitle.vue";
+    import { Sparkles as SparklesIcon } from "lucide-vue-next";
 
-withDefaults(defineProps<LayoutProps>(), {
-    heading: undefined,
-    subheading: undefined,
-    contentClass: "",
-});
+    withDefaults(defineProps<LayoutProps>(), {
+        heading: "",
+        contentClass: "",
+    });
 </script>

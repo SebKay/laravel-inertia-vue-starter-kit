@@ -41,8 +41,6 @@
     }
 
     blockquote {
-        @apply border-l-3 border-brand-300 py-3 pl-6;
-
         p {
             @apply font-serif text-xl italic;
         }

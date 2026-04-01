@@ -1,13 +1,8 @@
 <template>
     <Head :title="title" />
 
-    <h1
-        v-text="title"
-        class="mb-4 text-3xl font-medium text-neutral-900 xl:mb-8 xl:text-4xl"
-    ></h1>
-
     <div class="rounded-2xl bg-white p-6 xl:p-10">
-        <div class="space-y-10 divide-y divide-brand-200">
+        <div class="space-y-10 divide-y divide-neutral-300">
             <div class="space-y-6 pb-10">
                 <h4 class="h4 heading">Forms</h4>
 
@@ -163,13 +158,11 @@
 </template>
 
 <script setup lang="ts">
-import { setLayoutProps } from "@inertiajs/vue3";
+    import { setLayoutProps } from "@inertiajs/vue3";
 
-const title = "Elements";
+    const title = "Elements";
 
-setLayoutProps({
-    heading: title,
-    subheading:
-        "A protected style reference for the starter kit's shared UI primitives.",
-});
+    setLayoutProps({
+        heading: title,
+    });
 </script>

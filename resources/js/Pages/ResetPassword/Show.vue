@@ -41,33 +41,31 @@
 </template>
 
 <script setup lang="ts">
-import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
-import Layout from "@js/Layouts/Guest.vue";
+    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import Layout from "@js/Layouts/Guest.vue";
 
-import FieldError from "@js/Components/FieldError.vue";
+    import FieldError from "@js/Components/FieldError.vue";
 
-import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
-import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
+    import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
+    import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
-defineOptions({
-    layout: Layout,
-});
-
-const title = "Forgot Password";
-
-setLayoutProps({
-    heading: title,
-    subheading:
-        "We'll email you a reset link if the address matches an account.",
-});
-
-const form = useForm("ForgotPasswordForm", {
-    email: "",
-});
-
-const submit = () => {
-    form.submit(store(), {
-        preserveScroll: "errors",
+    defineOptions({
+        layout: Layout,
     });
-};
+
+    const title = "Forgot Password";
+
+    setLayoutProps({
+        heading: title,
+    });
+
+    const form = useForm("ForgotPasswordForm", {
+        email: "",
+    });
+
+    const submit = () => {
+        form.submit(store(), {
+            preserveScroll: "errors",
+        });
+    };
 </script>

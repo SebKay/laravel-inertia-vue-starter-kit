@@ -24,62 +24,62 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted } from "vue";
-import { router } from "@inertiajs/vue3";
+    import { ref, onMounted, onUnmounted } from "vue";
+    import { router } from "@inertiajs/vue3";
 
-import type { FlashData } from "@js/types/inertia";
+    import type { FlashData } from "@js/types/inertia";
 
-import {
-    CircleCheck as CircleCheckIcon,
-    CircleX as CircleXIcon,
-    CircleAlert as CircleAlertIcon,
-} from "lucide-vue-next";
+    import {
+        CircleCheck as CircleCheckIcon,
+        CircleX as CircleXIcon,
+        CircleAlert as CircleAlertIcon,
+    } from "lucide-vue-next";
 
-const active = ref(false);
-const type = ref("");
-const message = ref<string>("");
+    const active = ref(false);
+    const type = ref("");
+    const message = ref<string>("");
 
-let removeListener: (() => void) | null = null;
+    let removeListener: (() => void) | null = null;
 
-onMounted(() => {
-    removeListener = router.on("flash", (event) => {
-        const flash = event.detail.flash as FlashData;
+    onMounted(() => {
+        removeListener = router.on("flash", (event) => {
+            const flash = event.detail.flash as FlashData;
 
-        if (flash.success) {
-            type.value = "success";
-            message.value = flash.success;
-        } else if (flash.error) {
-            type.value = "error";
-            message.value = flash.error;
-        } else if (flash.warning) {
-            type.value = "warning";
-            message.value = flash.warning;
-        }
+            if (flash.success) {
+                type.value = "success";
+                message.value = flash.success;
+            } else if (flash.error) {
+                type.value = "error";
+                message.value = flash.error;
+            } else if (flash.warning) {
+                type.value = "warning";
+                message.value = flash.warning;
+            }
 
-        setActive();
+            setActive();
+        });
     });
-});
 
-onUnmounted(() => {
-    removeListener?.();
-});
+    onUnmounted(() => {
+        removeListener?.();
+    });
 
-function reset() {
-    type.value = "";
-    message.value = "";
-}
-
-function setActive() {
-    if (!type.value && !message.value) {
-        return;
+    function reset() {
+        type.value = "";
+        message.value = "";
     }
 
-    active.value = true;
+    function setActive() {
+        if (!type.value && !message.value) {
+            return;
+        }
 
-    setTimeout(() => {
-        active.value = false;
+        active.value = true;
 
-        reset();
-    }, 4000);
-}
+        setTimeout(() => {
+            active.value = false;
+
+            reset();
+        }, 4000);
+    }
 </script>
