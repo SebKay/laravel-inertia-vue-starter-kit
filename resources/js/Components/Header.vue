@@ -20,9 +20,10 @@
                             >
                                 <Link
                                     v-if="link.condition"
-                                    :href="link.route"
-                                    :method="link?.method"
-                                    :as="link?.method == 'post' ? 'button' : 'a'"
+                                    :href="link.href"
+                                    :prefetch="link.prefetch"
+                                    :component="link.instantComponent"
+                                    :as="link.href.method === 'post' ? 'button' : 'a'"
                                     v-text="link.label"
                                     class="rounded-xl px-3 py-2 text-sm font-medium cursor-pointer transition-colors"
                                     :class="{
@@ -65,7 +66,10 @@
                     >
                         <Link
                             v-if="link.condition"
-                            :href="link.route"
+                            :href="link.href"
+                            :prefetch="link.prefetch"
+                            :component="link.instantComponent"
+                            :as="link.href.method === 'post' ? 'button' : 'a'"
                             v-text="link.label"
                             class="rounded-xl px-3 py-2 text-base font-medium block"
                             :class="{
@@ -84,6 +88,7 @@
 <script setup lang="ts">
     import { ref, onMounted, type PropType } from "vue";
     import { router } from '@inertiajs/vue3';
+    import type { RouteDefinition } from "@js/wayfinder/index";
 
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
 
@@ -96,10 +101,11 @@
     defineProps({
         menu: Array as PropType<{
             label: string;
-            route: string;
+            href: RouteDefinition<'get'> | RouteDefinition<'post'>;
             condition: boolean;
             components: string[];
-            method?: string;
+            prefetch?: true | 'mount' | 'hover' | 'click' | Array<'mount' | 'hover' | 'click'>;
+            instantComponent?: string;
         }[]>,
     });
 

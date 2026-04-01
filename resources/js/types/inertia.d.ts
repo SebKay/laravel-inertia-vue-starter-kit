@@ -1,3 +1,5 @@
+import '@inertiajs/core';
+
 export interface User {
     id: number;
     email?: string;
@@ -11,11 +13,24 @@ export interface FlashData {
     warning?: string;
 }
 
+export interface LayoutProps {
+    heading?: string;
+    subheading?: string;
+    contentClass?: string;
+}
+
 export interface SharedPageProps {
     auth: {
-        loggedIn: boolean;
         user: User | [];
     };
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, never>> = T & SharedPageProps;
+
+declare module '@inertiajs/core' {
+    interface InertiaConfig {
+        flashDataType: FlashData;
+        sharedPageProps: SharedPageProps;
+        layoutProps: LayoutProps;
+    }
+}

@@ -186,7 +186,12 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from "vue";
+    import { setLayoutProps } from "@inertiajs/vue3";
 
-    const title = ref<string>("Elements");
+    const title = "Elements";
+
+    setLayoutProps({
+        heading: title,
+        subheading: "A protected style reference for the starter kit's shared UI primitives.",
+    });
 </script>
