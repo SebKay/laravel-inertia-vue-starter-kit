@@ -1,11 +1,6 @@
 <template>
     <Head :title="title" />
 
-    <h1
-        v-text="title"
-        class="mb-4 text-3xl font-medium text-neutral-900 xl:mb-8 xl:text-4xl"
-    ></h1>
-
     <div class="rounded-2xl bg-white p-6 xl:p-10">
         <div class="space-y-10 divide-y divide-neutral-300">
             <div class="space-y-6 pb-10">
