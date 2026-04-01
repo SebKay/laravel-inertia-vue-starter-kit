@@ -2,10 +2,12 @@
 
 use App\Enums\Role;
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\ConfirmPasswordController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
@@ -13,7 +15,7 @@ use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 
 Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value]);
 
-Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value])->name('elements');
+Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'password.confirm', 'role:'.Role::SUPER_ADMIN->value])->name('elements');
 
 Route::controller(RegisterController::class)
     ->middleware(['guest'])
@@ -53,6 +55,14 @@ Route::controller(AccountController::class)
     ->group(function () {
         Route::get('', 'edit')->name('account.edit');
         Route::patch('', 'update')->name('account.update');
+    });
+
+Route::controller(ConfirmPasswordController::class)
+    ->prefix('account')
+    ->middleware(['auth'])
+    ->group(function () {
+        Route::get('password', 'show')->name('password.confirm');
+        Route::post('password', 'store')->name('password.confirm.store')->middleware(['throttle:6,1']);
     });
 
 Route::controller(EmailVerificationController::class)
