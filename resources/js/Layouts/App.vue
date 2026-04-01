@@ -4,7 +4,7 @@
     </Head>
 
     <div class="lg:pl-64">
-        <Sidebar class="absolute top-0 left-0 h-full w-64 max-lg:hidden" />
+        <Sidebar />
 
         <main class="flex min-h-screen lg:py-5 lg:pr-5">
             <div class="flex-1 rounded-xl bg-white">

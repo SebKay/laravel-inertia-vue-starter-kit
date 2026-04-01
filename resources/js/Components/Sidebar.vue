@@ -1,5 +1,5 @@
 <template>
-    <aside class="flex p-5">
+    <aside class="flex p-5 fixed top-0 left-0 overflow-y-auto h-full w-64 max-lg:hidden">
         <nav class="flex flex-1 flex-col gap-5">
             <div class="flex items-center">
                 <Link :href="home()" class="flex items-center gap-2.5 p-2.5">
