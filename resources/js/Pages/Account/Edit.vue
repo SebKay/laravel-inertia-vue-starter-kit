@@ -1,18 +1,8 @@
 <template>
-
     <Head :title="title" />
 
-    <h1
-        v-text="title"
-        class="xl:text-4xl text-3xl font-medium text-neutral-900 xl:mb-8 mb-4"
-    ></h1>
-
     <div class="bg-white rounded-2xl xl:p-10 p-6">
-        <Form
-            v-bind="update.form()"
-            :data="{ preserveScroll: true, preserveState: 'errors' }"
-            #default="{ errors, processing }"
-        >
+        <form @submit.prevent="submit">
             <div class="form-row">
                 <div class="form-col">
                     <label
@@ -25,11 +15,10 @@
                         id="name"
                         class="input"
                         type="text"
-                        name="name"
                         required
-                        :value="user.name"
+                        v-model="form.name"
                     />
-                    <FieldError :message="errors.name" />
+                    <FieldError :message="form.errors.name" />
                 </div>
 
                 <div class="form-col">
@@ -43,11 +32,10 @@
                         id="email"
                         class="input"
                         type="email"
-                        name="email"
                         required
-                        :value="user.email"
+                        v-model="form.email"
                     />
-                    <FieldError :message="errors.email" />
+                    <FieldError :message="form.errors.email" />
                 </div>
 
                 <div class="form-col">
@@ -61,27 +49,29 @@
                         id="password"
                         class="input"
                         type="password"
-                        name="password"
+                        v-model="form.password"
                     />
                     <p class="field-hint">Leave blank to keep current password</p>
-                    <FieldError :message="errors.password" />
+                    <FieldError :message="form.errors.password" />
                 </div>
 
                 <div class="form-col">
                     <button
                         class="button"
-                        :disabled="processing"
+                        :disabled="form.processing"
                     >
                         Update
                     </button>
+
+                    <p v-if="form.recentlySuccessful" class="field-hint mt-3">Account details saved.</p>
                 </div>
             </div>
-        </Form>
+        </form>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { Form } from "@inertiajs/vue3";
+    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
 
     import type { PageProps, User } from "@js/types/inertia";
 
@@ -94,5 +84,35 @@
         user: User;
     }>>();
 
-    const user = props.user;
+    setLayoutProps({
+        heading: title,
+        subheading: "Manage your profile details and password without leaving the page.",
+    });
+
+    const user = props.user ?? props.auth.user;
+
+    if (Array.isArray(user)) {
+        throw new Error('Authenticated user data is required for the account page.');
+    }
+
+    const form = useForm(`AccountEdit:${user.id}`, {
+        name: user.name ?? "",
+        email: user.email ?? "",
+        password: "",
+    }).dontRemember('password');
+
+    const submit = () => {
+        form.submit(update(), {
+            preserveScroll: true,
+            preserveState: 'errors',
+            onSuccess: () => {
+                form.defaults({
+                    name: form.name,
+                    email: form.email,
+                    password: '',
+                });
+            },
+            onFinish: () => form.reset('password'),
+        });
+    };
 </script>

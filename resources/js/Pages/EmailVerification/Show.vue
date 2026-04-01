@@ -1,13 +1,7 @@
 <template>
-
     <Head :title="title" />
 
     <div class="mx-auto max-w-2xl">
-        <PageTitle
-            class="mb-4 xl:mb-8"
-            :text="title"
-        />
-
         <div class="bg-white rounded-2xl xl:p-10 p-6">
             <div class="text-center">
                 <p>
@@ -15,10 +9,13 @@
                 </p>
                 <button
                     class="button mt-6"
+                    :disabled="resendRequest.processing"
                     @click="resend"
                 >
-                    Resend Verification Email
+                    {{ resendRequest.processing ? 'Sending...' : 'Resend Verification Email' }}
                 </button>
+
+                <p v-if="statusMessage" class="field-hint mt-4" v-text="statusMessage"></p>
             </div>
         </div>
 
@@ -39,7 +36,7 @@
 
 <script setup lang="ts">
     import { ref } from "vue";
-    import { router } from "@inertiajs/vue3";
+    import { Head, setLayoutProps, useHttp } from "@inertiajs/vue3";
     import Layout from '@js/Layouts/Guest.vue';
 
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
@@ -49,11 +46,26 @@
         layout: Layout,
     });
 
-    const title = ref<string>("Verify Your Email");
+    const title = "Verify Your Email";
+
+    setLayoutProps({
+        heading: title,
+        subheading: "Confirm your address to unlock the rest of the app.",
+    });
+
+    const resendRequest = useHttp('EmailVerificationResend', {});
+    const statusMessage = ref('');
 
     const resend = () => {
-        router.post(update(), {}, {
-            preserveScroll: true,
+        statusMessage.value = '';
+
+        resendRequest.post(update().url, {
+            onSuccess: () => {
+                statusMessage.value = 'Verification email sent.';
+            },
+            onError: (errors) => {
+                statusMessage.value = errors.message ?? 'Unable to resend verification email right now.';
+            },
         });
     };
 </script>

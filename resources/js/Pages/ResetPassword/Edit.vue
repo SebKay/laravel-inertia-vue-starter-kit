@@ -1,30 +1,10 @@
 <template>
-
     <Head :title="title" />
 
     <div class="mx-auto max-w-2xl">
-        <PageTitle
-            class="mb-4 xl:mb-8"
-            :text="title"
-        />
-
         <div class="bg-white rounded-2xl xl:p-10 p-6">
-            <Form
-                v-bind="update.form()"
-                #default="{ errors, processing }"
-            >
+            <form @submit.prevent="submit">
                 <div class="form-row">
-                    <input
-                        type="hidden"
-                        name="email"
-                        :value="email"
-                    />
-                    <input
-                        type="hidden"
-                        name="token"
-                        :value="token"
-                    />
-
                     <div class="form-col">
                         <label
                             class="label"
@@ -36,10 +16,10 @@
                             id="password"
                             class="input"
                             type="password"
-                            name="password"
                             required
+                            v-model="form.password"
                         />
-                        <FieldError :message="errors.password" />
+                        <FieldError :message="form.errors.password" />
                     </div>
 
                     <div class="form-col">
@@ -53,28 +33,28 @@
                             id="password-confirmation"
                             class="input"
                             type="password"
-                            name="password_confirmation"
                             required
+                            v-model="form.password_confirmation"
                         />
-                        <FieldError :message="errors.password_confirmation" />
+                        <FieldError :message="form.errors.password_confirmation" />
                     </div>
 
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="processing"
+                            :disabled="form.processing"
                         >
                             Reset Password
                         </button>
                     </div>
                 </div>
-            </Form>
+            </form>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { Form } from "@inertiajs/vue3";
+    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
     import Layout from '@js/Layouts/Guest.vue';
 
     import type { PageProps } from "@js/types/inertia";
@@ -93,6 +73,23 @@
     }>>();
 
     const title = "Reset Password";
-    const email = props.email ?? "";
-    const token = props.token ?? "";
+
+    setLayoutProps({
+        heading: title,
+        subheading: "Choose a new password for your account.",
+    });
+
+    const form = useForm('ResetPasswordForm', {
+        email: props.email ?? "",
+        token: props.token ?? "",
+        password: "",
+        password_confirmation: "",
+    }).dontRemember('password', 'password_confirmation', 'token');
+
+    const submit = () => {
+        form.submit(update(), {
+            preserveScroll: 'errors',
+            onFinish: () => form.reset('password', 'password_confirmation'),
+        });
+    };
 </script>
