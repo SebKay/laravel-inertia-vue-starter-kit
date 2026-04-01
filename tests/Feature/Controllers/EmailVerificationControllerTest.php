@@ -37,7 +37,7 @@ describe('Users', function () {
         expect($user->refresh()->email_verified_at)->not()->toBeNull();
     });
 
-    test('Can send the verificaiton notice through an Inertia visit', function () {
+    test('Can send the verification notice through an Inertia visit', function () {
         Notification::fake();
 
         $user = User::factory()->unverified()->create();
