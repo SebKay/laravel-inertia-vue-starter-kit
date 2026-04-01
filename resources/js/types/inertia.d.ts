@@ -1,4 +1,4 @@
-import '@inertiajs/core';
+import "@inertiajs/core";
 
 export interface UserAttributes {
     email?: string;
@@ -23,7 +23,7 @@ export type JsonApiDocument<
     data: JsonApiResourceObject<TAttributes, TType>;
 };
 
-export type UserDocument = JsonApiDocument<UserAttributes, 'users'>;
+export type UserDocument = JsonApiDocument<UserAttributes, "users">;
 
 export interface FlashData {
     success?: string;
@@ -43,9 +43,11 @@ export interface SharedPageProps {
     };
 }
 
-export type PageProps<T extends Record<string, unknown> = Record<string, never>> = T & SharedPageProps;
+export type PageProps<
+    T extends Record<string, unknown> = Record<string, never>,
+> = T & SharedPageProps;
 
-declare module '@inertiajs/core' {
+declare module "@inertiajs/core" {
     interface InertiaConfig {
         flashDataType: FlashData;
         sharedPageProps: SharedPageProps;

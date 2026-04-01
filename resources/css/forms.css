@@ -5,7 +5,7 @@
 }
 
 @utility form-row {
-    @apply grid grid-cols-1 gap-5 sm:gap-7 sm:grid-cols-4;
+    @apply grid grid-cols-1 gap-5 sm:grid-cols-4 sm:gap-7;
 }
 
 @utility form-col {
@@ -17,7 +17,7 @@
 }
 
 @utility label {
-    @apply pb-3 block text-sm sm:text-base font-medium;
+    @apply block pb-3 text-sm font-medium sm:text-base;
 }
 
 @utility small-label {
@@ -29,23 +29,23 @@
 }
 
 @utility field {
-    @apply block rounded-md border-brand-300 shadow-xs outline-hidden hover:ring-3 hover:ring-brand-200/50 focus:border-brand-300 focus:ring-3 focus:ring-brand-200/50 focus:ring-offset-0 transition;
+    @apply block rounded-md border-brand-300 shadow-xs outline-hidden transition hover:ring-3 hover:ring-brand-200/50 focus:border-brand-300 focus:ring-3 focus:ring-brand-200/50 focus:ring-offset-0;
 }
 
 @utility input {
-    @apply field block text-base w-full;
+    @apply field block w-full text-base;
 }
 
 @utility textarea {
-    @apply field block text-base w-full min-h-32;
+    @apply field block min-h-32 w-full text-base;
 }
 
 @utility select {
-    @apply field block text-base w-full cursor-pointer;
+    @apply field block w-full cursor-pointer text-base;
 }
 
 @utility option {
-    @apply field cursor-pointer size-5 text-brand-800 checked:border-transparent;
+    @apply field size-5 cursor-pointer text-brand-800 checked:border-transparent;
 }
 
 @utility checkbox {
@@ -57,13 +57,13 @@
 }
 
 @utility toggle {
-    @apply inline-flex items-center gap-3 cursor-pointer;
+    @apply inline-flex cursor-pointer items-center gap-3;
 
     div {
-        @apply relative w-9 h-5 bg-brand-200 rounded-full transition;
+        @apply relative h-5 w-9 rounded-full bg-brand-200 transition;
         @apply peer-hover:ring-3 peer-hover:ring-brand-200/50 peer-focus:ring-3 peer-focus:ring-brand-200/50 peer-focus:outline-hidden;
-        @apply peer-checked:after:translate-x-full peer-checked:rtl:after:-translate-x-full peer-checked:after:border-white peer-checked:bg-brand-800;
-        @apply after:bg-white after:rounded-full after:size-4 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:transition-all;
+        @apply peer-checked:bg-brand-800 peer-checked:after:translate-x-full peer-checked:after:border-white peer-checked:rtl:after:-translate-x-full;
+        @apply after:absolute after:start-[2px] after:top-[2px] after:size-4 after:rounded-full after:bg-white after:transition-all after:content-[''];
     }
 
     span {

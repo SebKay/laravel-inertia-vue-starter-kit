@@ -51,6 +51,9 @@ jobs:
       - name: Build Assets
         run: bun run build
 
+      - name: Run Linter
+        run: composer format:check
+
   lint:
     name: Lint
     runs-on: ubuntu-latest
@@ -87,7 +90,7 @@ jobs:
         run: composer rector --dry-run
 
       - name: Run Linter
-        run: composer lint
+        run: composer format:check
 
   test:
     name: Test

@@ -2,16 +2,11 @@
     <Head :title="title" />
 
     <div class="mx-auto max-w-2xl">
-        <div class="bg-white rounded-2xl xl:p-10 p-6">
+        <div class="rounded-2xl bg-white p-6 xl:p-10">
             <form @submit.prevent="submit">
                 <div class="form-row">
                     <div class="form-col">
-                        <label
-                            class="label"
-                            for="name"
-                        >
-                            Name
-                        </label>
+                        <label class="label" for="name"> Name </label>
                         <input
                             id="name"
                             class="input"
@@ -23,12 +18,7 @@
                     </div>
 
                     <div class="form-col">
-                        <label
-                            class="label"
-                            for="email"
-                        >
-                            Email
-                        </label>
+                        <label class="label" for="email"> Email </label>
                         <input
                             id="email"
                             class="input"
@@ -40,12 +30,7 @@
                     </div>
 
                     <div class="form-col">
-                        <label
-                            class="label"
-                            for="password"
-                        >
-                            Password
-                        </label>
+                        <label class="label" for="password"> Password </label>
                         <input
                             id="password"
                             class="input"
@@ -70,11 +55,9 @@
             <div class="mt-6 xl:mt-10">
                 <p class="text-center">
                     Already have an account?
-                    <Link
-                        class="text-link"
-                        :href="login()"
-                        prefetch
-                    >Log In</Link>
+                    <Link class="text-link" :href="login()" prefetch
+                        >Log In</Link
+                    >
                 </p>
             </div>
         </div>
@@ -82,42 +65,45 @@
 </template>
 
 <script setup lang="ts">
-    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
-    import Layout from '@js/Layouts/Guest.vue';
+import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+import Layout from "@js/Layouts/Guest.vue";
 
-    import type { PageProps } from "@js/types/inertia";
+import type { PageProps } from "@js/types/inertia";
 
-    import FieldError from "@js/Components/FieldError.vue";
+import FieldError from "@js/Components/FieldError.vue";
 
-    import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
-    import { store } from "@js/actions/App/Http/Controllers/RegisterController";
+import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
+import { store } from "@js/actions/App/Http/Controllers/RegisterController";
 
-    defineOptions({
-        layout: Layout,
-    });
+defineOptions({
+    layout: Layout,
+});
 
-    const props = defineProps<PageProps<{
+const props = defineProps<
+    PageProps<{
         name?: string;
         email?: string;
-    }>>();
+    }>
+>();
 
-    const title = "Register";
+const title = "Register";
 
-    setLayoutProps({
-        heading: title,
-        subheading: "Create your account and you'll land straight in the dashboard.",
+setLayoutProps({
+    heading: title,
+    subheading:
+        "Create your account and you'll land straight in the dashboard.",
+});
+
+const form = useForm("RegisterForm", {
+    name: props.name ?? "",
+    email: props.email ?? "",
+    password: "",
+}).dontRemember("password");
+
+const submit = () => {
+    form.submit(store(), {
+        preserveScroll: "errors",
+        onFinish: () => form.reset("password"),
     });
-
-    const form = useForm('RegisterForm', {
-        name: props.name ?? "",
-        email: props.email ?? "",
-        password: "",
-    }).dontRemember('password');
-
-    const submit = () => {
-        form.submit(store(), {
-            preserveScroll: 'errors',
-            onFinish: () => form.reset('password'),
-        });
-    };
+};
 </script>

@@ -2,16 +2,11 @@
     <Head :title="title" />
 
     <div class="mx-auto max-w-2xl">
-        <div class="bg-white rounded-2xl xl:p-10 p-6">
+        <div class="rounded-2xl bg-white p-6 xl:p-10">
             <form @submit.prevent="submit">
                 <div class="form-row">
                     <div class="form-col">
-                        <label
-                            class="label"
-                            for="email"
-                        >
-                            Email
-                        </label>
+                        <label class="label" for="email"> Email </label>
                         <input
                             id="email"
                             class="input"
@@ -36,11 +31,9 @@
             <div class="mt-6 xl:mt-10">
                 <p class="text-center">
                     Remembered your password?
-                    <Link
-                        class="text-link"
-                        :href="login()"
-                        prefetch
-                    >Login</Link>
+                    <Link class="text-link" :href="login()" prefetch
+                        >Login</Link
+                    >
                 </p>
             </div>
         </div>
@@ -48,32 +41,33 @@
 </template>
 
 <script setup lang="ts">
-    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
-    import Layout from '@js/Layouts/Guest.vue';
+import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+import Layout from "@js/Layouts/Guest.vue";
 
-    import FieldError from "@js/Components/FieldError.vue";
+import FieldError from "@js/Components/FieldError.vue";
 
-    import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
-    import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
+import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
+import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
-    defineOptions({
-        layout: Layout,
+defineOptions({
+    layout: Layout,
+});
+
+const title = "Forgot Password";
+
+setLayoutProps({
+    heading: title,
+    subheading:
+        "We'll email you a reset link if the address matches an account.",
+});
+
+const form = useForm("ForgotPasswordForm", {
+    email: "",
+});
+
+const submit = () => {
+    form.submit(store(), {
+        preserveScroll: "errors",
     });
-
-    const title = "Forgot Password";
-
-    setLayoutProps({
-        heading: title,
-        subheading: "We'll email you a reset link if the address matches an account.",
-    });
-
-    const form = useForm('ForgotPasswordForm', {
-        email: '',
-    });
-
-    const submit = () => {
-        form.submit(store(), {
-            preserveScroll: 'errors',
-        });
-    };
+};
 </script>

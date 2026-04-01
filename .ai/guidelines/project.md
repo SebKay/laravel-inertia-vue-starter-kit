@@ -1,21 +1,64 @@
 # Project Guidance
 
-- This starter kit is centered on session auth, account management, and a Filament admin; `app/Models/User.php` is the only first-party Eloquent model and implements email verification, Sanctum tokens, Spatie roles, and Filament access.
-- Public product routes live in `routes/web.php`; there is no first-party `routes/api.php` today.
-- The route surface is: guest register/login/password reset, authenticated logout, verified dashboard at `/`, verified account edit at `/account`, email verification under `/account/verify`, super-admin-only `elements`, and Spatie Health results behind `auth` plus `role:super-admin`.
-- Keep controllers thin and push validation into matching `app/Http/Requests/**` classes; the current auth/account controllers already follow that pattern.
-- `app/Http/Controllers/RegisterController.php` always creates a `User`, hashes the password, assigns `Role::USER`, logs the user in, and dispatches `Filament\Auth\Events\Registered`.
-- `app/Http/Controllers/LoginController.php` is session-based, supports `remember` plus optional `redirect`, and regenerates the session after successful auth. In `local` and `testing`, login/register screens are prefilled from config or faked data.
-- `app/Http/Controllers/DashboardController.php` uses Inertia v3 closure props, `Inertia::defer()` for stats, and `Inertia::optional()` for super-admin-only data; preserve those lazy boundaries when adding dashboard data.
-- Shared Inertia auth state comes from `app/Http/Middleware/HandleInertiaRequests.php` and is serialized by `app/Http/Resources/UserResource.php`; frontend permission checks should derive from `auth.user...can`.
-- Frontend bootstraps in `resources/js/app.ts` with the default `resources/js/Layouts/App.vue`, shared global components, and `viewTransition` visits. Pages set headings with `setLayoutProps()`.
-- `vite.config.js` enables Wayfinder with `formVariants: true`; prefer generated actions from `@js/actions/**` like `resources/js/Pages/Account/Edit.vue` instead of hardcoded URLs.
-- `bootstrap/app.php` is a high-impact file: it aliases Spatie permission middleware, appends `App\Http\Middleware\HandleInertiaRequests` to `web`, and renders Inertia `ErrorPage` responses for 403/404/419/500/503 outside `testing`.
-- `app/Providers/AppServiceProvider.php` contains important global behavior: forced HTTPS in `staging` and `production`, automatic relationship eager loading, aggressive Vite prefetching, stricter production password rules, Filament table defaults, and Spatie Health check registration.
-- Authorization is defined by `app/Enums/Role.php`, `app/Enums/Permission.php`, and `app/Services/RolesAndPermissionsService.php`; when roles or permissions change, update the enums and sync service together.
-- Seed order matters: `database/seeders/DatabaseSeeder.php` and `TestsSeeder.php` run `RolesAndPermissionsSeeder` before `UsersSeeder`. `config/seed.php` defines super/admin/user credentials, but `UsersSeeder` only creates super-admin and admin.
-- Filament lives at `/admin` from `app/Providers/Filament/AdminPanelProvider.php`, uses a custom login page, auto-discovers resources/pages/widgets, and currently exposes the `User` resource plus dashboard widgets.
-- `User::canAccessPanel()` only allows `super-admin` and `admin`, so extend `app/Filament/Resources/Users/**` when changing admin-side user management.
-- Background behavior is minimal: `routes/console.php` schedules `RunHealthChecksCommand` every minute only in production.
-- There are no first-party jobs, listeners, notifications, mailables, policies, broadcast channels, or API routes in the repository today.
-- Tests live in `tests/Feature`, `tests/Integration`, and `tests/Architecture`; feature tests seed `TestsSeeder` in `tests/Pest.php`, while `tests/TestCase.php` disables Inertia SSR and prevents stray HTTP requests.
+## Domain and data
+
+- Session-first app: guest/auth flows, verified Inertia area, Filament admin. **Sole first-party Eloquent model:** `app/Models/User.php` (`MustVerifyEmail`, Sanctum `HasApiTokens`, Spatie `HasRoles`, Filament `FilamentUser` / `HasName`).
+- `User::canAccessPanel()` allows only `super-admin` and `admin` (`app/Enums/Role.php`).
+
+## HTTP surface
+
+- **Routes:** `routes/web.php` only; no first-party `routes/api.php`.
+- **Laravel health:** `GET /up` from `bootstrap/app.php` `withRouting(health: ...)`.
+- **Spatie Health UI:** `GET /health`, middleware `auth` + `role:super-admin` (`Spatie\Health\Http\Controllers\HealthCheckResultsController`).
+- **Guest:** register, login, forgot/reset password (see controller imports in `routes/web.php`). POST actions for register, login, password, and verification resend use `throttle:6,1` where declared on the route.
+- **Auth:** `POST logout` (`auth`).
+- **Verified (`auth` + `verified`):** `GET /` dashboard, `GET|PATCH /account`.
+- **Auth-only (not necessarily verified):** email verification notice, signed verify link, resend (`account/*`).
+- **Super-admin:** `GET elements` → Inertia `Elements`.
+
+## Controllers and validation
+
+- Keep controllers thin; use `app/Http/Requests/**` (auth, account, and password controllers already do).
+
+## Auth behavior (side effects)
+
+- **`RegisterController`:** new `User`, hashed password, `assignRole(Role::USER)`, `loginUsingId`, `Filament\Auth\Events\Registered`, redirect `route('home')`. Local/testing: fake prefills on the register form.
+- **`LoginController`:** session guard, `remember`, optional `redirect` query, session regeneration on success; local/testing prefills from config/fake data.
+
+## Dashboard and Inertia
+
+- **`DashboardController`:** returns `inertia('Dashboard/Index')` with **no server props**; the Vue page is currently a static placeholder. Use Inertia v3 deferred/optional props in the controller if you add stats or role-gated fragments.
+- **Shared auth:** `app/Http/Middleware/HandleInertiaRequests.php` shares `auth.user` via `UserResource` (`app/Http/Resources/UserResource.php`, JSON:API resource; includes permission names as `can`). Prefer `auth.user` / `can` on the client for gates.
+- **Account page:** `AccountController@edit` also passes a top-level `user` resource for the form (`resources/js/Pages/Account/Edit.vue`).
+
+## Frontend
+
+- **Bootstrap:** `resources/js/app.ts` — async `Layouts/App.vue`, global `Head` / `Link` / `PageTitle` / `Notice`, default `viewTransition: true`. Pages set chrome with `setLayoutProps()`.
+- **Wayfinder:** `vite.config.js` (`formVariants: true`). Generated controller actions import from `@js/actions/...` (`tsconfig.json` `paths`).
+
+## Bootstrap and global PHP
+
+- **`bootstrap/app.php`:** Spatie middleware aliases (`role`, `permission`, `role_or_permission`), append `HandleInertiaRequests` to `web`, Inertia `ErrorPage` for **403, 404, 419, 500, 503**.
+- **`app/Providers/AppServiceProvider.php`:** HTTPS in staging/production, model relationship auto-eager load, Vite prefetch behavior, production password rules, Filament table defaults, Spatie Health check registration — inspect before changing cross-cutting behavior.
+
+## Roles and permissions
+
+- **Source of truth:** `app/Enums/Role.php`, `app/Enums/Permission.php`, `app/Services/RolesAndPermissionsService.php` — keep enums and sync logic aligned.
+- **CLI:** `php artisan permissions:sync` and `permissions:sync --fresh` (`app/Console/Commands/SyncRolesAndPermissionsCommand.php`).
+
+## Seeders
+
+- `DatabaseSeeder` and `TestsSeeder` run `RolesAndPermissionsSeeder` before `UsersSeeder`. `UsersSeeder` creates super-admin, admin, and a standard user via `User::factory()` states (`database/factories/UserFactory.php`). Credentials reference: `config/seed.php`.
+
+## Filament
+
+- Panel path `/admin`: `app/Providers/Filament/AdminPanelProvider.php`, custom login `app/Filament/Pages/Auth/Login.php`. User admin CRUD: `app/Filament/Resources/Users/**`. Dashboard widgets include `UserStats`, `UserActivityChart` under `app/Filament/Widgets/`.
+
+## Background
+
+- **`routes/console.php`:** `RunHealthChecksCommand` every minute **only** in `production` (`App\Enums\Environment::PRODUCTION`).
+- No first-party jobs, listeners, notifications, mailables, policies, or broadcast channels under `app/` today.
+
+## Tests
+
+- Layout: `tests/Feature`, `tests/Integration`, `tests/Architecture`. Feature setup: `tests/Pest.php` uses `TestsSeeder`. `tests/TestCase.php` sets `inertia.ssr.enabled` false and `Http::preventStrayRequests()`.

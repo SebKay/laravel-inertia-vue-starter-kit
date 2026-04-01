@@ -1,9 +1,8 @@
-@source "../../resources/js/";
-@source "../../resources/views/";
+@source "../../resources/";
 
 @import "tailwindcss";
 
-@plugin '@tailwindcss/forms';
+@plugin "@tailwindcss/forms";
 
 @import "./variables.css";
 
