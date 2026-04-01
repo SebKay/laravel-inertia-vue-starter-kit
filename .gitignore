@@ -34,3 +34,4 @@ yarn-error.log
 .agents/skills/
 .codex/config.toml
 opencode.json
+.gemini/

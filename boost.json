@@ -3,7 +3,8 @@
         "copilot",
         "cursor",
         "opencode",
-        "codex"
+        "codex",
+        "gemini"
     ],
     "guidelines": true,
     "mcp": true,
@@ -24,6 +25,7 @@
         "tailwindcss-development",
         "configure-nightwatch",
         "laravel-permission-development",
+        "debug-using-debugbar",
         "debugging-output-and-previewing-html-using-ray"
     ]
 }
