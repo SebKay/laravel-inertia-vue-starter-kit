@@ -33,6 +33,5 @@
 
     withDefaults(defineProps<LayoutProps>(), {
         heading: "",
-        contentClass: "",
     });
 </script>

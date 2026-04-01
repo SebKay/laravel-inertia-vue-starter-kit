@@ -1,27 +1,32 @@
 <template>
-    <header class="bg-white px-4 sm:px-6 xl:px-8">
+    <aside class="">
         <nav>
             <div class="mx-auto max-w-7xl">
                 <div class="flex h-16 items-center justify-between">
                     <div class="flex items-center">
-                        <Link class="shrink-0 text-ui-1-1" :href="home()">
-                            <SparklesIcon class="size-7" />
+                        <Link
+                            class="shrink-0 text-ui-1-1"
+                            :href="home()"
+                        >
+                        <SparklesIcon class="size-7" />
                         </Link>
                     </div>
 
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <template v-for="link in menu" :key="link.label">
+                            <template
+                                v-for="link in menu"
+                                :key="link.label"
+                            >
                                 <Link
                                     v-if="link.condition"
                                     :href="link.href"
                                     :prefetch="link.prefetch"
                                     :component="link.instantComponent"
-                                    :as="
-                                        link.href.method === 'post'
+                                    :as="link.href.method === 'post'
                                             ? 'button'
                                             : 'a'
-                                    "
+                                        "
                                     v-text="link.label"
                                     class="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium transition-colors"
                                     :class="{
@@ -50,15 +55,24 @@
                                 v-if="mobileMenuOpen"
                                 class="block size-6"
                             />
-                            <MenuIcon v-else class="block size-6" />
+                            <MenuIcon
+                                v-else
+                                class="block size-6"
+                            />
                         </button>
                     </div>
                 </div>
             </div>
 
-            <div v-show="mobileMenuOpen" class="md:hidden">
+            <div
+                v-show="mobileMenuOpen"
+                class="md:hidden"
+            >
                 <div class="space-y-1 pt-2 pb-3">
-                    <template v-for="link in menu" :key="link.label">
+                    <template
+                        v-for="link in menu"
+                        :key="link.label"
+                    >
                         <Link
                             v-if="link.condition"
                             :href="link.href"
@@ -79,7 +93,7 @@
                 </div>
             </div>
         </nav>
-    </header>
+    </aside>
 </template>
 
 <script setup lang="ts">
@@ -100,17 +114,17 @@
         {
             label: string;
             href:
-                | ReturnType<typeof home>
-                | ReturnType<typeof editAccount>
-                | ReturnType<typeof LogoutController>;
+            | ReturnType<typeof home>
+            | ReturnType<typeof editAccount>
+            | ReturnType<typeof LogoutController>;
             condition: boolean;
             components: string[];
             prefetch?:
-                | true
-                | "mount"
-                | "hover"
-                | "click"
-                | Array<"mount" | "hover" | "click">;
+            | true
+            | "mount"
+            | "hover"
+            | "click"
+            | Array<"mount" | "hover" | "click">;
             instantComponent?: string;
         }[]
     >(() => [
