@@ -4,6 +4,7 @@ namespace App\Filament\Widgets;
 
 use App\Models\User;
 use Filament\Widgets\ChartWidget;
+use Illuminate\Support\Facades\Date;
 
 class UserActivityChart extends ChartWidget
 {
@@ -44,7 +45,7 @@ class UserActivityChart extends ChartWidget
         $counts = [];
 
         for ($i = $days - 1; $i >= 0; $i--) {
-            $date = \Illuminate\Support\Facades\Date::now()->subDays($i);
+            $date = Date::now()->subDays($i);
             $labels[] = $date->format('M d');
 
             $counts[] = User::query()

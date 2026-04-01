@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia as Assert;
 
@@ -24,7 +26,7 @@ describe('Users', function () {
         expect($user->verified_at)->toBeNull();
 
         actingAs($user)
-            ->withoutMiddleware(Illuminate\Routing\Middleware\ValidateSignature::class)
+            ->withoutMiddleware(ValidateSignature::class)
             ->get(route('verification.verify', [
                 'id' => $user->getKey(),
                 'hash' => sha1((string) $user->getEmailForVerification()),
@@ -46,7 +48,7 @@ describe('Users', function () {
             ->assertSessionDoesntHaveErrors()
             ->assertRedirectToRoute('verification.notice');
 
-        Notification::assertSentTo($user, Illuminate\Auth\Notifications\VerifyEmail::class);
+        Notification::assertSentTo($user, VerifyEmail::class);
     });
 });
 
