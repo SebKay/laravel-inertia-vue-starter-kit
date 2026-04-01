@@ -3,10 +3,12 @@
 namespace App\Providers;
 
 use App\Enums\Environment;
+use Carbon\CarbonImmutable;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +28,8 @@ class AppServiceProvider extends ServiceProvider
         URL::forceHttps(app()->environment([Environment::PRODUCTION->value, Environment::STAGING->value]));
 
         Model::automaticallyEagerLoadRelationships();
+
+        Date::use(CarbonImmutable::class);
 
         RequestException::dontTruncate();
 
