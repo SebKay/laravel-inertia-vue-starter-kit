@@ -12,7 +12,7 @@
     </x-inertia::head>
 </head>
 
-<body class="h-full font-text text-neutral-950/70">
+<body class="h-full font-text text-neutral-950/80">
     <x-inertia::app />
 </body>
 
