@@ -65,7 +65,7 @@
 
     import { update } from "@js/actions/App/Http/Controllers/AccountController";
 
-    const title = "Update Account";
+    const title = "Account";
     const props = defineProps<
         PageProps<{
             user: UserDocument;
