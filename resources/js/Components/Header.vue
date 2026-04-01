@@ -86,11 +86,12 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted, type PropType } from "vue";
+    import { computed, ref, onMounted } from "vue";
     import { router } from '@inertiajs/vue3';
-    import type { RouteDefinition } from "@js/wayfinder/index";
 
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
+    import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
+    import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
 
     import {
         Sparkles as SparklesIcon,
@@ -98,16 +99,37 @@
         X as CloseIcon,
     } from 'lucide-vue-next';
 
-    defineProps({
-        menu: Array as PropType<{
-            label: string;
-            href: RouteDefinition<'get'> | RouteDefinition<'post'>;
-            condition: boolean;
-            components: string[];
-            prefetch?: true | 'mount' | 'hover' | 'click' | Array<'mount' | 'hover' | 'click'>;
-            instantComponent?: string;
-        }[]>,
-    });
+    const menu = computed<{
+        label: string;
+        href: ReturnType<typeof home> | ReturnType<typeof editAccount> | ReturnType<typeof LogoutController>;
+        condition: boolean;
+        components: string[];
+        prefetch?: true | 'mount' | 'hover' | 'click' | Array<'mount' | 'hover' | 'click'>;
+        instantComponent?: string;
+    }[]>(() => [
+        {
+            label: "Dashboard",
+            href: home(),
+            condition: true,
+            components: ["Dashboard/Index"],
+            prefetch: true,
+            instantComponent: "Dashboard/Index",
+        },
+        {
+            label: "Account",
+            href: editAccount(),
+            condition: true,
+            components: ["Account/Edit", "EmailVerification/Show"],
+            prefetch: true,
+            instantComponent: "Account/Edit",
+        },
+        {
+            label: "Logout",
+            href: LogoutController(),
+            condition: true,
+            components: [],
+        },
+    ]);
 
     const mobileMenuOpen = ref(false);
 
