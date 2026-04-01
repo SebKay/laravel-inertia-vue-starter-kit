@@ -15,8 +15,7 @@
             "@js/*": ["./resources/js/*"],
         },
         "types": [
-            "vite/client",
-            "./resources/js/types"
+            "vite/client"
         ],
         "resolveJsonModule": true,
         "allowJs": true,

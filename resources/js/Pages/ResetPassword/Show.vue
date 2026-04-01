@@ -1,18 +1,9 @@
 <template>
-
     <Head :title="title" />
 
     <div class="mx-auto max-w-2xl">
-        <PageTitle
-            class="mb-4 xl:mb-8"
-            :text="title"
-        />
-
         <div class="bg-white rounded-2xl xl:p-10 p-6">
-            <Form
-                v-bind="store.form()"
-                #default="{ errors, processing }"
-            >
+            <form @submit.prevent="submit">
                 <div class="form-row">
                     <div class="form-col">
                         <label
@@ -25,22 +16,22 @@
                             id="email"
                             class="input"
                             type="email"
-                            name="email"
                             required
+                            v-model="form.email"
                         />
-                        <FieldError :message="errors.email" />
+                        <FieldError :message="form.errors.email" />
                     </div>
 
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="processing"
+                            :disabled="form.processing"
                         >
                             Email Reset Link
                         </button>
                     </div>
                 </div>
-            </Form>
+            </form>
 
             <div class="mt-6 xl:mt-10">
                 <p class="text-center">
@@ -48,29 +39,41 @@
                     <Link
                         class="text-link"
                         :href="login()"
-                        text="Login"
-                    />
+                        prefetch
+                    >Login</Link>
                 </p>
             </div>
         </div>
     </div>
 </template>
 
-<script lang="ts">
-    import Layout from '@js/Layouts/Guest.vue';
-
-    export default {
-        layout: Layout,
-    }
-</script>
-
 <script setup lang="ts">
-    import { Form } from "@inertiajs/vue3";
+    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import Layout from '@js/Layouts/Guest.vue';
 
     import FieldError from "@js/Components/FieldError.vue";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 
+    defineOptions({
+        layout: Layout,
+    });
+
     const title = "Forgot Password";
+
+    setLayoutProps({
+        heading: title,
+        subheading: "We'll email you a reset link if the address matches an account.",
+    });
+
+    const form = useForm('ForgotPasswordForm', {
+        email: '',
+    });
+
+    const submit = () => {
+        form.submit(store(), {
+            preserveScroll: 'errors',
+        });
+    };
 </script>

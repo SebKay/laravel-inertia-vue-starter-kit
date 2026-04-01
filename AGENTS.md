@@ -7,23 +7,22 @@ When making plans, always use the following skills: brainstorming and planner.
 
 # Project Guidance
 
-- This repo is a starter kit centered on session auth, account management, and a Filament admin for `User`; there are no other first-party domain models in `app/Models`.
-- `routes/web.php` is the main product surface: guest auth flows, password reset, `/` dashboard, `/account`, email verification, a super-admin-only `elements` page, and Spatie Health results behind `auth` + `role:super-admin`.
-- Keep controllers thin like the existing `app/Http/Controllers/*Controller.php` files and put request validation in the matching `app/Http/Requests/**` classes.
-- Inertia shared auth state comes from `app/Http/Middleware/HandleInertiaRequests.php` as `auth.user` via `app/Http/Resources/UserResource.php`; frontend permission checks rely on `resources/js/utilities/permissions.ts`.
-- Do not assume `auth.loggedIn` exists on the page props just because `resources/js/types/inertia.d.ts` declares it; the middleware currently only shares `auth.user`.
-- Frontend navigation uses Inertia Vue in `resources/js/app.ts` with the default `resources/js/Layouts/App.vue`; prefer Wayfinder-generated actions from `@js/actions/...` because `vite.config.js` enables the Wayfinder plugin.
-- `App\Enums\Role`, `App\Enums\Permission`, and `app/Services/RolesAndPermissionsService.php` are the source of truth for authorization; when roles or permissions change, update the enums and sync logic together.
-- Registration in `app/Http/Controllers/RegisterController.php` always assigns `Role::USER`; Filament panel access in `app/Models/User.php` is limited to `super-admin` and `admin`.
-- Seeders depend on the role sync order: `database/seeders/DatabaseSeeder.php` and `TestsSeeder.php` run `RolesAndPermissionsSeeder` before `UsersSeeder`.
-- Default seeded credentials live in `config/seed.php`, and `database/factories/UserFactory.php` states (`superAdmin()`, `admin()`, `user()`) should stay aligned with that config.
-- The Filament admin is mounted at `/admin` from `app/Providers/Filament/AdminPanelProvider.php`; the only resource today is `app/Filament/Resources/Users/UserResource.php`.
-- Filament dashboard widgets in `app/Filament/Widgets` currently report total users and 30-day registrations, so changes to user creation should consider both counts and chart queries.
+- This starter kit is centered on session auth, account management, and a Filament admin for `User`; `app/Models/User.php` is the only first-party model.
+- `routes/web.php` is the main product surface: guest register/login, password reset, verified dashboard `/`, verified `/account`, email verification under `/account/verify`, a super-admin-only `elements` page, and Spatie Health results behind `auth` + `role:super-admin`.
+- `bootstrap/app.php` is a high-impact file: it aliases Spatie permission middleware, appends `App\Http\Middleware\HandleInertiaRequests` to `web`, and renders Inertia `ErrorPage` for 403/404/419/500/503 outside `testing`.
+- Keep controllers thin like `app/Http/Controllers/*Controller.php` and move validation into matching `app/Http/Requests/**` classes; `RegisterController` always assigns `Role::USER`, logs the user in, and dispatches `Filament\Auth\Events\Registered`.
+- `app/Http/Controllers/DashboardController.php` uses Inertia v3 patterns: closure props, `Inertia::defer()` for `dashboard.stats`, and `Inertia::optional()` for super-admin-only data.
+- Inertia shared auth state comes only from `app/Http/Middleware/HandleInertiaRequests.php` as `auth.user` via `app/Http/Resources/UserResource.php`; do not invent extra auth props.
+- `routes/api.php` is intentionally tiny and returns the authenticated user model directly from `GET /user` with `auth:sanctum`, not `UserResource`.
+- Frontend bootstraps in `resources/js/app.ts` with the default `resources/js/Layouts/App.vue`, global `viewTransition` visits, and page-level layout props; `resources/js/Pages/ErrorPage.vue` uses `resources/js/Layouts/Bare.vue`.
+- `vite.config.js` enables Wayfinder with `formVariants: true`; prefer generated actions from `resources/js/actions/**` via the `@js/...` aliases instead of hardcoded URLs.
+- Frontend permissions come from `auth.user.can`; `resources/js/utilities/permissions.ts` exists, but current pages also check the `can` array inline.
+- `App\Enums\Role`, `App\Enums\Permission`, and `app/Services/RolesAndPermissionsService.php` are the authorization source of truth; when roles or permissions change, update the enums and sync service together.
+- Seed order matters: `database/seeders/DatabaseSeeder.php` and `TestsSeeder.php` run `RolesAndPermissionsSeeder` before `UsersSeeder`; `config/seed.php` defines super/admin/user credentials, but `database/seeders/UsersSeeder.php` only creates super-admin and admin.
+- Filament lives at `/admin` from `app/Providers/Filament/AdminPanelProvider.php`; it discovers resources/pages/widgets automatically, ships a custom login page, and only `super-admin` or `admin` may access the panel via `User::canAccessPanel()`.
 - `app/Providers/AppServiceProvider.php` contains important global behavior: HTTPS forcing in staging/production, automatic eager loading, aggressive Vite prefetching, stricter production password rules, Filament table defaults, and Spatie Health check registration.
-- Scheduled/background behavior is intentionally minimal: `routes/console.php` runs Spatie Health checks every minute only in production, `.env.example` defaults `QUEUE_CONNECTION=sync`, and there are no app-owned jobs, listeners, notifications, mailables, observers, or broadcasting channels.
-- Password reset and email verification use Laravel's built-in broker/notifications from `ResetPasswordController` and `EmailVerificationController`; there are no custom notification classes to extend first.
-- The API surface is intentionally tiny: `routes/api.php` only exposes authenticated `GET /user` via Sanctum.
-- Tests are concentrated in `tests/Feature/Controllers` and `tests/Integration/Services/RolesAndPermissionsServiceTest.php`; preserve those conventions when changing auth, account, or permission behavior.
+- Background behavior is minimal: `routes/console.php` schedules `RunHealthChecksCommand` every minute only in production; there are no first-party jobs, listeners, notifications, mailables, observers, policies, or broadcast channels in the repo today.
+- Tests live in `tests/Feature`, `tests/Integration`, and `tests/Architecture`; feature tests seed `TestsSeeder` in `tests/Pest.php`, while `tests/TestCase.php` disables Inertia SSR and prevents stray HTTP requests.
 
 === .ai/styling rules ===
 
@@ -51,7 +50,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 
 - php - 8.4
 - filament/filament (FILAMENT) - v5
-- inertiajs/inertia-laravel (INERTIA_LARAVEL) - v2
+- inertiajs/inertia-laravel (INERTIA_LARAVEL) - v3
 - laravel/framework (LARAVEL) - v13
 - laravel/nightwatch (NIGHTWATCH) - v1
 - laravel/prompts (PROMPTS) - v0
@@ -64,7 +63,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - pestphp/pest (PEST) - v4
 - phpunit/phpunit (PHPUNIT) - v12
 - rector/rector (RECTOR) - v2
-- @inertiajs/vue3 (INERTIA_VUE) - v2
+- @inertiajs/vue3 (INERTIA_VUE) - v3
 - @laravel/vite-plugin-wayfinder (WAYFINDER_VITE) - v0
 - tailwindcss (TAILWINDCSS) - v4
 - vue (VUE) - v3
@@ -76,7 +75,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 - `laravel-best-practices` — Apply this skill whenever writing, reviewing, or refactoring Laravel PHP code. This includes creating or modifying controllers, models, migrations, form requests, policies, jobs, scheduled commands, service classes, and Eloquent queries. Triggers for N+1 and query performance issues, caching strategies, authorization and security patterns, validation, error handling, queue and job configuration, route definitions, and architectural decisions. Also use for Laravel code reviews and refactoring existing Laravel code to follow best practices. Covers any task involving Laravel backend PHP code patterns.
 - `wayfinder-development` — Use this skill for Laravel Wayfinder which auto-generates typed functions for Laravel controllers and routes. ALWAYS use this skill when frontend code needs to call backend routes or controller actions. Trigger when: connecting any React/Vue/Svelte/Inertia frontend to Laravel controllers, routes, building end-to-end features with both frontend and backend, wiring up forms or links to backend endpoints, fixing route-related TypeScript errors, importing from @/actions or @/routes, or running wayfinder:generate. Use Wayfinder route functions instead of hardcoded URLs. Covers: wayfinder() vite plugin, .url()/.get()/.post()/.form(), query params, route model binding, tree-shaking. Do not use for backend-only task
 - `pest-testing` — Use this skill for Pest PHP testing in Laravel projects only. Trigger whenever any test is being written, edited, fixed, or refactored — including fixing tests that broke after a code change, adding assertions, converting PHPUnit to Pest, adding datasets, and TDD workflows. Always activate when the user asks how to write something in Pest, mentions test files or directories (tests/Feature, tests/Unit, tests/Browser), or needs browser testing, smoke testing multiple pages for JS errors, or architecture tests. Covers: it()/expect() syntax, datasets, mocking, browser testing (visit/click/fill), smoke testing, arch(), Livewire component tests, RefreshDatabase, and all Pest 4 features. Do not use for factories, seeders, migrations, controllers, models, or non-test PHP code.
-- `inertia-vue-development` — Develops Inertia.js v2 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using <Link>, <Form>, useForm, or router; working with deferred props, prefetching, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
+- `inertia-vue-development` — Develops Inertia.js v3 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using <Link>, <Form>, useForm, useHttp, setLayoutProps, or router; working with deferred props, prefetching, optimistic updates, instant visits, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
 - `tailwindcss-development` — Always invoke when the user's message includes 'tailwind' in any form. Also invoke for: building responsive grid layouts (multi-column card grids, product grids), flex/grid page structures (dashboards with sidebars, fixed topbars, mobile-toggle navs), styling UI components (cards, tables, navbars, pricing sections, forms, inputs, badges), adding dark mode variants, fixing spacing or typography, and Tailwind v3/v4 work. The core use case: writing or fixing Tailwind utility classes in HTML templates (Blade, JSX, Vue). Skip for backend PHP logic, database queries, API routes, JavaScript with no HTML/CSS component, CSS file audits, build tool configuration, and vanilla CSS.
 - `configure-nightwatch` — Configures Laravel Nightwatch data collection, sampling rates, filtering rules, and redaction policies. Use when setting up Nightwatch, managing data volume, protecting sensitive data (PII), or optimizing event collection for production workloads.
 - `laravel-permission-development` — Build and work with Spatie Laravel Permission features, including roles, permissions, middleware, policies, teams, and Blade directives.
@@ -182,11 +181,19 @@ This project has domain-specific skills available. You MUST activate the relevan
 - ALWAYS use `search-docs` tool for version-specific Inertia documentation and updated code examples.
 - IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
-# Inertia v2
+# Inertia v3
 
-- Use all Inertia features from v1 and v2. Check the documentation before making changes to ensure the correct approach.
-- New features: deferred props, infinite scroll, merging props, polling, prefetching, once props, flash data.
+- Use all Inertia features from v1, v2, and v3. Check the documentation before making changes to ensure the correct approach.
+- New v3 features: standalone HTTP requests (`useHttp` hook), optimistic updates with automatic rollback, layout props (`useLayoutProps` hook), instant visits, simplified SSR via `@inertiajs/vite` plugin, custom exception handling for error pages.
+- Carried over from v2: deferred props, infinite scroll, merging props, polling, prefetching, once props, flash data.
 - When using deferred props, add an empty state with a pulsing or animated skeleton.
+- Axios has been removed. Use the built-in XHR client with interceptors, or install Axios separately if needed.
+- `Inertia::lazy()` / `LazyProp` has been removed. Use `Inertia::optional()` instead.
+- Prop types (`Inertia::optional()`, `Inertia::defer()`, `Inertia::merge()`) work inside nested arrays with dot-notation paths.
+- SSR works automatically in Vite dev mode with `@inertiajs/vite` - no separate Node.js server needed during development.
+- Event renames: `invalid` is now `httpException`, `exception` is now `networkError`.
+- `router.cancel()` replaced by `router.cancelAll()`.
+- The `future` configuration namespace has been removed - all v2 future options are now always enabled.
 
 === laravel/core rules ===
 

@@ -1,18 +1,9 @@
 <template>
-
     <Head :title="title" />
 
     <div class="mx-auto max-w-2xl">
-        <PageTitle
-            class="mb-4 xl:mb-8"
-            :text="title"
-        />
-
         <div class="bg-white rounded-2xl xl:p-10 p-6">
-            <Form
-                v-bind="store.form()"
-                #default="{ errors, processing }"
-            >
+            <form @submit.prevent="submit">
                 <div class="form-row">
                     <div class="form-col">
                         <label
@@ -25,11 +16,10 @@
                             id="email"
                             class="input"
                             type="email"
-                            name="email"
                             required
-                            :value="email"
+                            v-model="form.email"
                         />
-                        <FieldError :message="errors.email" />
+                        <FieldError :message="form.errors.email" />
                     </div>
 
                     <div class="form-col">
@@ -41,18 +31,17 @@
                             <Link
                                 class="text-link"
                                 :href="forgotPassword()"
-                                text="Forgot password?"
-                            />
+                                prefetch
+                            >Forgot password?</Link>
                         </label>
                         <input
                             id="password"
                             class="input"
                             type="password"
-                            name="password"
                             required
-                            :value="password"
+                            v-model="form.password"
                         />
-                        <FieldError :message="errors.password" />
+                        <FieldError :message="form.errors.password" />
                     </div>
 
                     <div class="form-col">
@@ -60,9 +49,7 @@
                             <input
                                 class="sr-only peer"
                                 type="checkbox"
-                                name="remember"
-                                value="1"
-                                :checked="remember"
+                                v-model="form.remember"
                             />
                             <div>
                             </div>
@@ -72,22 +59,16 @@
                         </label>
                     </div>
 
-                    <input
-                        type="hidden"
-                        name="redirect"
-                        :value="redirect"
-                    />
-
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="processing"
+                            :disabled="form.processing"
                         >
                             Log In
                         </button>
                     </div>
                 </div>
-            </Form>
+            </form>
 
             <div class="mt-6 xl:mt-10">
                 <p class="text-center mt-3">
@@ -95,24 +76,17 @@
                     <Link
                         class="text-link"
                         :href="register()"
-                        text="Register"
-                    />
+                        prefetch
+                    >Register</Link>
                 </p>
             </div>
         </div>
     </div>
 </template>
 
-<script lang="ts">
-    import Layout from '@js/Layouts/Guest.vue';
-
-    export default {
-        layout: Layout,
-    }
-</script>
-
 <script setup lang="ts">
-    import { Form } from "@inertiajs/vue3";
+    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import Layout from '@js/Layouts/Guest.vue';
 
     import type { PageProps } from "@js/types/inertia";
 
@@ -122,6 +96,10 @@
     import { show as register } from "@js/actions/App/Http/Controllers/RegisterController";
     import { store } from "@js/actions/App/Http/Controllers/LoginController";
 
+    defineOptions({
+        layout: Layout,
+    });
+
     const props = defineProps<PageProps<{
         email?: string;
         password?: string;
@@ -130,8 +108,23 @@
     }>>();
 
     const title = "Log In";
-    const email = props.email ?? "";
-    const password = props.password ?? "";
-    const remember = props.remember ?? false;
-    const redirect = props.redirect ?? "";
+
+    setLayoutProps({
+        heading: title,
+        subheading: "Sign in with your account to continue.",
+    });
+
+    const form = useForm('LoginForm', {
+        email: props.email ?? "",
+        password: props.password ?? "",
+        remember: props.remember ?? false,
+        redirect: props.redirect ?? "",
+    }).dontRemember('password');
+
+    const submit = () => {
+        form.submit(store(), {
+            preserveScroll: 'errors',
+            onFinish: () => form.reset('password'),
+        });
+    };
 </script>

@@ -19,6 +19,7 @@ describe('Users', function () {
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Account/Edit')
+                    ->has('auth.user')
                     ->has('user')
                     ->where('user.name', $user->name)
                     ->where('user.email', $user->email)

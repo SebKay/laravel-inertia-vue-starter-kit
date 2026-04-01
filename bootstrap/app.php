@@ -5,6 +5,8 @@ use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Inertia\ExceptionResponse;
+use Inertia\Inertia;
 use Spatie\Permission\Middleware\PermissionMiddleware;
 use Spatie\Permission\Middleware\RoleMiddleware;
 use Spatie\Permission\Middleware\RoleOrPermissionMiddleware;
@@ -29,5 +31,19 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {
+            if (app()->environment(['testing'])) {
+                return null;
+            }
+
+            if (! in_array($response->statusCode(), [403, 404, 419, 500, 503], true)) {
+                return null;
+            }
+
+            return $response
+                ->render('ErrorPage', [
+                    'status' => $response->statusCode(),
+                ])
+                ->withSharedData();
+        });
     })->create();

@@ -37,7 +37,7 @@ describe('Users', function () {
         expect($user->refresh()->email_verified_at)->not()->toBeNull();
     });
 
-    test('Can send the verificaiton notice', function () {
+    test('Can send the verification notice through an Inertia visit', function () {
         Notification::fake();
 
         $user = User::factory()->unverified()->create();
@@ -47,6 +47,21 @@ describe('Users', function () {
             ->post(route('verification.send'))
             ->assertSessionDoesntHaveErrors()
             ->assertRedirectToRoute('verification.notice');
+
+        Notification::assertSentTo($user, VerifyEmail::class);
+    });
+
+    test('Can send the verification notice through the JSON endpoint used by useHttp', function () {
+        Notification::fake();
+
+        $user = User::factory()->unverified()->create();
+
+        actingAs($user)
+            ->postJson(route('verification.send'))
+            ->assertOk()
+            ->assertJson([
+                'message' => __('account.verification-resent'),
+            ]);
 
         Notification::assertSentTo($user, VerifyEmail::class);
     });
