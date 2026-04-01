@@ -3,6 +3,7 @@ import '@inertiajs/core';
 export interface UserAttributes {
     email?: string;
     name?: string;
+    emailVerified: boolean;
     can: string[];
 }
 

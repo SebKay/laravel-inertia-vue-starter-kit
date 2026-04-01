@@ -15,6 +15,7 @@ class UserResource extends JsonApiResource
         return [
             'email' => $this->whenHas('email'),
             'name' => $this->whenHas('name'),
+            'emailVerified' => $this->hasVerifiedEmail(),
             'can' => $this->all_permissions,
         ];
     }
