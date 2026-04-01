@@ -20,7 +20,7 @@
         "symfony/postmark-mailer": "^7.2"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^4.0",
+        "fruitcake/laravel-debugbar": "^4.0",
         "driftingly/rector-laravel": "^2.1",
         "laravel/boost": "^2.0",
         "laravel/pint": "^1.17",
