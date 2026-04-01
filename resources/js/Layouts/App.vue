@@ -6,7 +6,7 @@
     <div data-main class="pl-[60px] lg:pl-72">
         <Sidebar />
 
-        <main class="min-h-screen py-2.5 lg:py-5 pr-2.5 lg:pr-5 flex">
+        <main class="flex min-h-screen py-2.5 pr-2.5 lg:py-5 lg:pr-5">
             <div class="flex-1 rounded-xl bg-white">
                 <div class="p-10">
                     <PageHeading :heading="heading" />

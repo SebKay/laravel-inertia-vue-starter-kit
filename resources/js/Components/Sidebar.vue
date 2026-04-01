@@ -1,6 +1,6 @@
 <template>
     <aside
-        class="flex p-2.5 lg:p-5 fixed top-0 left-0 overflow-y-auto h-full lg:w-72"
+        class="fixed top-0 left-0 flex h-full overflow-y-auto p-2.5 lg:w-72 lg:p-5"
         :class="!mobileMenuOpen ? 'max-lg:w-[60px]' : 'max-lg:w-72'"
     >
         <nav class="flex flex-1">
@@ -16,24 +16,32 @@
             </div>
 
             <div
-                class="flex-1 flex flex-col max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:size-full"
-                :class="!mobileMenuOpen ? 'max-lg:hidden' : ''"
+                class="flex flex-1 flex-col max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:size-full max-lg:bg-black/60 max-lg:transition-opacity"
+                :class="
+                    !mobileMenuOpen
+                        ? 'max-lg:pointer-events-none max-lg:opacity-0'
+                        : 'max-lg:pointer-events-auto max-lg:opacity-100'
+                "
             >
                 <button
                     @click.prevent="mobileMenuOpen = false"
                     type="button"
-                    class="lg:hidden absolute top-0 left-0 size-full bg-black/60"
+                    class="absolute top-0 left-0 size-full lg:hidden"
                 ></button>
 
                 <div
-                    class="flex flex-col gap-5 flex-1 max-lg:w-72 max-lg:bg-neutral-100 max-lg:p-2.5 max-lg:pb-6 max-lg:z-10">
+                    class="flex flex-1 flex-col gap-5 max-lg:z-10 max-lg:w-72 max-lg:bg-neutral-100 max-lg:p-2.5 max-lg:pb-6 max-lg:transition-transform"
+                    :class="!mobileMenuOpen ? 'max-lg:-translate-x-1/4' : ''"
+                >
                     <div class="flex items-center">
                         <Link
                             :href="home()"
                             class="flex items-center gap-2.5 p-2.5"
                         >
-                        <SparklesIcon class="size-7 text-ui-1-1" />
-                        <span class="font-semibold">Laravel Starter Kit</span>
+                            <SparklesIcon class="size-7 text-ui-1-1" />
+                            <span class="font-semibold"
+                                >Laravel Starter Kit</span
+                            >
                         </Link>
                     </div>
 
@@ -45,8 +53,8 @@
                             class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
                             :class="navLinkActiveClass(['Dashboard/Index'])"
                         >
-                        <LayoutDashboardIcon class="size-4 shrink-0" />
-                        Dashboard
+                            <LayoutDashboardIcon class="size-4 shrink-0" />
+                            Dashboard
                         </Link>
 
                         <Link
@@ -56,8 +64,8 @@
                             class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
                             :class="navLinkActiveClass(['Elements'])"
                         >
-                        <LayoutListIcon class="size-4 shrink-0" />
-                        Elements
+                            <LayoutListIcon class="size-4 shrink-0" />
+                            Elements
                         </Link>
                     </div>
 
@@ -68,14 +76,15 @@
                                 prefetch
                                 component="Account/Edit"
                                 class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
-                                :class="navLinkActiveClass([
-                                    'Account/Edit',
-                                    'EmailVerification/Show',
-                                ])
-                                    "
+                                :class="
+                                    navLinkActiveClass([
+                                        'Account/Edit',
+                                        'EmailVerification/Show',
+                                    ])
+                                "
                             >
-                            <CircleUserIcon class="size-4 shrink-0" />
-                            Account
+                                <CircleUserIcon class="size-4 shrink-0" />
+                                Account
                             </Link>
 
                             <Link
@@ -84,8 +93,8 @@
                                 method="post"
                                 as="button"
                             >
-                            <LogOutIcon class="size-4 shrink-0" />
-                            Logout
+                                <LogOutIcon class="size-4 shrink-0" />
+                                Logout
                             </Link>
                         </div>
 
@@ -95,7 +104,8 @@
                                 href="https://sebkay.com/"
                                 class="text-link"
                                 target="_blank"
-                            >Seb Kay</a>. All rights reserved.
+                                >Seb Kay</a
+                            >. All rights reserved.
                         </p>
                     </div>
                 </div>

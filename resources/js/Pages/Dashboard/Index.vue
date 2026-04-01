@@ -1,5 +1,4 @@
 <template>
-
     <Head :title="title" />
 
     <div>Dashboard</div>
