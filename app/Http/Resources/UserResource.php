@@ -2,14 +2,27 @@
 
 namespace App\Http\Resources;
 
-use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Http\Request;
+use Illuminate\Http\Resources\JsonApi\JsonApiResource;
 
-class UserResource extends JsonResource
+class UserResource extends JsonApiResource
 {
-    public function toArray($request)
+    public function toType(Request $request): string
+    {
+        return 'users';
+    }
+
+    public function toId(Request $request): string
+    {
+        return (string) $this->getKey();
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    public function toAttributes(Request $request): array
     {
         return [
-            'id' => $this->id,
             'email' => $this->whenHas('email'),
             'name' => $this->whenHas('name'),
             'can' => $this->all_permissions,
