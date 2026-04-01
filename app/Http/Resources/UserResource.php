@@ -7,11 +7,6 @@ use Illuminate\Http\Resources\JsonApi\JsonApiResource;
 
 class UserResource extends JsonApiResource
 {
-    public function toType(Request $request): string
-    {
-        return 'users';
-    }
-
     public function toId(Request $request): string
     {
         return (string) $this->getKey();
