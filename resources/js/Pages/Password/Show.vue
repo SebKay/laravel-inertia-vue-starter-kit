@@ -6,12 +6,7 @@
             <form @submit.prevent="submit">
                 <div class="form-row">
                     <div class="form-col">
-                        <label
-                            class="label"
-                            for="password"
-                        >
-                            Password
-                        </label>
+                        <label class="label" for="password"> Password </label>
                         <input
                             id="password"
                             class="input"
