@@ -18,8 +18,7 @@ class AccountController extends Controller
 
     public function update(AccountUpdateRequest $request)
     {
-        $request->user()->update($request->only('name', 'email'));
-        $request->user()->updatePassword($request->validated('password'));
+        $request->user()->update($request->only('name', 'email', 'password'));
 
         return Inertia::flash('success', __('account.updated'))->back();
     }

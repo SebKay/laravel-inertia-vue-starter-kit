@@ -31,10 +31,6 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {
-            if (app()->environment(['testing'])) {
-                return null;
-            }
-
             if (! in_array($response->statusCode(), [403, 404, 419, 500, 503], true)) {
                 return null;
             }

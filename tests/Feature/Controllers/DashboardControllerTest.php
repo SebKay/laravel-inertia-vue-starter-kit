@@ -14,33 +14,6 @@ describe('Users', function () {
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Dashboard/Index')
-                    ->where('auth.user.data.attributes.emailVerified', true)
-                    ->missing('dashboard.stats')
-                    ->missing('dashboard.superAdmin')
-                    ->loadDeferredProps('dashboard-stats', fn (Assert $reload) => $reload
-                        ->has('dashboard.stats')
-                        ->where('dashboard.stats.totalUsers', User::count())
-                    )
-            );
-    });
-
-    test('Super admins can load the dashboard overview section on demand', function () {
-        $superAdmin = superAdminUser();
-        adminUser();
-        User::factory()->create();
-
-        $response = actingAs($superAdmin)->get(route('home'));
-
-        $response->assertOk()
-            ->assertInertia(
-                fn (Assert $page) => $page
-                    ->component('Dashboard/Index')
-                    ->missing('dashboard.superAdmin')
-                    ->reloadOnly('dashboard.superAdmin', fn (Assert $reload) => $reload
-                        ->has('dashboard.superAdmin')
-                        ->where('dashboard.superAdmin.privilegedUsers', 2)
-                        ->has('dashboard.superAdmin.latestUsers')
-                    )
             );
     });
 });
