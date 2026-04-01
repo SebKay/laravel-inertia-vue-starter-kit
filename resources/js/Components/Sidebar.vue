@@ -1,6 +1,6 @@
 <template>
     <aside
-        class="fixed top-0 left-0 flex h-full overflow-y-auto p-2.5 lg:w-72 lg:p-5"
+        class="fixed top-0 left-0 z-40 flex h-full overflow-y-auto p-2.5 lg:w-72 lg:p-5"
         :class="!mobileMenuOpen ? 'max-lg:w-[60px]' : 'max-lg:w-72'"
     >
         <nav class="flex flex-1">
