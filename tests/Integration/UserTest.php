@@ -3,6 +3,14 @@
 use App\Models\User;
 use Database\Seeders\RolesAndPermissionsSeeder;
 
+it("can get it's Filament name", function () {
+    $this->seed(RolesAndPermissionsSeeder::class);
+
+    $superAdminUser = User::factory()->superAdmin()->create();
+
+    expect($superAdminUser->getFilamentName())->toBe($superAdminUser->name);
+});
+
 describe('With Roles and Permissions', function () {
     beforeEach(function () {
         $this->seed(RolesAndPermissionsSeeder::class);

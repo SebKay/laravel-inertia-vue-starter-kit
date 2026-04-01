@@ -9,8 +9,6 @@ use Filament\Panel;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
-use Illuminate\Database\Eloquent\Attributes\Scope;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -40,12 +38,6 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
         return Attribute::make(
             get: fn () => $this->getAllPermissions()->pluck('name')
         );
-    }
-
-    #[Scope]
-    protected function hasRoles(Builder $query, array $roles): void
-    {
-        $query->whereHas('roles', fn (Builder $query) => $query->whereIn('name', $roles));
     }
 
     public function canAccessPanel(?Panel $panel = null): bool
