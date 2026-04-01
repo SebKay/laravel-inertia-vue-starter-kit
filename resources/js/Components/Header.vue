@@ -4,7 +4,7 @@
             <div class="mx-auto max-w-7xl">
                 <div class="flex h-16 items-center justify-between">
                     <div class="flex items-center">
-                        <Link class="shrink-0 text-brand-800" :href="home()">
+                        <Link class="shrink-0 text-ui-1-1" :href="home()">
                             <SparklesIcon class="size-7" />
                         </Link>
                     </div>
@@ -25,11 +25,11 @@
                                     v-text="link.label"
                                     class="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium transition-colors"
                                     :class="{
-                                        'bg-brand-100 text-brand-950':
+                                        'text-neutral-900 bg-neutral-100/75':
                                             link.components.includes(
                                                 $page.component,
                                             ),
-                                        'text-brand-600 hover:text-brand-950 focus:text-brand-950':
+                                        'text-neutral-900/70':
                                             !link.components.includes(
                                                 $page.component,
                                             ),
@@ -43,7 +43,7 @@
                         <button
                             @click="mobileMenuOpen = !mobileMenuOpen"
                             type="button"
-                            class="relative inline-flex cursor-pointer items-center justify-center rounded-md bg-brand-100 p-2 text-brand-900 hover:bg-brand-900 hover:text-white"
+                            class="relative inline-flex cursor-pointer items-center justify-center rounded-lg bg-neutral-100 p-2 text-neutral-900 hover:bg-neutral-900 hover:text-white"
                         >
                             <span class="sr-only">Open main menu</span>
                             <CloseIcon
@@ -68,9 +68,9 @@
                             v-text="link.label"
                             class="block rounded-xl px-3 py-2 text-base font-medium"
                             :class="{
-                                'bg-brand-100 text-brand-950':
+                                'bg-neutral-100 text-neutral-900':
                                     link.components.includes($page.component),
-                                'text-brand-600 focus:text-brand-950':
+                                'text-neutral-900/70':
                                     !link.components.includes($page.component),
                             }"
                             aria-current="page"
@@ -129,6 +129,14 @@ const menu = computed<
         components: ["Account/Edit", "EmailVerification/Show"],
         prefetch: true,
         instantComponent: "Account/Edit",
+    },
+    {
+        label: "Elements",
+        href: '/elements',
+        condition: true,
+        components: ["Elements"],
+        prefetch: true,
+        instantComponent: "Elements",
     },
     {
         label: "Logout",

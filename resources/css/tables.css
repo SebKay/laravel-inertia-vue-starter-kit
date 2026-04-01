@@ -17,11 +17,11 @@
     }
 
     th {
-        @apply border-b-2 border-brand-950 p-3 font-bold;
+        @apply border-b-2 border-neutral-900 p-3 font-bold;
     }
 
     td {
-        @apply border-brand-950/15 p-3;
+        @apply border-neutral-300 p-3;
     }
 }
 

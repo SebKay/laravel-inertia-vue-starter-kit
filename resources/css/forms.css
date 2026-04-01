@@ -29,11 +29,11 @@
 }
 
 @utility field {
-    @apply block rounded-md border-brand-300 shadow-xs outline-hidden transition hover:ring-3 hover:ring-brand-200/50 focus:border-brand-300 focus:ring-3 focus:ring-brand-200/50 focus:ring-offset-0;
+    @apply block rounded-md border-neutral-300 outline-hidden transition hover:ring-0 focus:ring-0 focus:ring-offset-0;
 }
 
 @utility input {
-    @apply field block w-full text-base;
+    @apply field block w-full text-base h-11;
 }
 
 @utility textarea {
@@ -45,7 +45,7 @@
 }
 
 @utility option {
-    @apply field size-5 cursor-pointer text-brand-800 checked:border-transparent;
+    @apply field size-5 cursor-pointer text-ui-1-1 checked:border-transparent;
 }
 
 @utility checkbox {
@@ -60,9 +60,9 @@
     @apply inline-flex cursor-pointer items-center gap-3;
 
     div {
-        @apply relative h-5 w-9 rounded-full bg-brand-200 transition;
-        @apply peer-hover:ring-3 peer-hover:ring-brand-200/50 peer-focus:ring-3 peer-focus:ring-brand-200/50 peer-focus:outline-hidden;
-        @apply peer-checked:bg-brand-800 peer-checked:after:translate-x-full peer-checked:after:border-white peer-checked:rtl:after:-translate-x-full;
+        @apply relative h-5 w-9 rounded-full bg-neutral-300 transition;
+        @apply peer-focus:outline-hidden;
+        @apply peer-checked:bg-ui-1-1 peer-checked:after:translate-x-full peer-checked:after:border-white peer-checked:rtl:after:-translate-x-full;
         @apply after:absolute after:start-[2px] after:top-[2px] after:size-4 after:rounded-full after:bg-white after:transition-all after:content-[''];
     }
 

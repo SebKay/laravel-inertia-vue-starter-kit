@@ -7,7 +7,7 @@
         <main class="px-4 py-8 sm:px-6 xl:px-8 xl:py-16">
             <div class="mx-auto max-w-7xl">
                 <SparklesIcon
-                    class="mx-auto mb-4 block size-10 text-brand-800 xl:mb-8"
+                    class="mx-auto mb-4 block size-10 text-ui-1-1 xl:mb-8"
                 />
 
                 <div
@@ -18,7 +18,7 @@
 
                     <p
                         v-if="subheading"
-                        class="mt-3 text-sm text-neutral-600"
+                        class="mt-3 text-sm"
                         v-text="subheading"
                     ></p>
                 </div>

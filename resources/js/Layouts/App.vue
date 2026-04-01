@@ -16,7 +16,7 @@
 
                     <p
                         v-if="subheading"
-                        class="mt-2 max-w-2xl text-sm text-neutral-600"
+                        class="mt-2 max-w-2xl text-sm"
                         v-text="subheading"
                     ></p>
                 </div>

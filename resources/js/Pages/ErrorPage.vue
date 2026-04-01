@@ -4,7 +4,7 @@
     <div class="flex min-h-screen items-center justify-center px-6 text-center">
         <div class="space-y-4 py-6">
             <p
-                class="text-sm font-medium tracking-[0.2em] text-brand-700 uppercase"
+                class="text-sm font-medium tracking-[0.2em] text-ui-1-1 uppercase"
             >
                 {{ status }}
             </p>
