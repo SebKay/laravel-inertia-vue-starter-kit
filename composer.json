@@ -16,8 +16,8 @@
         "spatie/laravel-health": "^1.31",
         "spatie/laravel-permission": "^7.0",
         "spatie/security-advisories-health-check": "^1.2",
-        "symfony/http-client": "^7.2",
-        "symfony/postmark-mailer": "^7.2"
+        "symfony/http-client": "^8.0",
+        "symfony/postmark-mailer": "^8.0"
     },
     "require-dev": {
         "fruitcake/laravel-debugbar": "^4.0",
