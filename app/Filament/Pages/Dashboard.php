@@ -4,11 +4,11 @@ namespace App\Filament\Pages;
 
 use App\Filament\Widgets\UserActivityChart;
 use App\Filament\Widgets\UserStats;
-use Filament\Support\Icons\Heroicon;
+use CodeWithDennis\FilamentLucideIcons\Enums\LucideIcon;
 
 class Dashboard extends \Filament\Pages\Dashboard
 {
-    protected static string|\BackedEnum|null $navigationIcon = Heroicon::Home;
+    protected static string|\BackedEnum|null $navigationIcon = LucideIcon::Home;
 
     public function getColumns(): int|array
     {
