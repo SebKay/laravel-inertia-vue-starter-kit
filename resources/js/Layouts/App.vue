@@ -1,5 +1,4 @@
 <template>
-
     <Head>
         <title></title>
     </Head>
@@ -7,8 +6,8 @@
     <div class="lg:pl-64">
         <Sidebar class="absolute top-0 left-0 h-full w-64 max-lg:hidden" />
 
-        <main class="lg:py-5 lg:pr-5 min-h-screen flex">
-            <div class="bg-white rounded-xl flex-1">
+        <main class="flex min-h-screen lg:py-5 lg:pr-5">
+            <div class="flex-1 rounded-xl bg-white">
                 <div class="p-10">
                     <PageHeading :heading="heading" />
 

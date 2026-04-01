@@ -1,107 +1,101 @@
 <template>
-    <aside class="">
-        <nav>
-            <div class="mx-auto max-w-7xl">
-                <div class="flex h-16 items-center justify-between">
-                    <div class="flex items-center">
-                        <Link
-                            class="shrink-0 text-ui-1-1"
-                            :href="home()"
-                        >
-                        <SparklesIcon class="size-7" />
-                        </Link>
-                    </div>
-
-                    <div class="hidden md:block">
-                        <div class="ml-10 flex items-baseline space-x-4">
-                            <template
-                                v-for="link in menu"
-                                :key="link.label"
-                            >
-                                <Link
-                                    v-if="link.condition"
-                                    :href="link.href"
-                                    :prefetch="link.prefetch"
-                                    :component="link.instantComponent"
-                                    :as="link.href.method === 'post'
-                                            ? 'button'
-                                            : 'a'
-                                        "
-                                    v-text="link.label"
-                                    class="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium transition-colors"
-                                    :class="{
-                                        'bg-neutral-100/75 text-neutral-900':
-                                            link.components.includes(
-                                                $page.component,
-                                            ),
-                                        'text-neutral-900/70':
-                                            !link.components.includes(
-                                                $page.component,
-                                            ),
-                                    }"
-                                />
-                            </template>
-                        </div>
-                    </div>
-
-                    <div class="flex md:hidden">
-                        <button
-                            @click="mobileMenuOpen = !mobileMenuOpen"
-                            type="button"
-                            class="relative inline-flex cursor-pointer items-center justify-center rounded-lg bg-neutral-100 p-2 text-neutral-900 hover:bg-neutral-900 hover:text-white"
-                        >
-                            <span class="sr-only">Open main menu</span>
-                            <CloseIcon
-                                v-if="mobileMenuOpen"
-                                class="block size-6"
-                            />
-                            <MenuIcon
-                                v-else
-                                class="block size-6"
-                            />
-                        </button>
-                    </div>
-                </div>
+    <aside class="p-5 flex">
+        <nav class="flex flex-col gap-5 flex-1">
+            <div class="flex items-center">
+                <Link
+                    :href="home()"
+                    class="flex items-center gap-2.5 p-2.5"
+                >
+                <SparklesIcon class="size-7 text-ui-1-1" />
+                <span class="font-semibold"> Laravel Starter Kit </span>
+                </Link>
             </div>
 
-            <div
-                v-show="mobileMenuOpen"
-                class="md:hidden"
-            >
-                <div class="space-y-1 pt-2 pb-3">
-                    <template
-                        v-for="link in menu"
-                        :key="link.label"
+            <div class="hidden">
+                <button
+                    @click="mobileMenuOpen = !mobileMenuOpen"
+                    type="button"
+                    class="relative inline-flex cursor-pointer items-center justify-center rounded-lg bg-neutral-100 p-2 text-neutral-900 hover:bg-neutral-900 hover:text-white"
+                >
+                    <span class="sr-only">Open main menu</span>
+                    <CloseIcon
+                        v-if="mobileMenuOpen"
+                        class="block size-6"
+                    />
+                    <MenuIcon
+                        v-else
+                        class="block size-6"
+                    />
+                </button>
+            </div>
+
+            <div class="flex flex-col gap-1.5">
+                <Link
+                    :href="home()"
+                    prefetch
+                    component="Dashboard/Index"
+                    class="cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-sm font-medium transition-colors"
+                    :class="navLinkActiveClass(['Dashboard/Index'])"
+                >
+                Dashboard
+                </Link>
+                <Link
+                    :href="elements()"
+                    prefetch
+                    component="Elements"
+                    class="cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-sm font-medium transition-colors"
+                    :class="navLinkActiveClass(['Elements'])"
+                >
+                Elements
+                </Link>
+            </div>
+
+            <div class="mt-auto flex flex-col gap-5">
+                <div class="flex flex-col gap-1.5">
+                    <Link
+                        :href="editAccount()"
+                        prefetch
+                        component="Account/Edit"
+                        class="cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-sm font-medium transition-colors"
+                        :class="navLinkActiveClass([
+                            'Account/Edit',
+                            'EmailVerification/Show',
+                        ])
+                            "
                     >
-                        <Link
-                            v-if="link.condition"
-                            :href="link.href"
-                            :prefetch="link.prefetch"
-                            :component="link.instantComponent"
-                            :as="link.href.method === 'post' ? 'button' : 'a'"
-                            v-text="link.label"
-                            class="block rounded-xl px-3 py-2 text-base font-medium"
-                            :class="{
-                                'bg-neutral-100 text-neutral-900':
-                                    link.components.includes($page.component),
-                                'text-neutral-900/70':
-                                    !link.components.includes($page.component),
-                            }"
-                            aria-current="page"
-                        />
-                    </template>
+                    Account
+                    </Link>
+                    <Link
+                        class="cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-sm font-medium transition-colors text-neutral-900/70 hover:bg-neutral-200/75 hover:text-neutral-900"
+                        :href="LogoutController()"
+                        method="post"
+                        as="button"
+                    >
+                    Logout
+                    </Link>
                 </div>
+
+                <p class="text-xs text-neutral-900/70 px-2.5">
+                    &copy; 2026
+                    <a
+                        href="https://sebkay.com/"
+                        class="text-link"
+                        target="_blank"
+                    >Seb Kay</a>.
+                    All rights reserved.
+                </p>
             </div>
         </nav>
     </aside>
 </template>
 
 <script setup lang="ts">
-    import { computed, ref, onMounted } from "vue";
-    import { router } from "@inertiajs/vue3";
+    import { ref, onMounted } from "vue";
+    import { router, usePage } from "@inertiajs/vue3";
 
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
+    import { elements } from "@js/routes";
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
 
     import {
@@ -110,55 +104,16 @@
         X as CloseIcon,
     } from "lucide-vue-next";
 
-    const menu = computed<
-        {
-            label: string;
-            href:
-            | ReturnType<typeof home>
-            | ReturnType<typeof editAccount>
-            | ReturnType<typeof LogoutController>;
-            condition: boolean;
-            components: string[];
-            prefetch?:
-            | true
-            | "mount"
-            | "hover"
-            | "click"
-            | Array<"mount" | "hover" | "click">;
-            instantComponent?: string;
-        }[]
-    >(() => [
-        {
-            label: "Dashboard",
-            href: home(),
-            condition: true,
-            components: ["Dashboard/Index"],
-            prefetch: true,
-            instantComponent: "Dashboard/Index",
-        },
-        {
-            label: "Account",
-            href: editAccount(),
-            condition: true,
-            components: ["Account/Edit", "EmailVerification/Show"],
-            prefetch: true,
-            instantComponent: "Account/Edit",
-        },
-        {
-            label: "Elements",
-            href: "/elements",
-            condition: true,
-            components: ["Elements"],
-            prefetch: true,
-            instantComponent: "Elements",
-        },
-        {
-            label: "Logout",
-            href: LogoutController(),
-            condition: true,
-            components: [],
-        },
-    ]);
+    const page = usePage();
+
+    function navLinkActiveClass(components: string[]): Record<string, boolean> {
+        const active = components.includes(String(page.component));
+
+        return {
+            "bg-neutral-200/75 text-neutral-900": active,
+            "text-neutral-900/70 hover:bg-neutral-200/75": !active,
+        };
+    }
 
     const mobileMenuOpen = ref(false);
 
