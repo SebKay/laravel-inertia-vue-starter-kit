@@ -23,6 +23,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "build": "vite build"
+    "build": "vite build",
+    "format": "prettier --write resources/",
+    "format:check": "prettier --check resources/"
   }
 }

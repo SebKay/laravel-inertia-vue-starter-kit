@@ -29,6 +29,13 @@ processes:
     auto_restart: false
     restart_when_changed: []
     env: {}
+  'Prettier: Fix':
+    command: bun run format
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
   Finalise:
     command: composer rector && composer fix && composer test:coverage
     working_dir: null

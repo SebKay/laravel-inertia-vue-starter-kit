@@ -63,11 +63,11 @@
         "rector": [
             "./vendor/bin/rector --memory-limit=2G"
         ],
-        "lint": [
-            "./vendor/bin/pint --test"
-        ],
-        "fix": [
+        "format": [
             "./vendor/bin/pint"
+        ],
+        "format:check": [
+            "./vendor/bin/pint --test"
         ],
         "test": [
             "./vendor/bin/pest --parallel --stop-on-failure"
