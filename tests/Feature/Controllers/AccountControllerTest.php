@@ -19,10 +19,16 @@ describe('Users', function () {
             ->assertInertia(
                 fn (Assert $page) => $page
                     ->component('Account/Edit')
-                    ->has('auth.user')
+                    ->has('auth.user.data')
+                    ->where('auth.user.data.type', 'users')
+                    ->where('auth.user.data.id', (string) $user->getKey())
+                    ->where('auth.user.data.attributes.can', $user->all_permissions)
                     ->has('user')
-                    ->where('user.name', $user->name)
-                    ->where('user.email', $user->email)
+                    ->has('user.data')
+                    ->where('user.data.type', 'users')
+                    ->where('user.data.id', (string) $user->getKey())
+                    ->where('user.data.attributes.name', $user->name)
+                    ->where('user.data.attributes.email', $user->email)
             );
     });
 
