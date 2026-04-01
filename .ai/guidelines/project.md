@@ -13,8 +13,8 @@
 - **Guest:** register, login, forgot/reset password (see controller imports in `routes/web.php`). POST actions for register, login, password, and verification resend use `throttle:6,1` where declared on the route.
 - **Auth:** `POST logout` (`auth`).
 - **Verified (`auth` + `verified`):** `GET /` dashboard, `GET|PATCH /account`.
-- **Auth-only (not necessarily verified):** email verification notice, signed verify link, resend (`account/*`).
-- **Super-admin:** `GET elements` → Inertia `Elements`.
+- **Auth-only (not necessarily verified):** email verification notice, signed verify link, resend (`account/verify*`); **`GET|POST account/password`** for `password.confirm` (`ConfirmPasswordController` → Inertia `Password/Show`, `ConfirmPasswordStoreRequest`; POST `throttle:6,1`).
+- **Super-admin:** `GET elements` → Inertia `Elements` (middleware `auth`, `password.confirm`, `role:super-admin`).
 
 ## Controllers and validation
 
@@ -24,6 +24,7 @@
 
 - **`RegisterController`:** new `User`, hashed password, `assignRole(Role::USER)`, `loginUsingId`, `Filament\Auth\Events\Registered`, redirect `route('home')`. Local/testing: fake prefills on the register form.
 - **`LoginController`:** session guard, `remember`, optional `redirect` query, session regeneration on success; local/testing prefills from config/fake data.
+- **`ConfirmPasswordController`:** `store` uses `current_password` validation; sets session `auth.password_confirmed_at`; `redirect()->intended(route('home'))`.
 
 ## Dashboard and Inertia
 
