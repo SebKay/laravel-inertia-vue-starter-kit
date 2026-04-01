@@ -11,7 +11,5 @@
 
     setLayoutProps({
         heading: title,
-        subheading:
-            "See the latest account activity and app overview as soon as you sign in.",
     });
 </script>

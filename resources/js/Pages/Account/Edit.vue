@@ -74,8 +74,6 @@
 
     setLayoutProps({
         heading: title,
-        subheading:
-            "Manage your profile details and password without leaving the page.",
     });
 
     const user = props.user ?? props.auth.user;

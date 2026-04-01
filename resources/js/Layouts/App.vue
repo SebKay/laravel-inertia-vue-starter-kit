@@ -13,12 +13,6 @@
                         class="text-3xl font-medium text-neutral-900 xl:text-4xl"
                         v-text="heading"
                     ></h1>
-
-                    <p
-                        v-if="subheading"
-                        class="mt-2 max-w-2xl text-sm"
-                        v-text="subheading"
-                    ></p>
                 </div>
 
                 <slot />
@@ -44,8 +38,7 @@
     );
 
     withDefaults(defineProps<LayoutProps>(), {
-        heading: undefined,
-        subheading: undefined,
+        heading: "",
         contentClass: "",
     });
 </script>

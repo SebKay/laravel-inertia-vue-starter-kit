@@ -164,7 +164,5 @@
 
     setLayoutProps({
         heading: title,
-        subheading:
-            "A protected style reference for the starter kit's shared UI primitives.",
     });
 </script>

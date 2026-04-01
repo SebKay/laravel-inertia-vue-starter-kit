@@ -90,8 +90,6 @@
 
     setLayoutProps({
         heading: title,
-        subheading:
-            "Create your account and you'll land straight in the dashboard.",
     });
 
     const form = useForm("RegisterForm", {

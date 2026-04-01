@@ -104,7 +104,6 @@
 
     setLayoutProps({
         heading: title,
-        subheading: "Sign in with your account to continue.",
     });
 
     const form = useForm("LoginForm", {

@@ -57,8 +57,6 @@
 
     setLayoutProps({
         heading: title,
-        subheading:
-            "We'll email you a reset link if the address matches an account.",
     });
 
     const form = useForm("ForgotPasswordForm", {

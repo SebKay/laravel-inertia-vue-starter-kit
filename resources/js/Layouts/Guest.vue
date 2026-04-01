@@ -15,12 +15,6 @@
                     class="mx-auto mb-4 max-w-2xl text-center xl:mb-8"
                 >
                     <PageTitle :text="heading" />
-
-                    <p
-                        v-if="subheading"
-                        class="mt-3 text-sm"
-                        v-text="subheading"
-                    ></p>
                 </div>
 
                 <slot />
@@ -38,8 +32,7 @@
     import { Sparkles as SparklesIcon } from "lucide-vue-next";
 
     withDefaults(defineProps<LayoutProps>(), {
-        heading: undefined,
-        subheading: undefined,
+        heading: "",
         contentClass: "",
     });
 </script>

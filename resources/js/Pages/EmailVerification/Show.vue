@@ -59,7 +59,6 @@
 
     setLayoutProps({
         heading: title,
-        subheading: "Confirm your address to unlock the rest of the app.",
     });
 
     const resendRequest = useHttp("EmailVerificationResend", {});

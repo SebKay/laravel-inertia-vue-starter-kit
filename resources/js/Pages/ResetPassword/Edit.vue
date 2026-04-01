@@ -72,7 +72,6 @@
 
     setLayoutProps({
         heading: title,
-        subheading: "Choose a new password for your account.",
     });
 
     const form = useForm("ResetPasswordForm", {

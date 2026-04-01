@@ -17,7 +17,7 @@
 }
 
 @utility label {
-    @apply block pb-3 font-medium sm:text-base text-sm text-neutral-900;
+    @apply block pb-3 text-sm font-medium text-neutral-900 sm:text-base;
 }
 
 @utility small-label {

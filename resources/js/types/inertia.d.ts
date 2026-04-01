@@ -33,7 +33,6 @@ export interface FlashData {
 
 export interface LayoutProps {
     heading?: string;
-    subheading?: string;
     contentClass?: string;
 }
 
