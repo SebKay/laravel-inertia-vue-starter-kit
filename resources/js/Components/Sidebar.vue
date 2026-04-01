@@ -1,13 +1,10 @@
 <template>
-    <aside class="p-5 flex">
-        <nav class="flex flex-col gap-5 flex-1">
+    <aside class="flex p-5">
+        <nav class="flex flex-1 flex-col gap-5">
             <div class="flex items-center">
-                <Link
-                    :href="home()"
-                    class="flex items-center gap-2.5 p-2.5"
-                >
-                <SparklesIcon class="size-7 text-ui-1-1" />
-                <span class="font-semibold"> Laravel Starter Kit </span>
+                <Link :href="home()" class="flex items-center gap-2.5 p-2.5">
+                    <SparklesIcon class="size-7 text-ui-1-1" />
+                    <span class="font-semibold"> Laravel Starter Kit </span>
                 </Link>
             </div>
 
@@ -18,14 +15,8 @@
                     class="relative inline-flex cursor-pointer items-center justify-center rounded-lg bg-neutral-100 p-2 text-neutral-900 hover:bg-neutral-900 hover:text-white"
                 >
                     <span class="sr-only">Open main menu</span>
-                    <CloseIcon
-                        v-if="mobileMenuOpen"
-                        class="block size-6"
-                    />
-                    <MenuIcon
-                        v-else
-                        class="block size-6"
-                    />
+                    <CloseIcon v-if="mobileMenuOpen" class="block size-6" />
+                    <MenuIcon v-else class="block size-6" />
                 </button>
             </div>
 
@@ -34,19 +25,22 @@
                     :href="home()"
                     prefetch
                     component="Dashboard/Index"
-                    class="cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-sm font-medium transition-colors"
+                    class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
                     :class="navLinkActiveClass(['Dashboard/Index'])"
                 >
-                Dashboard
+                    <LayoutDashboardIcon class="size-4 shrink-0" />
+                    Dashboard
                 </Link>
+
                 <Link
                     :href="elements()"
                     prefetch
                     component="Elements"
-                    class="cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-sm font-medium transition-colors"
+                    class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
                     :class="navLinkActiveClass(['Elements'])"
                 >
-                Elements
+                    <LayoutListIcon class="size-4 shrink-0" />
+                    Elements
                 </Link>
             </div>
 
@@ -56,33 +50,37 @@
                         :href="editAccount()"
                         prefetch
                         component="Account/Edit"
-                        class="cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-sm font-medium transition-colors"
-                        :class="navLinkActiveClass([
-                            'Account/Edit',
-                            'EmailVerification/Show',
-                        ])
-                            "
+                        class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
+                        :class="
+                            navLinkActiveClass([
+                                'Account/Edit',
+                                'EmailVerification/Show',
+                            ])
+                        "
                     >
-                    Account
+                        <CircleUserIcon class="size-4 shrink-0" />
+                        Account
                     </Link>
+
                     <Link
-                        class="cursor-pointer rounded-lg px-2.5 py-1.5 text-left text-sm font-medium transition-colors text-neutral-900/70 hover:bg-neutral-200/75 hover:text-neutral-900"
+                        class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium text-neutral-900/70 transition-colors hover:bg-neutral-200/75 hover:text-neutral-900"
                         :href="LogoutController()"
                         method="post"
                         as="button"
                     >
-                    Logout
+                        <LogOutIcon class="size-4 shrink-0" />
+                        Logout
                     </Link>
                 </div>
 
-                <p class="text-xs text-neutral-900/70 px-2.5">
+                <p class="px-2.5 text-xs text-neutral-900/70">
                     &copy; 2026
                     <a
                         href="https://sebkay.com/"
                         class="text-link"
                         target="_blank"
-                    >Seb Kay</a>.
-                    All rights reserved.
+                        >Seb Kay</a
+                    >. All rights reserved.
                 </p>
             </div>
         </nav>
@@ -102,6 +100,10 @@
         Sparkles as SparklesIcon,
         Menu as MenuIcon,
         X as CloseIcon,
+        CircleUserIcon,
+        LogOutIcon,
+        LayoutDashboardIcon,
+        LayoutListIcon,
     } from "lucide-vue-next";
 
     const page = usePage();
@@ -111,7 +113,8 @@
 
         return {
             "bg-neutral-200/75 text-neutral-900": active,
-            "text-neutral-900/70 hover:bg-neutral-200/75": !active,
+            "text-neutral-900/70 hover:text-neutral-900 hover:bg-neutral-200/75":
+                !active,
         };
     }
 
