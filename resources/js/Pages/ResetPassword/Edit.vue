@@ -22,7 +22,7 @@
                     />
 
                     <div class="form-col">
-                        <label class="label" for="password"> Password </label>
+                        <label class="label" for="password">Password</label>
                         <input
                             id="password"
                             class="input"

@@ -11,7 +11,7 @@
             >
                 <div class="form-row">
                     <div class="form-col">
-                        <label class="label" for="email"> Email </label>
+                        <label class="label" for="email">Email</label>
                         <input
                             id="email"
                             class="input"
@@ -33,8 +33,9 @@
                                 class="text-link"
                                 :href="forgotPassword()"
                                 prefetch
-                                >Forgot password?</Link
                             >
+                                Forgot password?
+                            </Link>
                         </label>
                         <input
                             id="password"
@@ -56,7 +57,7 @@
                                 v-model="remembered.remember"
                             />
                             <div></div>
-                            <span> Remember me </span>
+                            <span>Remember me</span>
                         </label>
                     </div>
 
@@ -80,9 +81,9 @@
             <div class="mt-6 xl:mt-10">
                 <p class="mt-3 text-center">
                     Don't have an account?
-                    <Link class="text-link" :href="register()" prefetch
-                        >Register</Link
-                    >
+                    <Link class="text-link" :href="register()" prefetch>
+                        Register
+                    </Link>
                 </p>
             </div>
         </div>

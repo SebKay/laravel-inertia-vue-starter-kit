@@ -10,7 +10,7 @@
             >
                 <div class="form-row">
                     <div class="form-col">
-                        <label class="label" for="email"> Email </label>
+                        <label class="label" for="email">Email</label>
                         <input
                             id="email"
                             class="input"

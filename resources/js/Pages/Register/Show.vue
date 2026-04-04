@@ -11,7 +11,7 @@
             >
                 <div class="form-row">
                     <div class="form-col">
-                        <label class="label" for="name"> Name </label>
+                        <label class="label" for="name">Name</label>
                         <input
                             id="name"
                             class="input"
@@ -24,7 +24,7 @@
                     </div>
 
                     <div class="form-col">
-                        <label class="label" for="email"> Email </label>
+                        <label class="label" for="email">Email</label>
                         <input
                             id="email"
                             class="input"
@@ -37,7 +37,7 @@
                     </div>
 
                     <div class="form-col">
-                        <label class="label" for="password"> Password </label>
+                        <label class="label" for="password">Password</label>
                         <input
                             id="password"
                             class="input"
