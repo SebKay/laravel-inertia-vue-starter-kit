@@ -7,7 +7,7 @@
             :options="{ preserveScroll: true, preserveState: true }"
             :reset-on-success="['password']"
             set-defaults-on-success
-            #default="{ errors, processing, recentlySuccessful }"
+            #default="{ errors, processing }"
         >
             <div class="form-row">
                 <div class="form-col">
@@ -54,10 +54,6 @@
                     <button class="button" :disabled="processing">
                         Update
                     </button>
-
-                    <p v-if="recentlySuccessful" class="field-hint mt-3">
-                        Account details saved.
-                    </p>
                 </div>
             </div>
         </Form>
