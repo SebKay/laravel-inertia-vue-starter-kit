@@ -3,30 +3,35 @@
 
     <div class="mx-auto max-w-2xl">
         <div class="rounded-xl bg-white p-6 xl:p-10">
-            <form @submit.prevent="submit">
+            <Form
+                :action="store()"
+                :options="{ preserveScroll: 'errors' }"
+                #default="{ errors, processing }"
+            >
                 <div class="form-row">
                     <div class="form-col">
-                        <label class="label" for="email"> Email </label>
+                        <label class="label" for="email">Email</label>
                         <input
                             id="email"
                             class="input"
+                            name="email"
                             type="email"
                             required
-                            v-model="form.email"
+                            v-model="remembered.email"
                         />
-                        <FieldError :message="form.errors.email" />
+                        <FieldError :message="errors.email" />
                     </div>
 
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="form.processing"
+                            :disabled="processing"
                         >
                             Email Reset Link
                         </button>
                     </div>
                 </div>
-            </form>
+            </Form>
 
             <div class="mt-6 xl:mt-10">
                 <p class="text-center">
@@ -41,7 +46,7 @@
 </template>
 
 <script setup lang="ts">
-    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
     import Layout from "@js/Layouts/Guest.vue";
 
     import FieldError from "@js/Components/FieldError.vue";
@@ -59,13 +64,10 @@
         heading: title,
     });
 
-    const form = useForm("ForgotPasswordForm", {
-        email: "",
-    });
-
-    const submit = () => {
-        form.submit(store(), {
-            preserveScroll: "errors",
-        });
-    };
+    const remembered = useRemember(
+        {
+            email: "",
+        },
+        "ForgotPasswordForm",
+    );
 </script>

@@ -2,62 +2,66 @@
     <Head :title="title" />
 
     <div class="max-w-3xl">
-        <form @submit.prevent="submit">
+        <Form
+            :action="update()"
+            :options="{ preserveScroll: true, preserveState: true }"
+            :reset-on-success="['password']"
+            set-defaults-on-success
+            #default="{ errors, processing }"
+        >
             <div class="form-row">
                 <div class="form-col">
-                    <label class="label" for="name"> Name </label>
+                    <label class="label" for="name">Name</label>
                     <input
                         id="name"
                         class="input"
+                        name="name"
                         type="text"
                         required
-                        v-model="form.name"
+                        v-model="remembered.name"
                     />
-                    <FieldError :message="form.errors.name" />
+                    <FieldError :message="errors.name" />
                 </div>
 
                 <div class="form-col">
-                    <label class="label" for="email"> Email </label>
+                    <label class="label" for="email">Email</label>
                     <input
                         id="email"
                         class="input"
+                        name="email"
                         type="email"
                         required
-                        v-model="form.email"
+                        v-model="remembered.email"
                     />
-                    <FieldError :message="form.errors.email" />
+                    <FieldError :message="errors.email" />
                 </div>
 
                 <div class="form-col">
-                    <label class="label" for="password"> Password </label>
+                    <label class="label" for="password">Password</label>
                     <input
                         id="password"
                         class="input"
+                        name="password"
                         type="password"
-                        v-model="form.password"
                     />
                     <p class="field-hint">
                         Leave blank to keep current password
                     </p>
-                    <FieldError :message="form.errors.password" />
+                    <FieldError :message="errors.password" />
                 </div>
 
                 <div class="form-col">
-                    <button class="button" :disabled="form.processing">
+                    <button class="button" :disabled="processing">
                         Update
                     </button>
-
-                    <p v-if="form.recentlySuccessful" class="field-hint mt-3">
-                        Account details saved.
-                    </p>
                 </div>
             </div>
-        </form>
+        </Form>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
 
     import type { PageProps, UserDocument } from "@js/types/inertia";
 
@@ -84,24 +88,13 @@
         );
     }
 
-    const form = useForm(`AccountEdit:${user.data.id}`, {
-        name: (user.data.attributes.name as string | null | undefined) ?? "",
-        email: (user.data.attributes.email as string | null | undefined) ?? "",
-        password: "",
-    }).dontRemember("password");
-
-    const submit = () => {
-        form.submit(update(), {
-            preserveScroll: true,
-            preserveState: "errors",
-            onSuccess: () => {
-                form.defaults({
-                    name: form.name,
-                    email: form.email,
-                    password: "",
-                });
-            },
-            onFinish: () => form.reset("password"),
-        });
-    };
+    const remembered = useRemember(
+        {
+            name:
+                (user.data.attributes.name as string | null | undefined) ?? "",
+            email:
+                (user.data.attributes.email as string | null | undefined) ?? "",
+        },
+        `AccountEdit:${user.data.id}`,
+    );
 </script>

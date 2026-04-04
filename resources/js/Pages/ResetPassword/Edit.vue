@@ -3,18 +3,35 @@
 
     <div class="mx-auto max-w-2xl">
         <div class="rounded-xl bg-white p-6 xl:p-10">
-            <form @submit.prevent="submit">
+            <Form
+                :action="update()"
+                :on-finish="handleFinish"
+                :options="{ preserveScroll: 'errors' }"
+                #default="{ errors, processing }"
+            >
                 <div class="form-row">
+                    <input
+                        name="email"
+                        type="hidden"
+                        :value="remembered.email"
+                    />
+                    <input
+                        name="token"
+                        type="hidden"
+                        :value="props.token ?? ''"
+                    />
+
                     <div class="form-col">
-                        <label class="label" for="password"> Password </label>
+                        <label class="label" for="password">Password</label>
                         <input
                             id="password"
                             class="input"
+                            name="password"
                             type="password"
                             required
-                            v-model="form.password"
+                            v-model="password"
                         />
-                        <FieldError :message="form.errors.password" />
+                        <FieldError :message="errors.password" />
                     </div>
 
                     <div class="form-col">
@@ -24,31 +41,31 @@
                         <input
                             id="password-confirmation"
                             class="input"
+                            name="password_confirmation"
                             type="password"
                             required
-                            v-model="form.password_confirmation"
+                            v-model="passwordConfirmation"
                         />
-                        <FieldError
-                            :message="form.errors.password_confirmation"
-                        />
+                        <FieldError :message="errors.password_confirmation" />
                     </div>
 
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="form.processing"
+                            :disabled="processing"
                         >
                             Reset Password
                         </button>
                     </div>
                 </div>
-            </form>
+            </Form>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
-    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import { ref } from "vue";
+    import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
     import Layout from "@js/Layouts/Guest.vue";
 
     import type { PageProps } from "@js/types/inertia";
@@ -74,17 +91,17 @@
         heading: title,
     });
 
-    const form = useForm("ResetPasswordForm", {
-        email: props.email ?? "",
-        token: props.token ?? "",
-        password: "",
-        password_confirmation: "",
-    }).dontRemember("password", "password_confirmation", "token");
+    const remembered = useRemember(
+        {
+            email: props.email ?? "",
+        },
+        "ResetPasswordForm",
+    );
+    const password = ref("");
+    const passwordConfirmation = ref("");
 
-    const submit = () => {
-        form.submit(update(), {
-            preserveScroll: "errors",
-            onFinish: () => form.reset("password", "password_confirmation"),
-        });
+    const handleFinish = () => {
+        password.value = "";
+        passwordConfirmation.value = "";
     };
 </script>
