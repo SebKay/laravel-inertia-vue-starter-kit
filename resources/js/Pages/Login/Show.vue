@@ -3,18 +3,24 @@
 
     <div class="mx-auto max-w-2xl">
         <div class="rounded-xl bg-white p-6 xl:p-10">
-            <form @submit.prevent="submit">
+            <Form
+                :action="store()"
+                :on-finish="handleFinish"
+                :options="{ preserveScroll: 'errors' }"
+                #default="{ errors, processing }"
+            >
                 <div class="form-row">
                     <div class="form-col">
                         <label class="label" for="email"> Email </label>
                         <input
                             id="email"
                             class="input"
+                            name="email"
                             type="email"
                             required
-                            v-model="form.email"
+                            v-model="remembered.email"
                         />
-                        <FieldError :message="form.errors.email" />
+                        <FieldError :message="errors.email" />
                     </div>
 
                     <div class="form-col">
@@ -33,35 +39,43 @@
                         <input
                             id="password"
                             class="input"
+                            name="password"
                             type="password"
                             required
-                            v-model="form.password"
+                            v-model="password"
                         />
-                        <FieldError :message="form.errors.password" />
+                        <FieldError :message="errors.password" />
                     </div>
 
                     <div class="form-col">
                         <label class="toggle">
                             <input
                                 class="peer sr-only"
+                                name="remember"
                                 type="checkbox"
-                                v-model="form.remember"
+                                v-model="remembered.remember"
                             />
                             <div></div>
                             <span> Remember me </span>
                         </label>
                     </div>
 
+                    <input
+                        v-model="remembered.redirect"
+                        name="redirect"
+                        type="hidden"
+                    />
+
                     <div class="form-col">
                         <button
                             class="button button-full"
-                            :disabled="form.processing"
+                            :disabled="processing"
                         >
                             Log In
                         </button>
                     </div>
                 </div>
-            </form>
+            </Form>
 
             <div class="mt-6 xl:mt-10">
                 <p class="mt-3 text-center">
@@ -76,7 +90,8 @@
 </template>
 
 <script setup lang="ts">
-    import { Head, setLayoutProps, useForm } from "@inertiajs/vue3";
+    import { ref } from "vue";
+    import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
     import Layout from "@js/Layouts/Guest.vue";
 
     import type { PageProps } from "@js/types/inertia";
@@ -106,17 +121,17 @@
         heading: title,
     });
 
-    const form = useForm("LoginForm", {
-        email: props.email ?? "",
-        password: props.password ?? "",
-        remember: props.remember ?? false,
-        redirect: props.redirect ?? "",
-    }).dontRemember("password");
+    const remembered = useRemember(
+        {
+            email: props.email ?? "",
+            remember: props.remember ?? false,
+            redirect: props.redirect ?? "",
+        },
+        "LoginForm",
+    );
+    const password = ref(props.password ?? "");
 
-    const submit = () => {
-        form.submit(store(), {
-            preserveScroll: "errors",
-            onFinish: () => form.reset("password"),
-        });
+    const handleFinish = () => {
+        password.value = "";
     };
 </script>
