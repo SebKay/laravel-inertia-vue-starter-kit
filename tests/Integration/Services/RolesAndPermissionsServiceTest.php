@@ -2,6 +2,7 @@
 
 use App\Enums\Permission;
 use App\Enums\Role;
+use App\Models\User;
 use App\Services\RolesAndPermissionsService;
 use Spatie\Permission\Exceptions\PermissionDoesNotExist;
 use Spatie\Permission\Exceptions\RoleDoesNotExist;
@@ -99,6 +100,21 @@ describe('sync with fresh option', function () {
         $expectedPermissions = Role::SUPER->permissions();
 
         expect($role->permissions)->toHaveCount(count($expectedPermissions));
+    });
+
+    it('preserves existing user role assignments when fresh is true', function () {
+        $this->service->sync();
+
+        $user = User::factory()->create();
+        $user->assignRole(Role::ADMIN);
+
+        expect($user->hasRole(Role::ADMIN))->toBeTrue();
+
+        $this->service->sync(fresh: true);
+
+        $user->refresh();
+
+        expect($user->hasRole(Role::ADMIN))->toBeTrue();
     });
 });
 

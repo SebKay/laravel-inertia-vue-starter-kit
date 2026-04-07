@@ -28,7 +28,20 @@ class RolesAndPermissionsService
         $this->permissionRegistrar->forgetCachedPermissions();
 
         if ($fresh) {
-            $this->truncate();
+            DB::transaction(function () {
+                $roleAssignments = $this->snapshotRoleAssignments();
+
+                $this->truncate();
+
+                $this->syncRoles();
+                $this->syncPermissions();
+                $this->assignPermissionsToRoles();
+                $this->restoreRoleAssignments($roleAssignments);
+            });
+
+            $this->permissionRegistrar->forgetCachedPermissions();
+
+            return;
         }
 
         $this->syncRoles();
@@ -36,6 +49,98 @@ class RolesAndPermissionsService
         $this->assignPermissionsToRoles();
 
         $this->permissionRegistrar->forgetCachedPermissions();
+    }
+
+    /**
+     * Snapshot current model-role assignments so a fresh sync can restore them.
+     *
+     * @return Collection<int, array{model_type: string, model_id: int|string, roles: array<int, array{name: string, guard_name: string|null}>}>
+     */
+    protected function snapshotRoleAssignments(): Collection
+    {
+        $tableNames = config('permission.table_names');
+
+        /** @var Collection<int, object{model_type: string, model_id: int|string, name: string, guard_name: string|null}> $rows */
+        $rows = DB::table($tableNames['model_has_roles'].' as model_has_roles')
+            ->join($tableNames['roles'].' as roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->select([
+                'model_has_roles.model_type',
+                'model_has_roles.model_id',
+                'roles.name',
+                'roles.guard_name',
+            ])
+            ->orderBy('model_has_roles.model_type')
+            ->orderBy('model_has_roles.model_id')
+            ->get();
+
+        return $rows
+            ->groupBy(fn (object $row) => $row->model_type.'|'.$row->model_id)
+            ->map(function (Collection $group) {
+                /** @var object{model_type: string, model_id: int|string} $first */
+                $first = $group->first();
+
+                return [
+                    'model_type' => $first->model_type,
+                    'model_id' => $first->model_id,
+                    'roles' => $group
+                        ->map(fn (object $row) => ['name' => $row->name, 'guard_name' => $row->guard_name])
+                        ->values()
+                        ->all(),
+                ];
+            })
+            ->values();
+    }
+
+    /**
+     * Restore model-role assignments after a fresh sync.
+     *
+     * @param  Collection<int, array{model_type: string, model_id: int|string, roles: array<int, array{name: string, guard_name: string|null}>}>  $roleAssignments
+     */
+    protected function restoreRoleAssignments(Collection $roleAssignments): void
+    {
+        if ($roleAssignments->isEmpty()) {
+            return;
+        }
+
+        $tableNames = config('permission.table_names');
+
+        $inserts = [];
+
+        foreach ($roleAssignments as $assignment) {
+            foreach ($assignment['roles'] as $roleSnapshot) {
+                $role = $this->findRoleByNameAndGuard(
+                    name: $roleSnapshot['name'],
+                    guardName: $roleSnapshot['guard_name'],
+                );
+
+                if (! $role) {
+                    continue;
+                }
+
+                $inserts[] = [
+                    'role_id' => $role->id,
+                    'model_type' => $assignment['model_type'],
+                    'model_id' => $assignment['model_id'],
+                ];
+            }
+        }
+
+        if ($inserts === []) {
+            return;
+        }
+
+        DB::table($tableNames['model_has_roles'])->insert($inserts);
+    }
+
+    protected function findRoleByNameAndGuard(string $name, ?string $guardName): ?SpatieRole
+    {
+        try {
+            return $guardName
+                ? SpatieRole::findByName($name, $guardName)
+                : SpatieRole::findByName($name);
+        } catch (\Throwable) {
+            return null;
+        }
     }
 
     /**
