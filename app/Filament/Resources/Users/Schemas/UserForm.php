@@ -2,11 +2,13 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Support\Facades\Auth;
 
 class UserForm
 {
@@ -30,6 +32,13 @@ class UserForm
 
                         TextInput::make('password')
                             ->required(fn (string $operation): bool => $operation === 'create')
+                            ->disabled(function (?User $record): bool {
+                                $user = Auth::user();
+
+                                return $record !== null
+                                    && $user instanceof User
+                                    && (string) $record->getKey() === (string) $user->getKey();
+                            })
                             ->password()
                             ->afterStateHydrated(function (TextInput $component, $state) {
                                 $component->state('');
