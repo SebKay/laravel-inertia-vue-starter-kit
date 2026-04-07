@@ -1,5 +1,6 @@
 <?php
 
+use App\Enums\Environment;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Foundation\Application;
@@ -31,6 +32,10 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         Inertia::handleExceptionsUsing(function (ExceptionResponse $response) {
+            if (app()->environment([Environment::LOCAL->value, Environment::TESTING->value])) {
+                return null;
+            }
+
             if (! in_array($response->statusCode(), [403, 404, 419, 500, 503], true)) {
                 return null;
             }
