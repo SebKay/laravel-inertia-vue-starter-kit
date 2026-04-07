@@ -28,7 +28,7 @@ uses(TestCase::class, RefreshDatabase::class)
     })
     ->in('Architecture', 'Integration');
 
-function superAdminUser()
+function superUser()
 {
     return User::whereEmail(\config('seed.users.super.email'))->first();
 }

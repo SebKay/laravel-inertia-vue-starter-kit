@@ -12,7 +12,7 @@ class UsersSeeder extends Seeder
 
     public function run()
     {
-        User::factory()->superAdmin()->create();
+        User::factory()->super()->create();
         User::factory()->admin()->create();
         User::factory()->user()->create();
     }

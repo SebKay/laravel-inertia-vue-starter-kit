@@ -54,9 +54,7 @@ class UserForm
                             ->preload()
                             ->searchable()
                             ->relationship('roles', 'name')
-                            ->getOptionLabelFromRecordUsing(function (SpatieRole $role): string {
-                                return Role::tryFrom($role->name)?->getLabel() ?? $role->name;
-                            })
+                            ->getOptionLabelFromRecordUsing(fn (SpatieRole $role): string => Role::tryFrom($role->name)?->getLabel() ?? $role->name),
                     ]),
             ]);
     }

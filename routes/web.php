@@ -12,9 +12,9 @@ use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
 use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 
-Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER_ADMIN->value]);
+Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER->value]);
 
-Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'password.confirm', 'role:'.Role::SUPER_ADMIN->value])->name('elements');
+Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'password.confirm', 'role:'.Role::SUPER->value])->name('elements');
 
 Route::controller(RegisterController::class)
     ->middleware(['guest'])

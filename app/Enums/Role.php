@@ -9,7 +9,7 @@ enum Role: string implements HasLabel
 {
     use Enum;
 
-    case SUPER_ADMIN = 'super-admin';
+    case SUPER = 'super';
     case ADMIN = 'admin';
     case USER = 'user';
 
@@ -19,7 +19,7 @@ enum Role: string implements HasLabel
     public function permissions(): array
     {
         return match ($this) {
-            self::SUPER_ADMIN => [
+            self::SUPER => [
                 Permission::ACCESS_ADMIN,
                 Permission::CREATE_POSTS,
                 Permission::VIEW_POSTS,
@@ -47,7 +47,7 @@ enum Role: string implements HasLabel
     public function getLabel(): string
     {
         return match ($this) {
-            self::SUPER_ADMIN => 'Super Admin',
+            self::SUPER => 'Super',
             self::ADMIN => 'Admin',
             self::USER => 'User',
         };

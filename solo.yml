@@ -1,6 +1,27 @@
 name: laravel-inertia-vue-starter-kit
 icon: null
 processes:
+  'Test: Coverage':
+    command: composer test:coverage
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Logs:
+    command: tail -n 50 -f storage/logs/laravel.log
+    working_dir: null
+    auto_start: true
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  Test:
+    command: composer test
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
   'Build: Development':
     command: composer build:dev
     working_dir: null
@@ -8,8 +29,8 @@ processes:
     auto_restart: false
     restart_when_changed: []
     env: {}
-  'Test: Coverage':
-    command: composer test:coverage
+  'Vite: Build':
+    command: bun run build
     working_dir: null
     auto_start: false
     auto_restart: false
@@ -37,7 +58,7 @@ processes:
     restart_when_changed: []
     env: {}
   Finalise:
-    command: composer rector && composer fix && composer test:coverage
+    command: composer rector && composer format && composer test:coverage
     working_dir: null
     auto_start: false
     auto_restart: false
@@ -47,27 +68,6 @@ processes:
     command: bun run dev
     working_dir: null
     auto_start: true
-    auto_restart: false
-    restart_when_changed: []
-    env: {}
-  Logs:
-    command: tail -n 50 -f storage/logs/laravel.log
-    working_dir: null
-    auto_start: true
-    auto_restart: false
-    restart_when_changed: []
-    env: {}
-  Test:
-    command: composer test
-    working_dir: null
-    auto_start: false
-    auto_restart: false
-    restart_when_changed: []
-    env: {}
-  'Vite: Build':
-    command: bun run build
-    working_dir: null
-    auto_start: false
     auto_restart: false
     restart_when_changed: []
     env: {}

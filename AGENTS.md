@@ -12,18 +12,18 @@ You MUST make atomic commits for each task completed in a plan. Make sure the pl
 ## Domain and data
 
 - Session-first app: guest/auth flows, verified Inertia area, Filament admin. **Sole first-party Eloquent model:** `app/Models/User.php` (`MustVerifyEmail`, Sanctum `HasApiTokens`, Spatie `HasRoles`, Filament `FilamentUser` / `HasName`).
-- `User::canAccessPanel()` allows only `super-admin` and `admin` (`app/Enums/Role.php`).
+- `User::canAccessPanel()` allows only `super` and `admin` (`app/Enums/Role.php`).
 
 ## HTTP surface
 
 - **Routes:** `routes/web.php` only; no first-party `routes/api.php`.
 - **Laravel health:** `GET /up` from `bootstrap/app.php` `withRouting(health: ...)`.
-- **Spatie Health UI:** `GET /health`, middleware `auth` + `role:super-admin` (`Spatie\Health\Http\Controllers\HealthCheckResultsController`).
+- **Spatie Health UI:** `GET /health`, middleware `auth` + `role:super` (`Spatie\Health\Http\Controllers\HealthCheckResultsController`).
 - **Guest:** register, login, forgot/reset password (see controller imports in `routes/web.php`). POST actions for register, login, password, and verification resend use `throttle:6,1` where declared on the route.
 - **Auth:** `POST logout` (`auth`).
 - **Verified (`auth` + `verified`):** `GET /` dashboard, `GET|PATCH /account`.
 - **Auth-only (not necessarily verified):** email verification notice, signed verify link, resend (`account/verify*`); **`GET|POST account/password`** for `password.confirm` (`ConfirmPasswordController` → Inertia `Password/Show`, `ConfirmPasswordStoreRequest`; POST `throttle:6,1`).
-- **Super-admin:** `GET elements` → Inertia `Elements` (middleware `auth`, `password.confirm`, `role:super-admin`).
+- **Super-admin:** `GET elements` → Inertia `Elements` (middleware `auth`, `password.confirm`, `role:super`).
 
 ## Controllers and validation
 
@@ -58,7 +58,7 @@ You MUST make atomic commits for each task completed in a plan. Make sure the pl
 
 ## Seeders
 
-- `DatabaseSeeder` and `TestsSeeder` run `RolesAndPermissionsSeeder` before `UsersSeeder`. `UsersSeeder` creates super-admin, admin, and a standard user via `User::factory()` states (`database/factories/UserFactory.php`). Credentials reference: `config/seed.php`.
+- `DatabaseSeeder` and `TestsSeeder` run `RolesAndPermissionsSeeder` before `UsersSeeder`. `UsersSeeder` creates super, admin, and a standard user via `User::factory()` states (`database/factories/UserFactory.php`). Credentials reference: `config/seed.php`.
 
 ## Filament
 

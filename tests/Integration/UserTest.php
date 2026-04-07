@@ -6,9 +6,9 @@ use Database\Seeders\RolesAndPermissionsSeeder;
 it("can get it's Filament name", function () {
     $this->seed(RolesAndPermissionsSeeder::class);
 
-    $superAdminUser = User::factory()->superAdmin()->create();
+    $superUser = User::factory()->super()->create();
 
-    expect($superAdminUser->getFilamentName())->toBe($superAdminUser->name);
+    expect($superUser->getFilamentName())->toBe($superUser->name);
 });
 
 describe('With Roles and Permissions', function () {
@@ -16,12 +16,12 @@ describe('With Roles and Permissions', function () {
         $this->seed(RolesAndPermissionsSeeder::class);
     });
 
-    it("can only access Filament if it's a \"super-admin\" or \"admin\"", function () {
-        $superAdminUser = User::factory()->superAdmin()->create();
+    it("can only access Filament if it's a \"super\" or \"admin\"", function () {
+        $superUser = User::factory()->super()->create();
         $adminUser = User::factory()->admin()->create();
         $user = User::factory()->user()->create();
 
-        expect($superAdminUser->canAccessPanel())->toBeTrue();
+        expect($superUser->canAccessPanel())->toBeTrue();
         expect($adminUser->canAccessPanel())->toBeTrue();
         expect($user->canAccessPanel())->toBeFalse();
     });

@@ -42,7 +42,7 @@ describe('Users', function () {
     });
 
     test('Can confirm password and be redirected to the intended URL', function () {
-        $user = superAdminUser();
+        $user = superUser();
         $password = config('seed.users.super.password');
 
         actingAs($user)

@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission as SpatiePermission;
 use Spatie\Permission\Models\Role as SpatieRole;
 
 dataset('roles', [
-    'super admin' => [Role::SUPER_ADMIN],
+    'super admin' => [Role::SUPER],
     'admin' => [Role::ADMIN],
     'user' => [Role::USER],
 ]);
@@ -90,13 +90,13 @@ describe('sync with fresh option', function () {
     it('clears role-permission relationships when fresh is true', function () {
         $this->service->sync();
 
-        $role = SpatieRole::findByName(Role::SUPER_ADMIN->value);
+        $role = SpatieRole::findByName(Role::SUPER->value);
         expect($role->permissions->count())->toBeGreaterThan(0);
 
         $this->service->sync(fresh: true);
 
-        $role = SpatieRole::findByName(Role::SUPER_ADMIN->value);
-        $expectedPermissions = Role::SUPER_ADMIN->permissions();
+        $role = SpatieRole::findByName(Role::SUPER->value);
+        $expectedPermissions = Role::SUPER->permissions();
 
         expect($role->permissions)->toHaveCount(count($expectedPermissions));
     });
@@ -136,7 +136,7 @@ describe('getPermissions', function () {
 
 describe('getRole', function () {
     it('throws exception when role does not exist', function () {
-        $this->service->getRole(Role::SUPER_ADMIN);
+        $this->service->getRole(Role::SUPER);
     })->throws(RoleDoesNotExist::class);
 
     it('returns the correct role after sync', function () {
@@ -172,7 +172,7 @@ describe('permission cache', function () {
     it('clears permission cache after sync', function () {
         $this->service->sync();
 
-        $role = SpatieRole::findByName(Role::SUPER_ADMIN->value);
+        $role = SpatieRole::findByName(Role::SUPER->value);
 
         expect($role->hasPermissionTo(Permission::ACCESS_ADMIN->value))->toBeTrue();
     });

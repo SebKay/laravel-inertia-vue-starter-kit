@@ -31,7 +31,7 @@ class UserFactory extends Factory
         ]);
     }
 
-    public function superAdmin(?string $email = null)
+    public function super(?string $email = null)
     {
         return $this
             ->state(fn (array $attributes) => [
@@ -39,7 +39,7 @@ class UserFactory extends Factory
                 'password' => Hash::make(config('seed.users.super.password')),
             ])
             ->afterCreating(function (User $user) {
-                $user->assignRole(Role::SUPER_ADMIN);
+                $user->assignRole(Role::SUPER);
             });
     }
 
