@@ -3,8 +3,9 @@
 namespace App\Enums;
 
 use App\Enums\Concerns\Enum;
+use Filament\Support\Contracts\HasLabel;
 
-enum Role: string
+enum Role: string implements HasLabel
 {
     use Enum;
 
@@ -13,8 +14,6 @@ enum Role: string
     case USER = 'user';
 
     /**
-     * Get the permissions assigned to this role.
-     *
      * @return array<Permission>
      */
     public function permissions(): array
@@ -42,6 +41,15 @@ enum Role: string
                 Permission::UPDATE_POSTS,
                 Permission::DELETE_POSTS,
             ],
+        };
+    }
+
+    public function getLabel(): string
+    {
+        return match ($this) {
+            self::SUPER_ADMIN => 'Super Admin',
+            self::ADMIN => 'Admin',
+            self::USER => 'User',
         };
     }
 }

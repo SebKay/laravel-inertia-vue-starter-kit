@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users\Schemas;
 
+use App\Enums\Role;
 use App\Models\User;
 use Filament\Forms\Components\DateTimePicker;
 use Filament\Forms\Components\Select;
@@ -9,6 +10,7 @@ use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role as SpatieRole;
 
 class UserForm
 {
@@ -50,8 +52,11 @@ class UserForm
 
                         Select::make('roles')
                             ->preload()
-                            ->multiple()
-                            ->relationship('roles', 'name'),
+                            ->searchable()
+                            ->relationship('roles', 'name')
+                            ->getOptionLabelFromRecordUsing(function (SpatieRole $role): string {
+                                return Role::tryFrom($role->name)?->getLabel() ?? $role->name;
+                            })
                     ]),
             ]);
     }
