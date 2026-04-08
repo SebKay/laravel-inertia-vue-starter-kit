@@ -22,12 +22,14 @@
         </main>
     </div>
 
+    <Toaster />
     <Notice />
 </template>
 
 <script setup lang="ts">
     import type { LayoutProps } from "@js/types/inertia";
 
+    import { Toaster } from "@/components/ui/sonner";
     import PageTitle from "@js/components/PageTitle.vue";
     import { Sparkles as SparklesIcon } from "lucide-vue-next";
 

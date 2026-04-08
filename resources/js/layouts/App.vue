@@ -19,6 +19,7 @@
         <!-- <Footer class="mt-auto" /> -->
     </div>
 
+    <Toaster />
     <Notice />
 </template>
 
@@ -26,6 +27,8 @@
     import { defineAsyncComponent } from "vue";
 
     import type { LayoutProps } from "@js/types/inertia";
+
+    import { Toaster } from "@/components/ui/sonner";
 
     const Sidebar = defineAsyncComponent(
         () => import("@js/components/Sidebar.vue"),
