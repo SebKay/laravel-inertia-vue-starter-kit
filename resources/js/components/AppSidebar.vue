@@ -1,3 +1,4 @@
+<script setup lang="ts">
 import NavMain from '@/components/NavMain.vue'
 import {
   Sidebar,
