@@ -1,5 +1,8 @@
 <script setup lang="ts">
     import type { Component } from "vue";
+    import { computed } from "vue";
+    import { Link, usePage } from "@inertiajs/vue3";
+    import { toUrl } from "@/lib/utils";
 
     import {
         SidebarGroup,
@@ -18,6 +21,18 @@
     defineProps<{
         items: NavItem[];
     }>();
+
+    const page = usePage();
+
+    const currentPath = computed(() => {
+        const url = String(page.url ?? "");
+        return url.split("?")[0] ?? url;
+    });
+
+    function isActive(item: NavItem): boolean {
+        const itemPath = String(toUrl(item.url)).split("?")[0];
+        return currentPath.value === itemPath;
+    }
 </script>
 
 <template>
@@ -25,11 +40,11 @@
         <SidebarGroupContent>
             <SidebarMenu>
                 <SidebarMenuItem v-for="item in items" :key="item.title">
-                    <SidebarMenuButton as-child>
-                        <a :href="item.url">
+                    <SidebarMenuButton :is-active="isActive(item)" as-child>
+                        <Link :href="item.url" prefetch>
                             <component :is="item.icon" v-if="item.icon" />
                             {{ item.title }}
-                        </a>
+                        </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>
