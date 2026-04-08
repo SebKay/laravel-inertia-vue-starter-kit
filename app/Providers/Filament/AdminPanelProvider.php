@@ -30,7 +30,7 @@ class AdminPanelProvider extends PanelProvider
             ->globalSearchFieldKeyBindingSuffix()
             ->viteTheme('resources/css/filament/admin/theme.css')
             ->colors([
-                'primary' => '#1e293b',
+                'primary' => '#3e7be2',
             ])
             ->login(Login::class)
             ->passwordReset()
