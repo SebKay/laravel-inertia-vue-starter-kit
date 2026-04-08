@@ -24,7 +24,6 @@
     import {
         LayoutDashboard as LayoutDashboardIcon,
         LayoutList as LayoutListIcon,
-        CircleUser as CircleUserIcon,
         LogOut as LogOutIcon,
         Sparkles as SparklesIcon,
         Settings as SettingsIcon,
@@ -43,12 +42,6 @@
                 url: toUrl(home()),
                 icon: LayoutDashboardIcon,
                 components: ["Dashboard/Index"],
-            },
-            {
-                title: "Account",
-                url: toUrl(editAccount()),
-                icon: CircleUserIcon,
-                components: ["Account/Edit", "EmailVerification/Show"],
             },
         ];
 
