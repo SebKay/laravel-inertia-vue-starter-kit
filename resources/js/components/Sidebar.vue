@@ -5,14 +5,15 @@
     >
         <nav class="flex flex-1">
             <div class="lg:hidden">
-                <button
+                <Button
                     @click="mobileMenuOpen = !mobileMenuOpen"
                     type="button"
-                    class="relative inline-flex cursor-pointer items-center justify-center rounded-md border bg-background p-2 text-foreground shadow-xs hover:bg-accent hover:text-accent-foreground"
+                    variant="outline"
+                    size="icon"
                 >
                     <span class="sr-only">Open main menu</span>
                     <MenuIcon class="block size-6" />
-                </button>
+                </Button>
             </div>
 
             <div
@@ -46,36 +47,45 @@
                     </div>
 
                     <div class="flex flex-col gap-1.5">
-                        <Link
-                            :href="home()"
-                            prefetch
-                            component="Dashboard/Index"
-                            class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium transition-colors"
+                        <Button
+                            as-child
+                            variant="ghost"
+                            class="w-full justify-start gap-2"
                             :class="navLinkActiveClass(['Dashboard/Index'])"
                         >
-                            <LayoutDashboardIcon class="size-4 shrink-0" />
-                            Dashboard
-                        </Link>
+                            <Link
+                                :href="home()"
+                                prefetch
+                                component="Dashboard/Index"
+                            >
+                                <LayoutDashboardIcon class="size-4 shrink-0" />
+                                Dashboard
+                            </Link>
+                        </Button>
 
-                        <Link
-                            :href="elements()"
-                            prefetch
-                            component="Elements"
-                            class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium transition-colors"
+                        <Button
+                            as-child
+                            variant="ghost"
+                            class="w-full justify-start gap-2"
                             :class="navLinkActiveClass(['Elements'])"
                         >
-                            <LayoutListIcon class="size-4 shrink-0" />
-                            Elements
-                        </Link>
+                            <Link
+                                :href="elements()"
+                                prefetch
+                                component="Elements"
+                            >
+                                <LayoutListIcon class="size-4 shrink-0" />
+                                Elements
+                            </Link>
+                        </Button>
                     </div>
 
                     <div class="mt-auto flex flex-col gap-5">
                         <div class="flex flex-col gap-1.5">
-                            <Link
-                                :href="editAccount()"
-                                prefetch
-                                component="Account/Edit"
-                                class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium transition-colors"
+                            <Button
+                                as-child
+                                variant="ghost"
+                                class="w-full justify-start gap-2"
                                 :class="
                                     navLinkActiveClass([
                                         'Account/Edit',
@@ -83,12 +93,18 @@
                                     ])
                                 "
                             >
-                                <CircleUserIcon class="size-4 shrink-0" />
-                                Account
-                            </Link>
+                                <Link
+                                    :href="editAccount()"
+                                    prefetch
+                                    component="Account/Edit"
+                                >
+                                    <CircleUserIcon class="size-4 shrink-0" />
+                                    Account
+                                </Link>
+                            </Button>
 
                             <Link
-                                class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
+                                class="flex cursor-pointer items-center gap-2 rounded-md px-3 py-2 text-left text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                                 :href="LogoutController()"
                                 method="post"
                                 as="button"
@@ -118,6 +134,8 @@
     import { ref, onMounted, watch } from "vue";
     import { router, usePage } from "@inertiajs/vue3";
 
+    import { Button } from "@/components/ui/button";
+
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
     import { elements } from "@js/routes";
@@ -140,8 +158,6 @@
 
         return {
             "bg-sidebar-accent text-sidebar-accent-foreground": active,
-            "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground":
-                !active,
         };
     }
 
