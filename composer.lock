@@ -2167,16 +2167,16 @@
         },
         {
             "name": "inertiajs/inertia-laravel",
-            "version": "v3.0.2",
+            "version": "v3.0.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/inertiajs/inertia-laravel.git",
-                "reference": "25fe835d0fadf988d2cd8974d4a7b64048f84eda"
+                "reference": "9cb520f18c425ffd523293af54dd3c31ec9b1e79"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/25fe835d0fadf988d2cd8974d4a7b64048f84eda",
-                "reference": "25fe835d0fadf988d2cd8974d4a7b64048f84eda",
+                "url": "https://api.github.com/repos/inertiajs/inertia-laravel/zipball/9cb520f18c425ffd523293af54dd3c31ec9b1e79",
+                "reference": "9cb520f18c425ffd523293af54dd3c31ec9b1e79",
                 "shasum": ""
             },
             "require": {
@@ -2234,9 +2234,9 @@
             ],
             "support": {
                 "issues": "https://github.com/inertiajs/inertia-laravel/issues",
-                "source": "https://github.com/inertiajs/inertia-laravel/tree/v3.0.2"
+                "source": "https://github.com/inertiajs/inertia-laravel/tree/v3.0.3"
             },
-            "time": "2026-04-07T14:00:22+00:00"
+            "time": "2026-04-08T12:12:17+00:00"
         },
         {
             "name": "kirschbaum-development/eloquent-power-joins",
