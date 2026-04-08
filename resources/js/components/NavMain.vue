@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import type { Component } from "vue"
 import { IconCirclePlusFilled, IconMail } from "@tabler/icons-vue"
+import { computed } from "vue"
+import { usePage, Link } from "@inertiajs/vue3"
 
 import { Button } from '@/components/ui/button'
 import {
@@ -15,11 +17,19 @@ interface NavItem {
   title: string
   url: string
   icon?: Component
+  components?: string[]
 }
 
-defineProps<{
+const props = defineProps<{
   items: NavItem[]
 }>()
+
+const page = usePage()
+
+function isActive(item: NavItem): boolean {
+  const current = String(page.component)
+  return (item.components ?? []).includes(current)
+}
 </script>
 
 <template>
@@ -46,9 +56,11 @@ defineProps<{
       </SidebarMenu>
       <SidebarMenu>
         <SidebarMenuItem v-for="item in items" :key="item.title">
-          <SidebarMenuButton :tooltip="item.title">
-            <component :is="item.icon" v-if="item.icon" />
-            <span>{{ item.title }}</span>
+          <SidebarMenuButton :tooltip="item.title" :is-active="isActive(item)" as-child>
+            <Link :href="item.url" prefetch>
+              <component :is="item.icon" v-if="item.icon" />
+              <span>{{ item.title }}</span>
+            </Link>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>

@@ -1,25 +1,4 @@
-<script setup lang="ts">
-import {
-  IconCamera,
-  IconChartBar,
-  IconDashboard,
-  IconDatabase,
-  IconFileAi,
-  IconFileDescription,
-  IconFolder,
-  IconHelp,
-  IconInnerShadowTop,
-  IconListDetails,
-  IconReport,
-  IconSearch,
-  IconSettings,
-  IconUsers,
-} from "@tabler/icons-vue"
-
-import NavDocuments from '@/components/NavDocuments.vue'
 import NavMain from '@/components/NavMain.vue'
-import NavSecondary from '@/components/NavSecondary.vue'
-import NavUser from '@/components/NavUser.vue'
 import {
   Sidebar,
   SidebarContent,
@@ -29,123 +8,58 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/ui/sidebar'
+import { userCan } from '@js/utilities/permissions'
+import { Link, usePage } from '@inertiajs/vue3'
+import { computed } from 'vue'
 
-const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
+import { index as home } from '@js/actions/App/Http/Controllers/DashboardController'
+import { edit as editAccount } from '@js/actions/App/Http/Controllers/AccountController'
+import LogoutController from '@js/actions/App/Http/Controllers/LogoutController'
+import { elements } from '@js/routes'
+
+import {
+  LayoutDashboard as LayoutDashboardIcon,
+  LayoutList as LayoutListIcon,
+  CircleUser as CircleUserIcon,
+  LogOut as LogOutIcon,
+  Sparkles as SparklesIcon,
+  Settings as SettingsIcon,
+} from 'lucide-vue-next'
+
+const page = usePage()
+
+const showElementsLink = computed(() => userCan(page.props as any, 'access-filament'))
+
+const navItems = computed(() => {
+  const items = [
     {
-      title: "Dashboard",
-      url: "#",
-      icon: IconDashboard,
+      title: 'Dashboard',
+      url: home(),
+      icon: LayoutDashboardIcon,
+      components: ['Dashboard/Index'],
     },
     {
-      title: "Lifecycle",
-      url: "#",
-      icon: IconListDetails,
+      title: 'Account',
+      url: editAccount(),
+      icon: CircleUserIcon,
+      components: ['Account/Edit', 'EmailVerification/Show'],
     },
-    {
-      title: "Analytics",
-      url: "#",
-      icon: IconChartBar,
-    },
-    {
-      title: "Projects",
-      url: "#",
-      icon: IconFolder,
-    },
-    {
-      title: "Team",
-      url: "#",
-      icon: IconUsers,
-    },
-  ],
-  navClouds: [
-    {
-      title: "Capture",
-      icon: IconCamera,
-      isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Proposal",
-      icon: IconFileDescription,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-    {
-      title: "Prompts",
-      icon: IconFileAi,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: IconSettings,
-    },
-    {
-      title: "Get Help",
-      url: "#",
-      icon: IconHelp,
-    },
-    {
-      title: "Search",
-      url: "#",
-      icon: IconSearch,
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: IconDatabase,
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: IconReport,
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: IconFileDescription,
-    },
-  ],
-}
+  ]
+
+  if (showElementsLink.value) {
+    items.push({
+      title: 'Elements',
+      url: elements(),
+      icon: LayoutListIcon,
+      components: ['Elements'],
+    })
+  }
+
+  return items
+})
+
+const userName = computed(() => page.props.auth?.user?.data.attributes.name ?? 'Account')
+const userEmail = computed(() => page.props.auth?.user?.data.attributes.email ?? '')
 </script>
 
 <template>
@@ -157,21 +71,40 @@ const data = {
             as-child
             class="data-[slot=sidebar-menu-button]:!p-1.5"
           >
-            <a href="#">
-              <IconInnerShadowTop class="!size-5" />
-              <span class="text-base font-semibold">Acme Inc.</span>
+            <a :href="home()">
+              <SparklesIcon class="!size-5 text-primary" />
+              <span class="text-base font-semibold">Starter Kit</span>
             </a>
           </SidebarMenuButton>
         </SidebarMenuItem>
       </SidebarMenu>
     </SidebarHeader>
     <SidebarContent>
-      <NavMain :items="data.navMain" />
-      <NavDocuments :items="data.documents" />
-      <NavSecondary :items="data.navSecondary" class="mt-auto" />
+      <NavMain :items="navItems" />
     </SidebarContent>
     <SidebarFooter>
-      <NavUser :user="data.user" />
+      <SidebarMenu>
+        <SidebarMenuItem>
+          <SidebarMenuButton as-child>
+            <Link :href="editAccount()" prefetch>
+              <SettingsIcon class="size-4" />
+              <span>Account</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem>
+          <SidebarMenuButton as-child>
+            <Link :href="LogoutController()" method="post" as="button">
+              <LogOutIcon class="size-4" />
+              <span>Logout</span>
+            </Link>
+          </SidebarMenuButton>
+        </SidebarMenuItem>
+        <SidebarMenuItem class="px-2 text-xs text-muted-foreground">
+          <span class="truncate">{{ userName }}</span>
+          <span v-if="userEmail" class="truncate">{{ userEmail }}</span>
+        </SidebarMenuItem>
+      </SidebarMenu>
     </SidebarFooter>
   </Sidebar>
 </template>
