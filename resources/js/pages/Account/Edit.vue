@@ -81,13 +81,12 @@
 <script setup lang="ts">
     import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
 
-    import type { PageProps, UserDocument } from "@js/types/inertia";
-
     import { Button } from "@/components/ui/button";
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
 
     import { update } from "@js/actions/App/Http/Controllers/AccountController";
+    import type { PageProps, UserDocument } from "@js/types/inertia";
 
     const title = "Account";
     const props = defineProps<

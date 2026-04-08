@@ -86,26 +86,18 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from "vue";
     import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
-    import Layout from "@js/layouts/Guest.vue";
-
-    import type { PageProps } from "@js/types/inertia";
+    import { ref } from "vue";
 
     import { Button } from "@/components/ui/button";
-    import {
-        Card,
-        CardContent,
-        CardDescription,
-        CardFooter,
-        CardHeader,
-        CardTitle,
-    } from "@/components/ui/card";
+    import { Card, CardContent, CardFooter } from "@/components/ui/card";
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/RegisterController";
+    import Layout from "@js/layouts/Guest.vue";
+    import type { PageProps } from "@js/types/inertia";
 
     defineOptions({
         layout: Layout,

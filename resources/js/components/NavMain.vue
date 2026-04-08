@@ -1,7 +1,6 @@
 <script setup lang="ts">
-    import type { Component } from "vue";
-    import { computed } from "vue";
     import { usePage, Link } from "@inertiajs/vue3";
+    import type { Component } from "vue";
 
     import {
         SidebarGroup,
@@ -18,7 +17,7 @@
         components?: string[];
     }
 
-    const props = defineProps<{
+    defineProps<{
         items: NavItem[];
     }>();
 
@@ -26,6 +25,7 @@
 
     function isActive(item: NavItem): boolean {
         const current = String(page.component);
+
         return (item.components ?? []).includes(current);
     }
 </script>

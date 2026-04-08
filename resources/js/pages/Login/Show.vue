@@ -96,11 +96,8 @@
 </template>
 
 <script setup lang="ts">
-    import { ref } from "vue";
     import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
-    import Layout from "@js/layouts/Guest.vue";
-
-    import type { PageProps } from "@js/types/inertia";
+    import { ref } from "vue";
 
     import { Button } from "@/components/ui/button";
     import { Card, CardContent, CardFooter } from "@/components/ui/card";
@@ -108,9 +105,11 @@
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
 
-    import { show as forgotPassword } from "@js/actions/App/Http/Controllers/ResetPasswordController";
-    import { show as register } from "@js/actions/App/Http/Controllers/RegisterController";
     import { store } from "@js/actions/App/Http/Controllers/LoginController";
+    import { show as register } from "@js/actions/App/Http/Controllers/RegisterController";
+    import { show as forgotPassword } from "@js/actions/App/Http/Controllers/ResetPasswordController";
+    import Layout from "@js/layouts/Guest.vue";
+    import type { PageProps } from "@js/types/inertia";
 
     defineOptions({
         layout: Layout,

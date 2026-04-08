@@ -1,5 +1,5 @@
-import { defineAsyncComponent } from "vue";
 import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
+import { defineAsyncComponent } from "vue";
 
 const appName = import.meta.env.VITE_APP_NAME || "Template";
 

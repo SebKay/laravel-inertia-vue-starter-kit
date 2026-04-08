@@ -28,11 +28,10 @@
 </template>
 
 <script setup lang="ts">
-    import type { LayoutProps } from "@js/types/inertia";
-
+    import { Sparkles as SparklesIcon } from "lucide-vue-next";
     import { Toaster } from "@/components/ui/sonner";
     import PageTitle from "@js/components/PageTitle.vue";
-    import { Sparkles as SparklesIcon } from "lucide-vue-next";
+    import type { LayoutProps } from "@js/types/inertia";
 
     withDefaults(defineProps<LayoutProps>(), {
         heading: "",

@@ -1,9 +1,8 @@
 <script setup lang="ts">
-    import type { LayoutProps } from "@js/types/inertia";
-
     import AppSidebar from "@/components/AppSidebar.vue";
     import SiteHeader from "@/components/SiteHeader.vue";
     import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+    import type { LayoutProps } from "@js/types/inertia";
 
     withDefaults(defineProps<LayoutProps>(), {
         heading: "",

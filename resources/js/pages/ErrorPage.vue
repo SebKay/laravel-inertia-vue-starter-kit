@@ -16,8 +16,8 @@
 </template>
 
 <script setup lang="ts">
-    import { computed } from "vue";
     import { Head } from "@inertiajs/vue3";
+    import { computed } from "vue";
     import Layout from "@js/layouts/Bare.vue";
 
     import type { PageProps } from "@js/types/inertia";

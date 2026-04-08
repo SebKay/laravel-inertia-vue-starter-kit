@@ -1,4 +1,13 @@
 <script setup lang="ts">
+    import { Link, usePage } from "@inertiajs/vue3";
+    import {
+        LayoutDashboard as LayoutDashboardIcon,
+        LayoutList as LayoutListIcon,
+        LogOut as LogOutIcon,
+        Sparkles as SparklesIcon,
+        Settings as SettingsIcon,
+    } from "lucide-vue-next";
+    import { computed } from "vue";
     import NavMain from "@/components/NavMain.vue";
     import {
         Sidebar,
@@ -9,25 +18,15 @@
         SidebarMenuButton,
         SidebarMenuItem,
     } from "@/components/ui/sidebar";
-    import { userCan } from "@js/utilities/permissions";
-    import { Link, usePage } from "@inertiajs/vue3";
-    import { computed } from "vue";
-    import type { PageProps } from "@js/types/inertia";
     import type { SidebarProps } from "@/components/ui/sidebar";
     import { toUrl } from "@/lib/utils";
 
-    import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
+    import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
     import PasswordController from "@js/actions/App/Http/Controllers/PasswordController";
-
-    import {
-        LayoutDashboard as LayoutDashboardIcon,
-        LayoutList as LayoutListIcon,
-        LogOut as LogOutIcon,
-        Sparkles as SparklesIcon,
-        Settings as SettingsIcon,
-    } from "lucide-vue-next";
+    import type { PageProps } from "@js/types/inertia";
+    import { userCan } from "@js/utilities/permissions";
 
     const page = usePage();
 
@@ -56,13 +55,6 @@
 
         return items;
     });
-
-    const userName = computed(
-        () => page.props.auth?.user?.data.attributes.name ?? "Account",
-    );
-    const userEmail = computed(
-        () => page.props.auth?.user?.data.attributes.email ?? "",
-    );
 
     withDefaults(
         defineProps<{

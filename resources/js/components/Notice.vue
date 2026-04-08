@@ -24,16 +24,15 @@
 </template>
 
 <script setup lang="ts">
-    import { ref, onMounted, onUnmounted } from "vue";
     import { router } from "@inertiajs/vue3";
-
-    import type { FlashData } from "@js/types/inertia";
-
     import {
         CircleCheck as CircleCheckIcon,
         CircleX as CircleXIcon,
         CircleAlert as CircleAlertIcon,
     } from "lucide-vue-next";
+    import { ref, onMounted, onUnmounted } from "vue";
+
+    import type { FlashData } from "@js/types/inertia";
 
     const active = ref(false);
     const type = ref("");
