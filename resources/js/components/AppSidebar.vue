@@ -13,6 +13,7 @@
     import { Link, usePage } from "@inertiajs/vue3";
     import { computed } from "vue";
     import type { PageProps } from "@js/types/inertia";
+import type { SidebarProps } from "@/components/ui/sidebar";
 
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
@@ -68,10 +69,19 @@
     const userEmail = computed(
         () => page.props.auth?.user?.data.attributes.email ?? "",
     );
+
+withDefaults(
+    defineProps<{
+        variant?: SidebarProps["variant"];
+    }>(),
+    {
+        variant: "sidebar",
+    },
+);
 </script>
 
 <template>
-    <Sidebar collapsible="offcanvas">
+    <Sidebar collapsible="offcanvas" :variant="variant">
         <SidebarHeader>
             <SidebarMenu>
                 <SidebarMenuItem>
