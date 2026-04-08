@@ -1,5 +1,5 @@
 @utility button {
-    @apply inline-flex cursor-pointer rounded-md bg-ui-1-1 px-6 py-3 text-sm font-semibold text-white shadow-xs transition-colors hover:bg-ui-1-1;
+    @apply bg-ui-1-1 hover:bg-ui-1-1 inline-flex cursor-pointer rounded-md px-6 py-3 text-sm font-semibold text-white shadow-xs transition-colors;
 
     &[disabled] {
         @apply pointer-events-none opacity-50;

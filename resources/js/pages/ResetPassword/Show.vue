@@ -10,34 +10,34 @@
                 </CardDescription>
             </CardHeader>
             <CardContent>
-            <Form
-                :action="store()"
-                :options="{ preserveScroll: 'errors' }"
-                #default="{ errors, processing }"
-            >
-                <div class="grid gap-4">
-                    <div class="grid gap-2">
-                        <Label for="email">Email</Label>
-                        <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            autocomplete="email"
-                            required
-                            v-model="remembered.email"
-                        />
-                        <p
-                            v-if="errors.email"
-                            class="text-sm text-destructive"
-                            v-text="errors.email"
-                        />
-                    </div>
+                <Form
+                    :action="store()"
+                    :options="{ preserveScroll: 'errors' }"
+                    #default="{ errors, processing }"
+                >
+                    <div class="grid gap-4">
+                        <div class="grid gap-2">
+                            <Label for="email">Email</Label>
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                autocomplete="email"
+                                required
+                                v-model="remembered.email"
+                            />
+                            <p
+                                v-if="errors.email"
+                                class="text-sm text-destructive"
+                                v-text="errors.email"
+                            />
+                        </div>
 
-                    <Button class="w-full" :disabled="processing">
-                        Email reset link
-                    </Button>
-                </div>
-            </Form>
+                        <Button class="w-full" :disabled="processing">
+                            Email reset link
+                        </Button>
+                    </div>
+                </Form>
             </CardContent>
 
             <CardFooter class="flex justify-center">
@@ -61,7 +61,14 @@
     import Layout from "@js/layouts/Guest.vue";
 
     import { Button } from "@/components/ui/button";
-    import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+    import {
+        Card,
+        CardContent,
+        CardDescription,
+        CardFooter,
+        CardHeader,
+        CardTitle,
+    } from "@/components/ui/card";
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
 

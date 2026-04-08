@@ -10,80 +10,80 @@
                 </CardDescription>
             </CardHeader>
             <CardContent>
-            <Form
-                :action="store()"
-                :on-finish="handleFinish"
-                :options="{ preserveScroll: 'errors' }"
-                #default="{ errors, processing }"
-            >
-                <div class="grid gap-4">
-                    <div class="grid gap-2">
-                        <Label for="email">Email</Label>
-                        <Input
-                            id="email"
-                            name="email"
-                            type="email"
-                            autocomplete="email"
-                            required
-                            v-model="remembered.email"
-                        />
-                        <p
-                            v-if="errors.email"
-                            class="text-sm text-destructive"
-                            v-text="errors.email"
-                        />
-                    </div>
-
-                    <div class="grid gap-2">
-                        <div class="flex items-center justify-between">
-                            <Label for="password">Password</Label>
-                            <Link
-                                class="text-sm underline underline-offset-4 hover:opacity-80"
-                                :href="forgotPassword()"
-                                prefetch
-                            >
-                                Forgot password?
-                            </Link>
+                <Form
+                    :action="store()"
+                    :on-finish="handleFinish"
+                    :options="{ preserveScroll: 'errors' }"
+                    #default="{ errors, processing }"
+                >
+                    <div class="grid gap-4">
+                        <div class="grid gap-2">
+                            <Label for="email">Email</Label>
+                            <Input
+                                id="email"
+                                name="email"
+                                type="email"
+                                autocomplete="email"
+                                required
+                                v-model="remembered.email"
+                            />
+                            <p
+                                v-if="errors.email"
+                                class="text-sm text-destructive"
+                                v-text="errors.email"
+                            />
                         </div>
-                        <Input
-                            id="password"
-                            name="password"
-                            type="password"
-                            autocomplete="current-password"
-                            required
-                            v-model="password"
-                        />
-                        <p
-                            v-if="errors.password"
-                            class="text-sm text-destructive"
-                            v-text="errors.password"
-                        />
-                    </div>
 
-                    <div class="flex items-center gap-2">
+                        <div class="grid gap-2">
+                            <div class="flex items-center justify-between">
+                                <Label for="password">Password</Label>
+                                <Link
+                                    class="text-sm underline underline-offset-4 hover:opacity-80"
+                                    :href="forgotPassword()"
+                                    prefetch
+                                >
+                                    Forgot password?
+                                </Link>
+                            </div>
+                            <Input
+                                id="password"
+                                name="password"
+                                type="password"
+                                autocomplete="current-password"
+                                required
+                                v-model="password"
+                            />
+                            <p
+                                v-if="errors.password"
+                                class="text-sm text-destructive"
+                                v-text="errors.password"
+                            />
+                        </div>
+
+                        <div class="flex items-center gap-2">
+                            <input
+                                id="remember"
+                                class="h-4 w-4 rounded border-input text-primary"
+                                name="remember"
+                                type="checkbox"
+                                v-model="remembered.remember"
+                            />
+                            <Label for="remember" class="text-sm font-normal">
+                                Remember me
+                            </Label>
+                        </div>
+
                         <input
-                            id="remember"
-                            class="h-4 w-4 rounded border-input text-primary"
-                            name="remember"
-                            type="checkbox"
-                            v-model="remembered.remember"
+                            v-model="remembered.redirect"
+                            name="redirect"
+                            type="hidden"
                         />
-                        <Label for="remember" class="text-sm font-normal">
-                            Remember me
-                        </Label>
+
+                        <Button class="w-full" :disabled="processing">
+                            Log in
+                        </Button>
                     </div>
-
-                    <input
-                        v-model="remembered.redirect"
-                        name="redirect"
-                        type="hidden"
-                    />
-
-                    <Button class="w-full" :disabled="processing">
-                        Log in
-                    </Button>
-                </div>
-            </Form>
+                </Form>
             </CardContent>
 
             <CardFooter class="flex justify-center">
@@ -110,7 +110,14 @@
     import type { PageProps } from "@js/types/inertia";
 
     import { Button } from "@/components/ui/button";
-    import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+    import {
+        Card,
+        CardContent,
+        CardDescription,
+        CardFooter,
+        CardHeader,
+        CardTitle,
+    } from "@/components/ui/card";
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
 

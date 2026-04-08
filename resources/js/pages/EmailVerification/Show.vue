@@ -49,7 +49,13 @@
     import Layout from "@js/layouts/Guest.vue";
 
     import { Button } from "@/components/ui/button";
-    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+    import {
+        Card,
+        CardContent,
+        CardDescription,
+        CardHeader,
+        CardTitle,
+    } from "@/components/ui/card";
 
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
     import { update } from "@js/actions/App/Http/Controllers/EmailVerificationController";

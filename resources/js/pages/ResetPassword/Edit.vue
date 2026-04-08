@@ -8,63 +8,65 @@
                 <CardDescription>Choose a new password.</CardDescription>
             </CardHeader>
             <CardContent>
-            <Form
-                :action="update()"
-                :on-finish="handleFinish"
-                :options="{ preserveScroll: 'errors' }"
-                #default="{ errors, processing }"
-            >
-                <div class="grid gap-4">
-                    <input
-                        name="email"
-                        type="hidden"
-                        :value="remembered.email"
-                    />
-                    <input
-                        name="token"
-                        type="hidden"
-                        :value="props.token ?? ''"
-                    />
+                <Form
+                    :action="update()"
+                    :on-finish="handleFinish"
+                    :options="{ preserveScroll: 'errors' }"
+                    #default="{ errors, processing }"
+                >
+                    <div class="grid gap-4">
+                        <input
+                            name="email"
+                            type="hidden"
+                            :value="remembered.email"
+                        />
+                        <input
+                            name="token"
+                            type="hidden"
+                            :value="props.token ?? ''"
+                        />
 
-                    <div class="grid gap-2">
-                        <Label for="password">Password</Label>
-                        <Input
-                            id="password"
-                            name="password"
-                            type="password"
-                            autocomplete="new-password"
-                            required
-                            v-model="password"
-                        />
-                        <p
-                            v-if="errors.password"
-                            class="text-sm text-destructive"
-                            v-text="errors.password"
-                        />
-                    </div>
+                        <div class="grid gap-2">
+                            <Label for="password">Password</Label>
+                            <Input
+                                id="password"
+                                name="password"
+                                type="password"
+                                autocomplete="new-password"
+                                required
+                                v-model="password"
+                            />
+                            <p
+                                v-if="errors.password"
+                                class="text-sm text-destructive"
+                                v-text="errors.password"
+                            />
+                        </div>
 
-                    <div class="grid gap-2">
-                        <Label for="password-confirmation">Confirm password</Label>
-                        <Input
-                            id="password-confirmation"
-                            name="password_confirmation"
-                            type="password"
-                            autocomplete="new-password"
-                            required
-                            v-model="passwordConfirmation"
-                        />
-                        <p
-                            v-if="errors.password_confirmation"
-                            class="text-sm text-destructive"
-                            v-text="errors.password_confirmation"
-                        />
-                    </div>
+                        <div class="grid gap-2">
+                            <Label for="password-confirmation"
+                                >Confirm password</Label
+                            >
+                            <Input
+                                id="password-confirmation"
+                                name="password_confirmation"
+                                type="password"
+                                autocomplete="new-password"
+                                required
+                                v-model="passwordConfirmation"
+                            />
+                            <p
+                                v-if="errors.password_confirmation"
+                                class="text-sm text-destructive"
+                                v-text="errors.password_confirmation"
+                            />
+                        </div>
 
-                    <Button class="w-full" :disabled="processing">
+                        <Button class="w-full" :disabled="processing">
                             Reset Password
-                    </Button>
-                </div>
-            </Form>
+                        </Button>
+                    </div>
+                </Form>
             </CardContent>
         </Card>
     </div>
@@ -78,7 +80,13 @@
     import type { PageProps } from "@js/types/inertia";
 
     import { Button } from "@/components/ui/button";
-    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+    import {
+        Card,
+        CardContent,
+        CardDescription,
+        CardHeader,
+        CardTitle,
+    } from "@/components/ui/card";
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
 

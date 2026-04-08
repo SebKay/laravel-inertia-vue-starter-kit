@@ -38,7 +38,7 @@
                             :href="home()"
                             class="flex items-center gap-2.5 p-2.5"
                         >
-                            <SparklesIcon class="size-7 text-ui-1-1" />
+                            <SparklesIcon class="text-ui-1-1 size-7" />
                             <span class="font-semibold"
                                 >Laravel Starter Kit</span
                             >

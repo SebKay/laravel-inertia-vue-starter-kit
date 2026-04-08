@@ -45,7 +45,7 @@
 }
 
 @utility option {
-    @apply field size-5 cursor-pointer text-ui-1-1 checked:border-transparent;
+    @apply field text-ui-1-1 size-5 cursor-pointer checked:border-transparent;
 }
 
 @utility checkbox {
