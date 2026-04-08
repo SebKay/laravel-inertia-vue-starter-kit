@@ -7,16 +7,15 @@
         class="flex min-h-dvh flex-col justify-center bg-muted text-foreground"
     >
         <main class="px-4 py-8 sm:px-6 xl:px-8 xl:py-16">
-            <div class="mx-auto max-w-7xl">
-                <SparklesIcon
-                    class="mx-auto mb-4 block size-10 text-primary xl:mb-8"
-                />
+            <div class="mx-auto max-w-7xl space-y-6 xl:space-y-10">
+                <div>
+                    <SparklesIcon
+                        class="mx-auto mb-2.5 block size-10 text-primary xl:mb-5"
+                    />
 
-                <div
-                    v-if="heading"
-                    class="mx-auto mb-4 max-w-2xl text-center xl:mb-8"
-                >
-                    <PageTitle :text="heading" />
+                    <div v-if="heading" class="mx-auto max-w-2xl text-center">
+                        <PageTitle :text="heading" />
+                    </div>
                 </div>
 
                 <slot />

@@ -1,14 +1,8 @@
 <template>
     <Head :title="title" />
 
-    <div class="mx-auto max-w-md">
+    <div class="mx-auto max-w-xl">
         <Card>
-            <CardHeader>
-                <CardTitle>Log in</CardTitle>
-                <CardDescription>
-                    Enter your email and password to continue.
-                </CardDescription>
-            </CardHeader>
             <CardContent>
                 <Form
                     :action="store()"
@@ -16,8 +10,8 @@
                     :options="{ preserveScroll: 'errors' }"
                     #default="{ errors, processing }"
                 >
-                    <div class="grid gap-4">
-                        <div class="grid gap-2">
+                    <div class="grid gap-5">
+                        <div class="grid gap-3">
                             <Label for="email">Email</Label>
                             <Input
                                 id="email"
@@ -34,7 +28,7 @@
                             />
                         </div>
 
-                        <div class="grid gap-2">
+                        <div class="grid gap-3">
                             <div class="flex items-center justify-between">
                                 <Label for="password">Password</Label>
                                 <Link
@@ -112,10 +106,7 @@
     import {
         Card,
         CardContent,
-        CardDescription,
         CardFooter,
-        CardHeader,
-        CardTitle,
     } from "@/components/ui/card";
     import { Checkbox } from "@/components/ui/checkbox";
     import { Input } from "@/components/ui/input";

@@ -1,12 +1,8 @@
 <template>
     <Head :title="title" />
 
-    <div class="mx-auto max-w-md">
+    <div class="mx-auto max-w-xl">
         <Card>
-            <CardHeader>
-                <CardTitle>Reset password</CardTitle>
-                <CardDescription>Choose a new password.</CardDescription>
-            </CardHeader>
             <CardContent>
                 <Form
                     :action="update()"
@@ -14,7 +10,7 @@
                     :options="{ preserveScroll: 'errors' }"
                     #default="{ errors, processing }"
                 >
-                    <div class="grid gap-4">
+                    <div class="grid gap-5">
                         <input
                             name="email"
                             type="hidden"
@@ -26,7 +22,7 @@
                             :value="props.token ?? ''"
                         />
 
-                        <div class="grid gap-2">
+                        <div class="grid gap-3">
                             <Label for="password">Password</Label>
                             <Input
                                 id="password"
@@ -43,7 +39,7 @@
                             />
                         </div>
 
-                        <div class="grid gap-2">
+                        <div class="grid gap-3">
                             <Label for="password-confirmation"
                                 >Confirm password</Label
                             >

@@ -1,14 +1,8 @@
 <template>
     <Head :title="title" />
 
-    <div class="mx-auto max-w-md space-y-4">
+    <div class="mx-auto max-w-xl space-y-4">
         <Card>
-            <CardHeader>
-                <CardTitle>Verify your email</CardTitle>
-                <CardDescription>
-                    We’ve sent a verification link to your email address.
-                </CardDescription>
-            </CardHeader>
             <CardContent>
                 <Button
                     class="w-full"

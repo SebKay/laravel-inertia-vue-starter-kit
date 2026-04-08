@@ -12,7 +12,7 @@
         data-slot="card"
         :class="
             cn(
-                'flex flex-col gap-6 rounded-xl border bg-card py-6 text-card-foreground',
+                'flex flex-col gap-7.5 rounded-xl border bg-card py-7.5 text-card-foreground',
                 props.class,
             )
         "
