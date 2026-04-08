@@ -13,7 +13,7 @@
     import { Link, usePage } from "@inertiajs/vue3";
     import { computed } from "vue";
     import type { PageProps } from "@js/types/inertia";
-import type { SidebarProps } from "@/components/ui/sidebar";
+    import type { SidebarProps } from "@/components/ui/sidebar";
 
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
@@ -70,14 +70,14 @@ import type { SidebarProps } from "@/components/ui/sidebar";
         () => page.props.auth?.user?.data.attributes.email ?? "",
     );
 
-withDefaults(
-    defineProps<{
-        variant?: SidebarProps["variant"];
-    }>(),
-    {
-        variant: "sidebar",
-    },
-);
+    withDefaults(
+        defineProps<{
+            variant?: SidebarProps["variant"];
+        }>(),
+        {
+            variant: "sidebar",
+        },
+    );
 </script>
 
 <template>
@@ -87,14 +87,14 @@ withDefaults(
                 <SidebarMenuItem>
                     <SidebarMenuButton
                         as-child
-                        class="data-[slot=sidebar-menu-button]:!p-1.5"
+                        class="data-[slot=sidebar-menu-button]:p-1.5!"
                     >
-                        <a :href="home()">
-                            <SparklesIcon class="!size-5 text-primary" />
+                        <Link :href="home()" prefetch>
+                            <SparklesIcon class="size-5! text-primary" />
                             <span class="text-base font-semibold"
                                 >Starter Kit</span
                             >
-                        </a>
+                        </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
             </SidebarMenu>
@@ -125,10 +125,16 @@ withDefaults(
                     </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem class="px-2 text-xs text-muted-foreground">
-                    <span class="truncate">{{ userName }}</span>
-                    <span v-if="userEmail" class="truncate">{{
-                        userEmail
-                    }}</span>
+                    <span>
+                        &copy; 2026
+                        <a
+                            class="underline underline-offset-4 hover:opacity-80"
+                            href="https://sebkay.com/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            >Seb Kay</a
+                        >. All rights reserved.
+                    </span>
                 </SidebarMenuItem>
             </SidebarMenu>
         </SidebarFooter>
