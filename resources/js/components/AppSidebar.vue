@@ -88,7 +88,7 @@
                 <SidebarMenuItem>
                     <SidebarMenuButton
                         as-child
-                        class="data-[slot=sidebar-menu-button]:p-0! hover:bg-transparent active:bg-transparent"
+                        class="hover:bg-transparent active:bg-transparent data-[slot=sidebar-menu-button]:p-0!"
                     >
                         <Link :href="home()" prefetch>
                             <SparklesIcon class="size-5! text-primary" />

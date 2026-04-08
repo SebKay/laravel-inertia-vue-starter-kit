@@ -16,8 +16,7 @@
                     <div class="space-y-3">
                         <p class="text-sm leading-6">
                             If you can see this page, your current session has
-                            passed Laravel's recent password confirmation
-                            check.
+                            passed Laravel's recent password confirmation check.
                         </p>
                         <p class="text-sm leading-6 text-muted-foreground">
                             Use it when validating redirects to the password

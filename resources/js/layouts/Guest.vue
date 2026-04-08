@@ -3,7 +3,9 @@
         <title></title>
     </Head>
 
-    <div class="flex min-h-dvh flex-col justify-center bg-muted text-foreground">
+    <div
+        class="flex min-h-dvh flex-col justify-center bg-muted text-foreground"
+    >
         <main class="px-4 py-8 sm:px-6 xl:px-8 xl:py-16">
             <div class="mx-auto max-w-7xl">
                 <SparklesIcon
