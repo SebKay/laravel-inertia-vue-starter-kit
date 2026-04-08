@@ -12,6 +12,7 @@ import {
 import { userCan } from '@js/utilities/permissions'
 import { Link, usePage } from '@inertiajs/vue3'
 import { computed } from 'vue'
+import type { PageProps } from '@js/types/inertia'
 
 import { index as home } from '@js/actions/App/Http/Controllers/DashboardController'
 import { edit as editAccount } from '@js/actions/App/Http/Controllers/AccountController'
@@ -29,7 +30,7 @@ import {
 
 const page = usePage()
 
-const showElementsLink = computed(() => userCan(page.props as any, 'access-filament'))
+const showElementsLink = computed(() => userCan(page.props as PageProps, 'access-filament'))
 
 const navItems = computed(() => {
   const items = [
