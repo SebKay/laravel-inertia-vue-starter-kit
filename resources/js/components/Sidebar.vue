@@ -1,6 +1,6 @@
 <template>
     <aside
-        class="fixed top-0 left-0 z-40 flex h-full overflow-y-auto p-2.5 lg:w-72 lg:p-5"
+        class="fixed top-0 left-0 z-40 flex h-full overflow-y-auto border-r bg-sidebar p-2.5 text-sidebar-foreground lg:w-72 lg:p-5"
         :class="!mobileMenuOpen ? 'max-lg:w-[60px]' : 'max-lg:w-72'"
     >
         <nav class="flex flex-1">
@@ -8,7 +8,7 @@
                 <button
                     @click="mobileMenuOpen = !mobileMenuOpen"
                     type="button"
-                    class="relative inline-flex cursor-pointer items-center justify-center rounded-lg bg-neutral-200 p-2 text-neutral-900 hover:bg-neutral-900 hover:text-white"
+                    class="relative inline-flex cursor-pointer items-center justify-center rounded-md border bg-background p-2 text-foreground shadow-xs hover:bg-accent hover:text-accent-foreground"
                 >
                     <span class="sr-only">Open main menu</span>
                     <MenuIcon class="block size-6" />
@@ -16,7 +16,7 @@
             </div>
 
             <div
-                class="flex flex-1 flex-col max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:size-full max-lg:bg-black/60 max-lg:transition-opacity"
+                class="flex flex-1 flex-col max-lg:fixed max-lg:top-0 max-lg:left-0 max-lg:size-full max-lg:bg-black/50 max-lg:transition-opacity"
                 :class="
                     !mobileMenuOpen
                         ? 'max-lg:pointer-events-none max-lg:opacity-0'
@@ -30,18 +30,18 @@
                 ></button>
 
                 <div
-                    class="flex flex-1 flex-col gap-5 max-lg:z-10 max-lg:w-72 max-lg:bg-neutral-100 max-lg:p-2.5 max-lg:pb-6 max-lg:transition-transform"
+                    class="flex flex-1 flex-col gap-5 max-lg:z-10 max-lg:w-72 max-lg:bg-sidebar max-lg:p-2.5 max-lg:pb-6 max-lg:transition-transform"
                     :class="!mobileMenuOpen ? 'max-lg:-translate-x-1/4' : ''"
                 >
                     <div class="flex items-center">
                         <Link
                             :href="home()"
-                            class="flex items-center gap-2.5 p-2.5"
+                            class="flex items-center gap-2.5 rounded-md px-2.5 py-2"
                         >
-                            <SparklesIcon class="text-ui-1-1 size-7" />
-                            <span class="font-semibold"
-                                >Laravel Starter Kit</span
-                            >
+                            <SparklesIcon class="size-5 text-primary" />
+                            <span class="text-sm font-semibold">
+                                Laravel Starter Kit
+                            </span>
                         </Link>
                     </div>
 
@@ -50,7 +50,7 @@
                             :href="home()"
                             prefetch
                             component="Dashboard/Index"
-                            class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
+                            class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium transition-colors"
                             :class="navLinkActiveClass(['Dashboard/Index'])"
                         >
                             <LayoutDashboardIcon class="size-4 shrink-0" />
@@ -61,7 +61,7 @@
                             :href="elements()"
                             prefetch
                             component="Elements"
-                            class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
+                            class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium transition-colors"
                             :class="navLinkActiveClass(['Elements'])"
                         >
                             <LayoutListIcon class="size-4 shrink-0" />
@@ -75,7 +75,7 @@
                                 :href="editAccount()"
                                 prefetch
                                 component="Account/Edit"
-                                class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium transition-colors"
+                                class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium transition-colors"
                                 :class="
                                     navLinkActiveClass([
                                         'Account/Edit',
@@ -88,7 +88,7 @@
                             </Link>
 
                             <Link
-                                class="flex cursor-pointer items-center gap-1.5 rounded-lg px-2.5 py-2 text-left text-sm leading-none font-medium text-neutral-900/70 transition-colors hover:bg-neutral-200/75 hover:text-neutral-900"
+                                class="flex cursor-pointer items-center gap-2 rounded-md px-2.5 py-2 text-left text-sm font-medium text-muted-foreground transition-colors hover:bg-sidebar-accent hover:text-sidebar-accent-foreground"
                                 :href="LogoutController()"
                                 method="post"
                                 as="button"
@@ -98,11 +98,11 @@
                             </Link>
                         </div>
 
-                        <p class="px-2.5 text-xs text-neutral-900/70">
+                        <p class="px-2.5 text-xs text-muted-foreground">
                             &copy; 2026
                             <a
                                 href="https://sebkay.com/"
-                                class="text-link"
+                                class="underline underline-offset-4 hover:opacity-80"
                                 target="_blank"
                                 >Seb Kay</a
                             >. All rights reserved.
@@ -139,8 +139,8 @@
         const active = components.includes(String(page.component));
 
         return {
-            "bg-neutral-200/75 text-neutral-900": active,
-            "text-neutral-900/70 hover:text-neutral-900 hover:bg-neutral-200/75":
+            "bg-sidebar-accent text-sidebar-accent-foreground": active,
+            "text-muted-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground":
                 !active,
         };
     }

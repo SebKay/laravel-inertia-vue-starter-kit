@@ -3,12 +3,14 @@
         <title></title>
     </Head>
 
-    <div data-main class="pl-[60px] lg:pl-72">
+    <div data-main class="min-h-dvh bg-background pl-[60px] lg:pl-72">
         <Sidebar />
 
-        <main class="flex min-h-screen py-2.5 pr-2.5 lg:py-5 lg:pr-5">
-            <div class="w-full flex-1 rounded-xl bg-white">
-                <div class="p-10">
+        <main class="flex min-h-dvh bg-muted/40 p-2.5 lg:p-5">
+            <div
+                class="w-full flex-1 rounded-xl border bg-background shadow-xs"
+            >
+                <div class="p-6 lg:p-10">
                     <PageHeading :heading="heading" />
 
                     <slot />
