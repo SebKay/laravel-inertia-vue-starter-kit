@@ -19,7 +19,7 @@
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
-    import { elements } from "@js/routes";
+    import PasswordController from "@js/actions/App/Http/Controllers/PasswordController";
 
     import {
         LayoutDashboard as LayoutDashboardIcon,
@@ -54,10 +54,10 @@
 
         if (showElementsLink.value) {
             items.push({
-                title: "Elements",
-                url: toUrl(elements()),
+                title: "Password Test",
+                url: toUrl(PasswordController()),
                 icon: LayoutListIcon,
-                components: ["Elements"],
+                components: ["Password"],
             });
         }
 

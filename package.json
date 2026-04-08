@@ -2,10 +2,6 @@
   "type": "module",
   "private": true,
   "dependencies": {
-    "@tabler/icons-vue": "^3.41.1",
-    "@tanstack/vue-table": "^8.21.3",
-    "@unovis/ts": "^1.6.4",
-    "@unovis/vue": "^1.6.4",
     "@vueuse/core": "^14.2.1",
     "caniuse-lite": "^1.0.30001787",
     "class-variance-authority": "^0.7.1",

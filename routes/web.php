@@ -7,6 +7,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EmailVerificationController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\PasswordController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\ResetPasswordController;
 use Illuminate\Support\Facades\Route;
@@ -14,7 +15,9 @@ use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 
 Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER->value]);
 
-Route::get('elements', fn () => inertia('Elements'))->middleware(['auth', 'password.confirm', 'role:'.Role::SUPER->value])->name('elements');
+Route::get('password-test', PasswordController::class)
+    ->middleware(['auth', 'verified', 'role:'.Role::SUPER->value, 'password.confirm'])
+    ->name('password-test');
 
 Route::controller(RegisterController::class)
     ->middleware(['guest'])
