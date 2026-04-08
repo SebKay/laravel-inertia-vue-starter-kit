@@ -12,6 +12,7 @@
         "module": "ESNext",
         "moduleResolution": "bundler",
         "paths": {
+            "@/*": ["./resources/js/*"],
             "@js/*": ["./resources/js/*"],
         },
         "types": [
