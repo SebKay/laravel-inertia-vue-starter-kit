@@ -40,9 +40,9 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import { Form, Head, setLayoutProps } from "@inertiajs/vue3";
-    import Layout from "@js/Layouts/Guest.vue";
+    import Layout from "@js/layouts/Guest.vue";
 
-    import FieldError from "@js/Components/FieldError.vue";
+    import FieldError from "@js/components/FieldError.vue";
 
     import { store as confirmPassword } from "@js/actions/App/Http/Controllers/ConfirmPasswordController";
 

@@ -46,7 +46,7 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import { Head, setLayoutProps, useHttp } from "@inertiajs/vue3";
-    import Layout from "@js/Layouts/Guest.vue";
+    import Layout from "@js/layouts/Guest.vue";
 
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
     import { update } from "@js/actions/App/Http/Controllers/EmailVerificationController";

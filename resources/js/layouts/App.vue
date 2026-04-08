@@ -28,13 +28,13 @@
     import type { LayoutProps } from "@js/types/inertia";
 
     const Sidebar = defineAsyncComponent(
-        () => import("@js/Components/Sidebar.vue"),
+        () => import("@js/components/Sidebar.vue"),
     );
     const Footer = defineAsyncComponent(
-        () => import("@js/Components/Footer.vue"),
+        () => import("@js/components/Footer.vue"),
     );
     const PageHeading = defineAsyncComponent(
-        () => import("@js/Components/PageHeading.vue"),
+        () => import("@js/components/PageHeading.vue"),
     );
 
     withDefaults(defineProps<LayoutProps>(), {

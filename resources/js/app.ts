@@ -3,14 +3,14 @@ import { createInertiaApp, Head, Link } from "@inertiajs/vue3";
 
 const appName = import.meta.env.VITE_APP_NAME || "Template";
 
-const AppLayout = defineAsyncComponent(() => import("@js/Layouts/App.vue"));
+const AppLayout = defineAsyncComponent(() => import("@js/layouts/App.vue"));
 const PageTitle = defineAsyncComponent(
-    () => import("@js/Components/PageTitle.vue"),
+    () => import("@js/components/PageTitle.vue"),
 );
-const Notice = defineAsyncComponent(() => import("@js/Components/Notice.vue"));
+const Notice = defineAsyncComponent(() => import("@js/components/Notice.vue"));
 
 createInertiaApp({
-    pages: "./Pages",
+    pages: "./pages",
 
     layout: () => AppLayout,
 

@@ -28,7 +28,7 @@
 <script setup lang="ts">
     import type { LayoutProps } from "@js/types/inertia";
 
-    import PageTitle from "@js/Components/PageTitle.vue";
+    import PageTitle from "@js/components/PageTitle.vue";
     import { Sparkles as SparklesIcon } from "lucide-vue-next";
 
     withDefaults(defineProps<LayoutProps>(), {

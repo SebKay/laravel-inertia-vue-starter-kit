@@ -65,7 +65,7 @@
 
     import type { PageProps, UserDocument } from "@js/types/inertia";
 
-    import FieldError from "@js/Components/FieldError.vue";
+    import FieldError from "@js/components/FieldError.vue";
 
     import { update } from "@js/actions/App/Http/Controllers/AccountController";
 

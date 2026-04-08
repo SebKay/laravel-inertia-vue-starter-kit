@@ -93,11 +93,11 @@
 <script setup lang="ts">
     import { ref } from "vue";
     import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
-    import Layout from "@js/Layouts/Guest.vue";
+    import Layout from "@js/layouts/Guest.vue";
 
     import type { PageProps } from "@js/types/inertia";
 
-    import FieldError from "@js/Components/FieldError.vue";
+    import FieldError from "@js/components/FieldError.vue";
 
     import { show as forgotPassword } from "@js/actions/App/Http/Controllers/ResetPasswordController";
     import { show as register } from "@js/actions/App/Http/Controllers/RegisterController";

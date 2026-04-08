@@ -47,9 +47,9 @@
 
 <script setup lang="ts">
     import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
-    import Layout from "@js/Layouts/Guest.vue";
+    import Layout from "@js/layouts/Guest.vue";
 
-    import FieldError from "@js/Components/FieldError.vue";
+    import FieldError from "@js/components/FieldError.vue";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
