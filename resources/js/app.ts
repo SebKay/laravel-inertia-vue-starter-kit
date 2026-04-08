@@ -7,7 +7,6 @@ const AppLayout = defineAsyncComponent(() => import("@js/layouts/App.vue"));
 const PageTitle = defineAsyncComponent(
     () => import("@js/components/PageTitle.vue"),
 );
-const Notice = defineAsyncComponent(() => import("@js/components/Notice.vue"));
 
 createInertiaApp({
     pages: "./pages",
@@ -17,8 +16,7 @@ createInertiaApp({
     withApp(app) {
         app.component("Head", Head)
             .component("Link", Link)
-            .component("PageTitle", PageTitle)
-            .component("Notice", Notice);
+            .component("PageTitle", PageTitle);
     },
 
     defaults: {

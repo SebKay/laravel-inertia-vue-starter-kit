@@ -24,11 +24,12 @@
     </div>
 
     <Toaster />
-    <Notice />
+    <FlashToasts />
 </template>
 
 <script setup lang="ts">
     import { Sparkles as SparklesIcon } from "lucide-vue-next";
+    import FlashToasts from "@/components/FlashToasts.vue";
     import { Toaster } from "@/components/ui/sonner";
     import PageTitle from "@js/components/PageTitle.vue";
     import type { LayoutProps } from "@js/types/inertia";

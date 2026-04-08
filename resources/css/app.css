@@ -120,6 +120,18 @@
     --sidebar-accent-foreground: hsl(0 0% 30%);
     --sidebar-border: hsl(0 0% 91%);
     --sidebar-ring: hsl(217.68 73.87% 56.47%);
+    --toast-success-bg: var(--color-emerald-50);
+    --toast-success-border: var(--color-emerald-200);
+    --toast-success-text: var(--color-emerald-900);
+    --toast-error-bg: var(--color-red-50);
+    --toast-error-border: var(--color-red-200);
+    --toast-error-text: var(--color-red-900);
+    --toast-warning-bg: var(--color-amber-50);
+    --toast-warning-border: var(--color-amber-200);
+    --toast-warning-text: var(--color-amber-900);
+    --toast-info-bg: var(--color-sky-50);
+    --toast-info-border: var(--color-sky-200);
+    --toast-info-text: var(--color-sky-900);
 }
 
 .dark {
@@ -155,6 +167,18 @@
     --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
     --sidebar-border: hsl(0 0% 15.9%);
     --sidebar-ring: hsl(217.68 73.87% 56.47%);
+    --toast-success-bg: var(--color-emerald-950);
+    --toast-success-border: var(--color-emerald-800);
+    --toast-success-text: var(--color-emerald-200);
+    --toast-error-bg: var(--color-red-950);
+    --toast-error-border: var(--color-red-800);
+    --toast-error-text: var(--color-red-200);
+    --toast-warning-bg: var(--color-amber-950);
+    --toast-warning-border: var(--color-amber-800);
+    --toast-warning-text: var(--color-amber-200);
+    --toast-info-bg: var(--color-sky-950);
+    --toast-info-border: var(--color-sky-800);
+    --toast-info-text: var(--color-sky-200);
 }
 
 @layer base {

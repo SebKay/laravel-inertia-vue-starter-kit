@@ -8,10 +8,11 @@
     </DashboardShell>
 
     <Toaster />
-    <Notice />
+    <FlashToasts />
 </template>
 
 <script setup lang="ts">
+    import FlashToasts from "@/components/FlashToasts.vue";
     import DashboardShell from "@/components/shell/DashboardShell.vue";
     import { Toaster } from "@/components/ui/sonner";
     import type { LayoutProps } from "@js/types/inertia";
