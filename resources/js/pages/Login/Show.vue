@@ -61,11 +61,10 @@
                         </div>
 
                         <div class="flex items-center gap-2">
-                            <input
+                            <Checkbox
                                 id="remember"
-                                class="h-4 w-4 rounded border-input text-primary"
                                 name="remember"
-                                type="checkbox"
+                                value="1"
                                 v-model="remembered.remember"
                             />
                             <Label for="remember" class="text-sm font-normal">
@@ -118,6 +117,7 @@
         CardHeader,
         CardTitle,
     } from "@/components/ui/card";
+    import { Checkbox } from "@/components/ui/checkbox";
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
 
