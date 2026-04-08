@@ -1,7 +1,6 @@
 <template>
     <Head :title="title" />
-
-    <div>Dashboard</div>
+    <div></div>
 </template>
 
 <script setup lang="ts">
