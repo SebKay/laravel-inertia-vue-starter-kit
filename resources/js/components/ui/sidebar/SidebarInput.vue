@@ -12,7 +12,7 @@
     <Input
         data-slot="sidebar-input"
         data-sidebar="input"
-        :class="cn('h-8 w-full bg-background shadow-none', props.class)"
+        :class="cn('h-8 w-full bg-background', props.class)"
     >
         <slot />
     </Input>

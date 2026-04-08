@@ -1,13 +1,15 @@
 <template>
     <Head :title="title" />
 
-    <div class="max-w-xl">
-        <Card>
-            <CardHeader>
-                <CardTitle>Account</CardTitle>
-                <CardDescription>Update your profile details.</CardDescription>
-            </CardHeader>
-            <CardContent>
+    <div class="p-4 md:p-6">
+        <div class="max-w-xl">
+            <div class="space-y-6">
+                <div class="space-y-1">
+                    <h2 class="text-lg font-semibold">Account</h2>
+                    <p class="text-sm text-muted-foreground">
+                        Update your profile details.
+                    </p>
+                </div>
                 <Form
                     :action="update()"
                     :options="{ preserveScroll: true, preserveState: true }"
@@ -71,8 +73,8 @@
                         <Button :disabled="processing">Update</Button>
                     </div>
                 </Form>
-            </CardContent>
-        </Card>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -82,13 +84,6 @@
     import type { PageProps, UserDocument } from "@js/types/inertia";
 
     import { Button } from "@/components/ui/button";
-    import {
-        Card,
-        CardContent,
-        CardDescription,
-        CardHeader,
-        CardTitle,
-    } from "@/components/ui/card";
     import { Input } from "@/components/ui/input";
     import { Label } from "@/components/ui/label";
 

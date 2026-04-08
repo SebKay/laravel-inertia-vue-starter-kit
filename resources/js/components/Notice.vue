@@ -1,7 +1,7 @@
 <template>
     <div
         v-if="active && type && message"
-        class="fixed bottom-4 z-50 inline-flex items-center gap-2 rounded-lg p-3 shadow-lg max-sm:right-4 sm:bottom-6 max-md:sm:right-6 md:left-1/2 md:-translate-x-1/2 md:gap-3 md:rounded-xl md:p-5 xl:bottom-8"
+        class="fixed bottom-4 z-50 inline-flex items-center gap-2 rounded-lg p-3 max-sm:right-4 sm:bottom-6 max-md:sm:right-6 md:left-1/2 md:-translate-x-1/2 md:gap-3 md:rounded-xl md:p-5 xl:bottom-8"
         :class="{
             'border-green-200 bg-green-50 text-green-800': type === 'success',
             'border-red-200 bg-red-50 text-red-800': type === 'error',

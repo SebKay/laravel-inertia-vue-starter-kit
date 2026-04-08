@@ -14,6 +14,7 @@
     import { computed } from "vue";
     import type { PageProps } from "@js/types/inertia";
     import type { SidebarProps } from "@/components/ui/sidebar";
+    import { toUrl } from "@/lib/utils";
 
     import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
@@ -32,20 +33,20 @@
     const page = usePage();
 
     const showElementsLink = computed(() =>
-        userCan(page.props as PageProps, "access-filament"),
+        userCan(page.props as unknown as PageProps, "access-filament"),
     );
 
     const navItems = computed(() => {
         const items = [
             {
                 title: "Dashboard",
-                url: home(),
+                url: toUrl(home()),
                 icon: LayoutDashboardIcon,
                 components: ["Dashboard/Index"],
             },
             {
                 title: "Account",
-                url: editAccount(),
+                url: toUrl(editAccount()),
                 icon: CircleUserIcon,
                 components: ["Account/Edit", "EmailVerification/Show"],
             },
@@ -54,7 +55,7 @@
         if (showElementsLink.value) {
             items.push({
                 title: "Elements",
-                url: elements(),
+                url: toUrl(elements()),
                 icon: LayoutListIcon,
                 components: ["Elements"],
             });
@@ -87,7 +88,7 @@
                 <SidebarMenuItem>
                     <SidebarMenuButton
                         as-child
-                        class="data-[slot=sidebar-menu-button]:p-1.5!"
+                        class="data-[slot=sidebar-menu-button]:p-0! hover:bg-transparent active:bg-transparent"
                     >
                         <Link :href="home()" prefetch>
                             <SparklesIcon class="size-5! text-primary" />
@@ -124,7 +125,9 @@
                         </Link>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
-                <SidebarMenuItem class="px-2 text-xs text-muted-foreground">
+                <SidebarMenuItem
+                    class="mt-4 border-t border-sidebar-border/50 px-2 pt-4 text-xs text-muted-foreground"
+                >
                     <span>
                         &copy; 2026
                         <a

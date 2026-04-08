@@ -8,7 +8,7 @@
             >
                 {{ status }}
             </p>
-            <h1 class="text-3xl font-semibold text-neutral-950 sm:text-4xl">
+            <h1 class="text-3xl font-semibold text-foreground sm:text-4xl">
                 {{ title }}
             </h1>
         </div>
