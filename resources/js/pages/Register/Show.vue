@@ -1,74 +1,93 @@
 <template>
     <Head :title="title" />
 
-    <div class="mx-auto max-w-2xl">
-        <div class="rounded-xl bg-white p-6 xl:p-10">
+    <div class="mx-auto max-w-md">
+        <Card>
+            <CardHeader>
+                <CardTitle>Create an account</CardTitle>
+                <CardDescription>
+                    Enter your details below to get started.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
             <Form
                 :action="store()"
                 :on-finish="handleFinish"
                 :options="{ preserveScroll: 'errors' }"
                 #default="{ errors, processing }"
             >
-                <div class="form-row">
-                    <div class="form-col">
-                        <label class="label" for="name">Name</label>
-                        <input
+                <div class="grid gap-4">
+                    <div class="grid gap-2">
+                        <Label for="name">Name</Label>
+                        <Input
                             id="name"
-                            class="input"
                             name="name"
                             type="text"
+                            autocomplete="name"
                             required
                             v-model="remembered.name"
                         />
-                        <FieldError :message="errors.name" />
+                        <p
+                            v-if="errors.name"
+                            class="text-sm text-destructive"
+                            v-text="errors.name"
+                        />
                     </div>
 
-                    <div class="form-col">
-                        <label class="label" for="email">Email</label>
-                        <input
+                    <div class="grid gap-2">
+                        <Label for="email">Email</Label>
+                        <Input
                             id="email"
-                            class="input"
                             name="email"
                             type="email"
+                            autocomplete="email"
                             required
                             v-model="remembered.email"
                         />
-                        <FieldError :message="errors.email" />
+                        <p
+                            v-if="errors.email"
+                            class="text-sm text-destructive"
+                            v-text="errors.email"
+                        />
                     </div>
 
-                    <div class="form-col">
-                        <label class="label" for="password">Password</label>
-                        <input
+                    <div class="grid gap-2">
+                        <Label for="password">Password</Label>
+                        <Input
                             id="password"
-                            class="input"
                             name="password"
                             type="password"
+                            autocomplete="new-password"
                             required
                             v-model="password"
                         />
-                        <FieldError :message="errors.password" />
+                        <p
+                            v-if="errors.password"
+                            class="text-sm text-destructive"
+                            v-text="errors.password"
+                        />
                     </div>
 
-                    <div class="form-col">
-                        <button
-                            class="button button-full"
-                            :disabled="processing"
-                        >
-                            Register
-                        </button>
-                    </div>
+                    <Button class="w-full" :disabled="processing">
+                        Register
+                    </Button>
                 </div>
             </Form>
+            </CardContent>
 
-            <div class="mt-6 xl:mt-10">
-                <p class="text-center">
+            <CardFooter class="flex justify-center">
+                <p class="text-sm text-muted-foreground">
                     Already have an account?
-                    <Link class="text-link" :href="login()" prefetch
-                        >Log In</Link
+                    <Link
+                        class="underline underline-offset-4 hover:opacity-80"
+                        :href="login()"
+                        prefetch
                     >
+                        Log in
+                    </Link>
                 </p>
-            </div>
-        </div>
+            </CardFooter>
+        </Card>
     </div>
 </template>
 
@@ -79,7 +98,10 @@
 
     import type { PageProps } from "@js/types/inertia";
 
-    import FieldError from "@js/components/FieldError.vue";
+    import { Button } from "@/components/ui/button";
+    import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+    import { Input } from "@/components/ui/input";
+    import { Label } from "@/components/ui/label";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/RegisterController";

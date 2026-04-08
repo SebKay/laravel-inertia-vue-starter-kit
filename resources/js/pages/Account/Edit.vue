@@ -1,7 +1,13 @@
 <template>
     <Head :title="title" />
 
-    <div class="max-w-3xl">
+    <div class="max-w-xl">
+        <Card>
+            <CardHeader>
+                <CardTitle>Account</CardTitle>
+                <CardDescription>Update your profile details.</CardDescription>
+            </CardHeader>
+            <CardContent>
         <Form
             :action="update()"
             :options="{ preserveScroll: true, preserveState: true }"
@@ -9,54 +15,64 @@
             set-defaults-on-success
             #default="{ errors, processing }"
         >
-            <div class="form-row">
-                <div class="form-col">
-                    <label class="label" for="name">Name</label>
-                    <input
+            <div class="grid gap-4">
+                <div class="grid gap-2">
+                    <Label for="name">Name</Label>
+                    <Input
                         id="name"
-                        class="input"
                         name="name"
                         type="text"
+                        autocomplete="name"
                         required
                         v-model="remembered.name"
                     />
-                    <FieldError :message="errors.name" />
+                    <p
+                        v-if="errors.name"
+                        class="text-sm text-destructive"
+                        v-text="errors.name"
+                    />
                 </div>
 
-                <div class="form-col">
-                    <label class="label" for="email">Email</label>
-                    <input
+                <div class="grid gap-2">
+                    <Label for="email">Email</Label>
+                    <Input
                         id="email"
-                        class="input"
                         name="email"
                         type="email"
+                        autocomplete="email"
                         required
                         v-model="remembered.email"
                     />
-                    <FieldError :message="errors.email" />
+                    <p
+                        v-if="errors.email"
+                        class="text-sm text-destructive"
+                        v-text="errors.email"
+                    />
                 </div>
 
-                <div class="form-col">
-                    <label class="label" for="password">Password</label>
-                    <input
+                <div class="grid gap-2">
+                    <Label for="password">New password</Label>
+                    <Input
                         id="password"
-                        class="input"
                         name="password"
                         type="password"
+                        autocomplete="new-password"
                     />
-                    <p class="field-hint">
-                        Leave blank to keep current password
+                    <p class="text-sm text-muted-foreground">
+                        Leave blank to keep your current password.
                     </p>
-                    <FieldError :message="errors.password" />
+                    <p
+                        v-if="errors.password"
+                        class="text-sm text-destructive"
+                        v-text="errors.password"
+                    />
                 </div>
 
-                <div class="form-col">
-                    <button class="button" :disabled="processing">
-                        Update
-                    </button>
-                </div>
+                <Button :disabled="processing">Update</Button>
             </div>
         </Form>
+            </CardContent>
+        </Card>
     </div>
 </template>
 
@@ -65,7 +81,10 @@
 
     import type { PageProps, UserDocument } from "@js/types/inertia";
 
-    import FieldError from "@js/components/FieldError.vue";
+    import { Button } from "@/components/ui/button";
+    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+    import { Input } from "@/components/ui/input";
+    import { Label } from "@/components/ui/label";
 
     import { update } from "@js/actions/App/Http/Controllers/AccountController";
 

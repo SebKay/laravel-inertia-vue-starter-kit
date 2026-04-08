@@ -1,44 +1,44 @@
 <template>
     <Head :title="title" />
 
-    <div class="mx-auto max-w-2xl">
-        <div class="rounded-xl bg-white p-6 xl:p-10">
-            <div class="text-center">
-                <p>
-                    Please verify your email address by clicking on the link we
-                    just emailed to you.
-                </p>
-                <button
-                    class="button mt-6"
+    <div class="mx-auto max-w-md space-y-4">
+        <Card>
+            <CardHeader>
+                <CardTitle>Verify your email</CardTitle>
+                <CardDescription>
+                    We’ve sent a verification link to your email address.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
+                <Button
+                    class="w-full"
                     :disabled="resendRequest.processing"
                     @click="resend"
                 >
                     {{
                         resendRequest.processing
                             ? "Sending..."
-                            : "Resend Verification Email"
+                            : "Resend verification email"
                     }}
-                </button>
+                </Button>
 
                 <p
                     v-if="statusMessage"
-                    class="field-hint mt-4"
+                    class="mt-3 text-sm text-muted-foreground"
                     v-text="statusMessage"
-                ></p>
-            </div>
-        </div>
+                />
+            </CardContent>
+        </Card>
 
-        <div class="mt-6 xl:mt-10">
-            <p class="mt-3 text-center">
-                <Link
-                    class="text-link"
-                    :href="LogoutController()"
-                    method="post"
-                    as="button"
-                >
-                    Logout
-                </Link>
-            </p>
+        <div class="text-center">
+            <Link
+                class="text-sm underline underline-offset-4 hover:opacity-80"
+                :href="LogoutController()"
+                method="post"
+                as="button"
+            >
+                Logout
+            </Link>
         </div>
     </div>
 </template>
@@ -47,6 +47,9 @@
     import { ref } from "vue";
     import { Head, setLayoutProps, useHttp } from "@inertiajs/vue3";
     import Layout from "@js/layouts/Guest.vue";
+
+    import { Button } from "@/components/ui/button";
+    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
     import { update } from "@js/actions/App/Http/Controllers/EmailVerificationController";

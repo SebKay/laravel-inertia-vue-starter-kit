@@ -1,15 +1,20 @@
 <template>
     <Head :title="title" />
 
-    <div class="mx-auto max-w-2xl">
-        <div class="rounded-xl bg-white p-6 xl:p-10">
+    <div class="mx-auto max-w-md">
+        <Card>
+            <CardHeader>
+                <CardTitle>Reset password</CardTitle>
+                <CardDescription>Choose a new password.</CardDescription>
+            </CardHeader>
+            <CardContent>
             <Form
                 :action="update()"
                 :on-finish="handleFinish"
                 :options="{ preserveScroll: 'errors' }"
                 #default="{ errors, processing }"
             >
-                <div class="form-row">
+                <div class="grid gap-4">
                     <input
                         name="email"
                         type="hidden"
@@ -21,45 +26,47 @@
                         :value="props.token ?? ''"
                     />
 
-                    <div class="form-col">
-                        <label class="label" for="password">Password</label>
-                        <input
+                    <div class="grid gap-2">
+                        <Label for="password">Password</Label>
+                        <Input
                             id="password"
-                            class="input"
                             name="password"
                             type="password"
+                            autocomplete="new-password"
                             required
                             v-model="password"
                         />
-                        <FieldError :message="errors.password" />
+                        <p
+                            v-if="errors.password"
+                            class="text-sm text-destructive"
+                            v-text="errors.password"
+                        />
                     </div>
 
-                    <div class="form-col">
-                        <label class="label" for="password-confirmation">
-                            Confirm Password
-                        </label>
-                        <input
+                    <div class="grid gap-2">
+                        <Label for="password-confirmation">Confirm password</Label>
+                        <Input
                             id="password-confirmation"
-                            class="input"
                             name="password_confirmation"
                             type="password"
+                            autocomplete="new-password"
                             required
                             v-model="passwordConfirmation"
                         />
-                        <FieldError :message="errors.password_confirmation" />
+                        <p
+                            v-if="errors.password_confirmation"
+                            class="text-sm text-destructive"
+                            v-text="errors.password_confirmation"
+                        />
                     </div>
 
-                    <div class="form-col">
-                        <button
-                            class="button button-full"
-                            :disabled="processing"
-                        >
+                    <Button class="w-full" :disabled="processing">
                             Reset Password
-                        </button>
-                    </div>
+                    </Button>
                 </div>
             </Form>
-        </div>
+            </CardContent>
+        </Card>
     </div>
 </template>
 
@@ -70,7 +77,10 @@
 
     import type { PageProps } from "@js/types/inertia";
 
-    import FieldError from "@js/components/FieldError.vue";
+    import { Button } from "@/components/ui/button";
+    import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+    import { Input } from "@/components/ui/input";
+    import { Label } from "@/components/ui/label";
 
     import { update } from "@js/actions/App/Http/Controllers/ResetPasswordController";
 

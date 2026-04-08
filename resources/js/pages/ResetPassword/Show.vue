@@ -1,47 +1,58 @@
 <template>
     <Head :title="title" />
 
-    <div class="mx-auto max-w-2xl">
-        <div class="rounded-xl bg-white p-6 xl:p-10">
+    <div class="mx-auto max-w-md">
+        <Card>
+            <CardHeader>
+                <CardTitle>Forgot password?</CardTitle>
+                <CardDescription>
+                    Enter your email and we’ll send you a reset link.
+                </CardDescription>
+            </CardHeader>
+            <CardContent>
             <Form
                 :action="store()"
                 :options="{ preserveScroll: 'errors' }"
                 #default="{ errors, processing }"
             >
-                <div class="form-row">
-                    <div class="form-col">
-                        <label class="label" for="email">Email</label>
-                        <input
+                <div class="grid gap-4">
+                    <div class="grid gap-2">
+                        <Label for="email">Email</Label>
+                        <Input
                             id="email"
-                            class="input"
                             name="email"
                             type="email"
+                            autocomplete="email"
                             required
                             v-model="remembered.email"
                         />
-                        <FieldError :message="errors.email" />
+                        <p
+                            v-if="errors.email"
+                            class="text-sm text-destructive"
+                            v-text="errors.email"
+                        />
                     </div>
 
-                    <div class="form-col">
-                        <button
-                            class="button button-full"
-                            :disabled="processing"
-                        >
-                            Email Reset Link
-                        </button>
-                    </div>
+                    <Button class="w-full" :disabled="processing">
+                        Email reset link
+                    </Button>
                 </div>
             </Form>
+            </CardContent>
 
-            <div class="mt-6 xl:mt-10">
-                <p class="text-center">
+            <CardFooter class="flex justify-center">
+                <p class="text-sm text-muted-foreground">
                     Remembered your password?
-                    <Link class="text-link" :href="login()" prefetch
-                        >Login</Link
+                    <Link
+                        class="underline underline-offset-4 hover:opacity-80"
+                        :href="login()"
+                        prefetch
                     >
+                        Log in
+                    </Link>
                 </p>
-            </div>
-        </div>
+            </CardFooter>
+        </Card>
     </div>
 </template>
 
@@ -49,7 +60,10 @@
     import { Form, Head, setLayoutProps, useRemember } from "@inertiajs/vue3";
     import Layout from "@js/layouts/Guest.vue";
 
-    import FieldError from "@js/components/FieldError.vue";
+    import { Button } from "@/components/ui/button";
+    import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+    import { Input } from "@/components/ui/input";
+    import { Label } from "@/components/ui/label";
 
     import { show as login } from "@js/actions/App/Http/Controllers/LoginController";
     import { store } from "@js/actions/App/Http/Controllers/ResetPasswordController";
