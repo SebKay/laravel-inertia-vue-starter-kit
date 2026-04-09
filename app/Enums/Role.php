@@ -32,14 +32,9 @@ enum Role: string implements HasLabel
                 Permission::VIEW_POSTS,
                 Permission::EDIT_POSTS,
                 Permission::UPDATE_POSTS,
-                Permission::DELETE_POSTS,
             ],
             self::USER => [
-                Permission::CREATE_POSTS,
                 Permission::VIEW_POSTS,
-                Permission::EDIT_POSTS,
-                Permission::UPDATE_POSTS,
-                Permission::DELETE_POSTS,
             ],
         };
     }
