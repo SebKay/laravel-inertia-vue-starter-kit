@@ -1,4 +1,5 @@
 <script setup lang="ts">
+    import { router } from "@inertiajs/vue3";
     import type { HTMLAttributes, Ref } from "vue";
     import {
         defaultDocument,
@@ -7,7 +8,7 @@
         useVModel,
     } from "@vueuse/core";
     import { TooltipProvider } from "reka-ui";
-    import { computed, ref } from "vue";
+    import { computed, onMounted, onUnmounted, ref } from "vue";
     import { cn } from "@/lib/utils";
     import {
         provideSidebarContext,
@@ -38,6 +39,7 @@
 
     const isMobile = useMediaQuery("(max-width: 768px)");
     const openMobile = ref(false);
+    let removeNavigateListener: (() => void) | undefined;
 
     const open = useVModel(props, "open", emits, {
         defaultValue: props.defaultOpen ?? false,
@@ -70,6 +72,16 @@
             event.preventDefault();
             toggleSidebar();
         }
+    });
+
+    onMounted(() => {
+        removeNavigateListener = router.on("navigate", () => {
+            setOpenMobile(false);
+        });
+    });
+
+    onUnmounted(() => {
+        removeNavigateListener?.();
     });
 
     // We add a state so that we can do data-state="expanded" or "collapsed".
