@@ -46,7 +46,7 @@ describe('Users', function () {
         $password = config('seed.users.super.password');
 
         actingAs($user)
-            ->get(route('elements'))
+            ->get(route('password-test'))
             ->assertRedirect(route('password.confirm'));
 
         actingAs($user)
@@ -54,7 +54,7 @@ describe('Users', function () {
                 'password' => $password,
             ])
             ->assertSessionDoesntHaveErrors()
-            ->assertRedirect(route('elements'));
+            ->assertRedirect(route('password-test'));
     });
 
     test("Can't confirm with an incorrect password", function () {

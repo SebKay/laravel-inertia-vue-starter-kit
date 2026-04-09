@@ -29,6 +29,7 @@ export interface FlashData {
     success?: string;
     error?: string;
     warning?: string;
+    info?: string;
 }
 
 export interface LayoutProps {

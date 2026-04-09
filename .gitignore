@@ -3,8 +3,9 @@
 /public/vendor
 /public/hot
 /public/storage
-/public/css
-/public/js
+/public/css/filament
+/public/js/filament
+/public/fonts/filament
 /resources/js/actions
 /resources/js/routes
 /resources/js/wayfinder

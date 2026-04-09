@@ -1,3 +1,0 @@
-@utility text-link {
-    @apply cursor-pointer underline transition-colors hover:decoration-transparent;
-}

@@ -1,135 +1,9 @@
 <laravel-boost-guidelines>
 === .ai/planning rules ===
 
-When making plans, always use the following skills: /brainstorming and /planner.
+When making plans, always use the following skills: `/brainstorming` and `/planner`.
 
 You MUST make atomic commits for each task completed in a plan. Make sure the plan reflects that.
-
-=== .ai/project rules ===
-
-# Project Guidance
-
-## Domain and data
-
-- Session-first app: guest/auth flows, verified Inertia area, Filament admin. **Sole first-party Eloquent model:** `app/Models/User.php` (`MustVerifyEmail`, Sanctum `HasApiTokens`, Spatie `HasRoles`, Filament `FilamentUser` / `HasName`).
-- `User::canAccessPanel()` allows only `super` and `admin` (`app/Enums/Role.php`).
-
-## HTTP surface
-
-- **Routes:** `routes/web.php` only; no first-party `routes/api.php`.
-- **Laravel health:** `GET /up` from `bootstrap/app.php` `withRouting(health: ...)`.
-- **Spatie Health UI:** `GET /health`, middleware `auth` + `role:super` (`Spatie\Health\Http\Controllers\HealthCheckResultsController`).
-- **Guest:** register, login, forgot/reset password (see controller imports in `routes/web.php`). POST actions for register, login, password, and verification resend use `throttle:6,1` where declared on the route.
-- **Auth:** `POST logout` (`auth`).
-- **Verified (`auth` + `verified`):** `GET /` dashboard, `GET|PATCH /account`.
-- **Auth-only (not necessarily verified):** email verification notice, signed verify link, resend (`account/verify*`); **`GET|POST account/password`** for `password.confirm` (`ConfirmPasswordController` → Inertia `Password/Show`, `ConfirmPasswordStoreRequest`; POST `throttle:6,1`).
-- **Super-admin:** `GET elements` → Inertia `Elements` (middleware `auth`, `password.confirm`, `role:super`).
-
-## Controllers and validation
-
-- Keep controllers thin; use `app/Http/Requests/**` (auth, account, and password controllers already do).
-
-## Auth behavior (side effects)
-
-- **`RegisterController`:** new `User`, hashed password, `assignRole(Role::USER)`, `loginUsingId`, `Filament\Auth\Events\Registered`, redirect `route('home')`. Local/testing: fake prefills on the register form.
-- **`LoginController`:** session guard, `remember`, optional `redirect` query, session regeneration on success; local/testing prefills from config/fake data.
-- **`ConfirmPasswordController`:** `store` uses `current_password` validation; sets session `auth.password_confirmed_at`; `redirect()->intended(route('home'))`.
-
-## Dashboard and Inertia
-
-- **`DashboardController`:** returns `inertia('Dashboard/Index')` with **no server props**; the Vue page is currently a static placeholder. Use Inertia v3 deferred/optional props in the controller if you add stats or role-gated fragments.
-- **Shared auth:** `app/Http/Middleware/HandleInertiaRequests.php` shares `auth.user` via `UserResource` (`app/Http/Resources/UserResource.php`, JSON:API resource; includes permission names as `can`). Prefer `auth.user` / `can` on the client for gates.
-- **Account page:** `AccountController@edit` also passes a top-level `user` resource for the form (`resources/js/Pages/Account/Edit.vue`).
-
-## Frontend
-
-- **Bootstrap:** `resources/js/app.ts` — async `Layouts/App.vue`, global `Head` / `Link` / `PageTitle` / `Notice`, default `viewTransition: true`. Pages set chrome with `setLayoutProps()`.
-- **Wayfinder:** `vite.config.js` (`formVariants: true`). Generated controller actions import from `@js/actions/...` (`tsconfig.json` `paths`).
-
-## Bootstrap and global PHP
-
-- **`bootstrap/app.php`:** Spatie middleware aliases (`role`, `permission`, `role_or_permission`), append `HandleInertiaRequests` to `web`, Inertia `ErrorPage` for **403, 404, 419, 500, 503**.
-- **`app/Providers/AppServiceProvider.php`:** HTTPS in staging/production, model relationship auto-eager load, Vite prefetch behavior, production password rules, Filament table defaults, Spatie Health check registration — inspect before changing cross-cutting behavior.
-
-## Roles and permissions
-
-- **Source of truth:** `app/Enums/Role.php`, `app/Enums/Permission.php`, `app/Services/RolesAndPermissionsService.php` — keep enums and sync logic aligned.
-- **CLI:** `php artisan permissions:sync` and `permissions:sync --fresh` (`app/Console/Commands/SyncRolesAndPermissionsCommand.php`).
-
-## Seeders
-
-- `DatabaseSeeder` and `TestsSeeder` run `RolesAndPermissionsSeeder` before `UsersSeeder`. `UsersSeeder` creates super, admin, and a standard user via `User::factory()` states (`database/factories/UserFactory.php`). Credentials reference: `config/seed.php`.
-
-## Filament
-
-- Panel path `/admin`: `app/Providers/Filament/AdminPanelProvider.php`, custom login `app/Filament/Pages/Auth/Login.php`. User admin CRUD: `app/Filament/Resources/Users/**`. Dashboard widgets include `UserStats`, `UserActivityChart` under `app/Filament/Widgets/`.
-
-## Background
-
-- **`routes/console.php`:** `RunHealthChecksCommand` every minute **only** in `production` (`App\Enums\Environment::PRODUCTION`).
-- No first-party jobs, listeners, notifications, mailables, policies, or broadcast channels under `app/` today.
-
-## Tests
-
-- Layout: `tests/Feature`, `tests/Integration`, `tests/Architecture`. Feature setup: `tests/Pest.php` uses `TestsSeeder`. `tests/TestCase.php` sets `inertia.ssr.enabled` false and `Http::preventStrayRequests()`.
-
-=== .ai/tailwind rules ===
-
-# Tailwind in this app
-
-Tailwind **v4** is wired through Vite (`@tailwindcss/vite` in `vite.config.js`), not a `tailwind.config.js` file. The entry point is `resources/css/app.css`.
-
-## CSS-first pipeline
-
-- **`@import "tailwindcss"`** — core.
-- **`@plugin "@tailwindcss/forms"`** — form control resets/defaults (see package `@tailwindcss/forms`).
-- **`@source "../../resources/";`** — content detection for class names under `resources/` (Vue, Blade, etc.). Filament has its own entry and sources (below).
-
-## Design tokens (`resources/css/variables.css`)
-
-Tokens live in an **`@theme { ... }`** block. They extend or replace Tailwind’s theme:
-
-| Token                                           | Role                                                                                                                                                    |
-| ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `--default-transition-duration`                 | `0.2s` (global transition duration)                                                                                                                     |
-| `--font-text`, `--font-heading`, `--font-serif` | Body, heading, and serif stacks (currently Arial / Georgia placeholders). Exposed as utilities `font-text`, `font-heading`, `font-serif`.               |
-| `--breakpoint-xs` … `--breakpoint-4xl`          | **Non-default breakpoints** (e.g. `sm` is `451px`, not Tailwind’s default `640px`). Prefer the app’s `sm:`, `md:`, etc. when matching existing layouts. |
-| `--color-ui-1-1`                                | Primary brand green (`#257c53`). Use utilities like `bg-ui-1-1`, `text-ui-1-1`, `border-ui-1-1`, etc.                                                   |
-
-Add new colors or fonts by defining `--color-*` / `--font-*` (and breakpoints if needed) in the same `@theme` block.
-
-## Layer imports (after variables)
-
-Order in `app.css`: `variables.css` → `typography.css` → `utilities.css` → `forms.css` → `buttons.css` → `tables.css` → `content.css`.
-
-### Base layer
-
-- `app.css`: `#app` gets `h-full`.
-- `forms.css`: `label[for]` gets `cursor-pointer`.
-
-### Custom `@utility` classes (use these instead of re-styling from scratch)
-
-- **Links:** `text-link` — underline + hover behavior (`resources/css/utilities.css`).
-- **Headings:** `heading`, `h1`–`h6` — responsive type scale + weight (`typography.css`).
-- **Forms:** `form-row`, `form-col`, `form-col-2`, `label`, `small-label`, `inline-label`, `field`, `input`, `textarea`, `select`, `option`, `checkbox`, `radio`, `toggle`, `field-error`, `field-hint` (`forms.css`). Form pages should align with `resources/css/forms.css` and Blade `x-field-error` where applicable.
-- **Buttons:** `button`, `button-full` — primary styling uses `bg-ui-1-1` (`buttons.css`).
-- **Tables:** `table`, `table-wrap` (`tables.css`).
-- **Rich HTML:** `content` — wraps headings, links (`text-link`), blockquotes (`font-serif`), lists, spacing, and nested `table` styling (`content.css`).
-
-## Filament admin
-
-`resources/css/filament/admin/theme.css` is a **separate Vite input**: it imports Filament’s vendor theme and adds `@source` for `app/Filament/**` and `resources/views/filament/**`. Inertia/app tokens from `app.css` are not automatically part of the Filament bundle unless duplicated or shared via that file.
-
-## Tooling
-
-- **Prettier:** `prettier-plugin-tailwindcss` sorts classes in `resources/`.
-- **Vite aliases:** `@css` → `resources/css` (see `vite.config.js`).
-
-## Quick reference for agents
-
-1. Prefer **`bg-ui-1-1` / `text-ui-1-1`** (and related) for brand color, not arbitrary hex in new UI.
-2. Remember **breakpoints differ from default Tailwind** — check `variables.css` before assuming standard `sm`/`md` widths.
-3. Use **`font-text`** on the document body (`resources/views/app.blade.php`); headings in prose can use `heading` + `h1`–`h6` or the **`content`** wrapper for CMS-style HTML.
 
 === .ai/testing rules ===
 
@@ -155,11 +29,11 @@ If you need to login as a user, use the following credentials:
 
 === .ai/ui-implementation rules ===
 
-If you have access, use the /ui skills and MCP from uidotsh to implement any UI Tailwind.
+Use the `/ui` skill and MCP from `uidotsh` to implement any UI Tailwind.
 
 Always create reusable components where you can. If you're starting something new, see if a component for that already exists.
 
-When adding forms, always use the form styles from @resources/css/forms.css.
+When adding forms, prefer the Tailwind utility patterns already defined in `resources/css/app.css`.
 
 When adding forms, always use the @resources/views/components/field-error.blade.php component to display validation errors.
 
@@ -190,6 +64,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - rector/rector (RECTOR) - v2
 - @inertiajs/vue3 (INERTIA_VUE) - v3
 - @laravel/vite-plugin-wayfinder (WAYFINDER_VITE) - v0
+- eslint (ESLINT) - v10
 - prettier (PRETTIER) - v3
 - tailwindcss (TAILWINDCSS) - v4
 - vue (VUE) - v3
@@ -199,11 +74,11 @@ This application is a Laravel application and its main Laravel ecosystems packag
 This project has domain-specific skills available. You MUST activate the relevant skill whenever you work in that domain—don't wait until you're stuck.
 
 - `laravel-best-practices` — Apply this skill whenever writing, reviewing, or refactoring Laravel PHP code. This includes creating or modifying controllers, models, migrations, form requests, policies, jobs, scheduled commands, service classes, and Eloquent queries. Triggers for N+1 and query performance issues, caching strategies, authorization and security patterns, validation, error handling, queue and job configuration, route definitions, and architectural decisions. Also use for Laravel code reviews and refactoring existing Laravel code to follow best practices. Covers any task involving Laravel backend PHP code patterns.
+- `configure-nightwatch` — Configures Laravel Nightwatch data collection, sampling rates, filtering rules, and redaction policies. Use when setting up Nightwatch, managing data volume, protecting sensitive data (PII), or optimizing event collection for production workloads.
 - `wayfinder-development` — Use this skill for Laravel Wayfinder which auto-generates typed functions for Laravel controllers and routes. ALWAYS use this skill when frontend code needs to call backend routes or controller actions. Trigger when: connecting any React/Vue/Svelte/Inertia frontend to Laravel controllers, routes, building end-to-end features with both frontend and backend, wiring up forms or links to backend endpoints, fixing route-related TypeScript errors, importing from @/actions or @/routes, or running wayfinder:generate. Use Wayfinder route functions instead of hardcoded URLs. Covers: wayfinder() vite plugin, .url()/.get()/.post()/.form(), query params, route model binding, tree-shaking. Do not use for backend-only task
-- `pest-testing` — Use this skill for Pest PHP testing in Laravel projects only. Trigger whenever any test is being written, edited, fixed, or refactored — including fixing tests that broke after a code change, adding assertions, converting PHPUnit to Pest, adding datasets, and TDD workflows. Always activate when the user asks how to write something in Pest, mentions test files or directories (tests/Feature, tests/Unit, tests/Browser), or needs browser testing, smoke testing multiple pages for JS errors, or architecture tests. Covers: it()/expect() syntax, datasets, mocking, browser testing (visit/click/fill), smoke testing, arch(), Livewire component tests, RefreshDatabase, and all Pest 4 features. Do not use for factories, seeders, migrations, controllers, models, or non-test PHP code.
+- `pest-testing` — Use this skill for Pest PHP testing in Laravel projects only. Trigger whenever any test is being written, edited, fixed, or refactored — including fixing tests that broke after a code change, adding assertions, converting PHPUnit to Pest, adding datasets, and TDD workflows. Always activate when the user asks how to write something in Pest, mentions test files or directories (tests/Feature, tests/Unit, tests/Browser), or needs browser testing, smoke testing multiple pages for JS errors, or architecture tests. Covers: test()/it()/expect() syntax, datasets, mocking, browser testing (visit/click/fill), smoke testing, arch(), Livewire component tests, RefreshDatabase, and all Pest 4 features. Do not use for factories, seeders, migrations, controllers, models, or non-test PHP code.
 - `inertia-vue-development` — Develops Inertia.js v3 Vue client-side applications. Activates when creating Vue pages, forms, or navigation; using <Link>, <Form>, useForm, useHttp, setLayoutProps, or router; working with deferred props, prefetching, optimistic updates, instant visits, or polling; or when user mentions Vue with Inertia, Vue pages, Vue forms, or Vue navigation.
 - `tailwindcss-development` — Always invoke when the user's message includes 'tailwind' in any form. Also invoke for: building responsive grid layouts (multi-column card grids, product grids), flex/grid page structures (dashboards with sidebars, fixed topbars, mobile-toggle navs), styling UI components (cards, tables, navbars, pricing sections, forms, inputs, badges), adding dark mode variants, fixing spacing or typography, and Tailwind v3/v4 work. The core use case: writing or fixing Tailwind utility classes in HTML templates (Blade, JSX, Vue). Skip for backend PHP logic, database queries, API routes, JavaScript with no HTML/CSS component, CSS file audits, build tool configuration, and vanilla CSS.
-- `configure-nightwatch` — Configures Laravel Nightwatch data collection, sampling rates, filtering rules, and redaction policies. Use when setting up Nightwatch, managing data volume, protecting sensitive data (PII), or optimizing event collection for production workloads.
 - `laravel-permission-development` — Build and work with Spatie Laravel Permission features, including roles, permissions, middleware, policies, teams, and Blade directives.
 - `debug-using-debugbar` — Use this skill to optimize requests or debug Laravel application issues — slow pages, N+1 queries, exceptions, failed requests, or unexpected behavior — by inspecting data captured by Laravel Debugbar via Artisan CLI commands. Use when the user asks to investigate a bug, diagnose a slow request, find duplicate queries, check what happened on a previous request, or optimize database performance, even if they don't explicitly mention "debugbar" or "profiling."
 
@@ -282,7 +157,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 - Always use curly braces for control structures, even for single-line bodies.
 - Use PHP 8 constructor property promotion: `public function __construct(public GitHub $github) { }`. Do not leave empty zero-parameter `__construct()` methods unless the constructor is private.
 - Use explicit return type declarations and type hints for all method parameters: `function isAccessible(User $user, ?string $path = null): bool`
-- Use TitleCase for Enum keys: `FavoritePerson`, `BestLake`, `Monthly`.
+- Follow existing application Enum naming conventions.
 - Prefer PHPDoc blocks over inline comments. Only add inline comments for exceptionally complex logic.
 - Use array shape type definitions in PHPDoc blocks.
 
@@ -305,7 +180,7 @@ This project has domain-specific skills available. You MUST activate the relevan
 # Inertia
 
 - Inertia creates fully client-side rendered SPAs without modern SPA complexity, leveraging existing server-side patterns.
-- Components live in `resources/js/Pages` (unless specified in `vite.config.js`). Use `Inertia::render()` for server-side routing instead of Blade views.
+- Components live in `resources/js/pages` (unless specified in `vite.config.js`). Use `Inertia::render()` for server-side routing instead of Blade views.
 - ALWAYS use `search-docs` tool for version-specific Inertia documentation and updated code examples.
 - IMPORTANT: Activate `inertia-vue-development` when working with Inertia Vue client-side patterns.
 
@@ -352,6 +227,10 @@ This project has domain-specific skills available. You MUST activate the relevan
 ## Vite Error
 
 - If you receive an "Illuminate\Foundation\ViteException: Unable to locate file in Vite manifest" error, you can run `bun run build` or ask the user to run `bun run dev` or `composer run dev`.
+
+## Deployment
+
+- Laravel can be deployed using [Laravel Cloud](https://cloud.laravel.com/), which is the fastest way to deploy and scale production Laravel applications.
 
 === wayfinder/core rules ===
 

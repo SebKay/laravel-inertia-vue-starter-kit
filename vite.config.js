@@ -36,7 +36,7 @@ export default defineConfig({
 
     resolve: {
         alias: {
-            '@': '/resources',
+            '@': '/resources/js',
             '@fonts': '/public/fonts',
             '@img': '/public/img',
             '@js': '/resources/js',

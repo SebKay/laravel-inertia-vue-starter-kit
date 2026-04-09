@@ -12,18 +12,17 @@
     "packages": [
         "filament/filament",
         "spatie/laravel-ray",
-        "laravel/nightwatch",
         "fruitcake/laravel-debugbar",
         "spatie/laravel-permission"
     ],
     "sail": false,
     "skills": [
         "laravel-best-practices",
+        "configure-nightwatch",
         "wayfinder-development",
         "pest-testing",
         "inertia-vue-development",
         "tailwindcss-development",
-        "configure-nightwatch",
         "laravel-permission-development",
         "debug-using-debugbar",
         "debugging-output-and-previewing-html-using-ray"
