@@ -23,7 +23,7 @@
     import { toUrl } from "@/lib/utils";
 
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
-    import { index as home } from "@js/actions/App/Http/Controllers/DashboardController";
+    import DashboardController from "@js/actions/App/Http/Controllers/DashboardController";
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
     import PasswordController from "@js/actions/App/Http/Controllers/PasswordController";
     import type { PageProps } from "@js/types/inertia";
@@ -40,7 +40,7 @@
         const items = [
             {
                 title: "Dashboard",
-                url: toUrl(home()),
+                url: toUrl(DashboardController()),
                 icon: LayoutDashboardIcon,
                 components: ["Dashboard/Index"],
             },
@@ -77,7 +77,7 @@
                         as-child
                         class="hover:bg-transparent active:bg-transparent data-[slot=sidebar-menu-button]:p-0!"
                     >
-                        <Link :href="home()" prefetch>
+                        <Link :href="DashboardController()" prefetch>
                             <SparklesIcon class="size-5! text-primary" />
                             <span class="text-base font-semibold"
                                 >Starter Kit</span

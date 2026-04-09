@@ -46,11 +46,9 @@ Route::post('logout', LogoutController::class)
     ->middleware(['auth'])
     ->name('logout');
 
-Route::controller(DashboardController::class)
+Route::get('/', DashboardController::class)
     ->middleware(['auth', 'verified'])
-    ->group(function () {
-        Route::get('/', 'index')->name('home');
-    });
+    ->name('home');
 
 Route::controller(AccountController::class)
     ->prefix('account')
