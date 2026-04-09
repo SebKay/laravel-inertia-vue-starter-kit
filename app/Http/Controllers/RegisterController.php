@@ -21,7 +21,7 @@ class RegisterController extends Controller
 
     public function store(RegisterStoreRequest $request)
     {
-        $user = new User($request->only('name', 'email'));
+        $user = new User($request->safe()->only('name', 'email'));
 
         $user->password = $request->validated('password');
         $user->save();

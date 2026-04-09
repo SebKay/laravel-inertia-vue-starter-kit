@@ -22,7 +22,7 @@ class ResetPasswordController extends Controller
 
     public function store(ResetPasswordStoreRequest $request)
     {
-        $status = Password::sendResetLink($request->only('email'));
+        $status = Password::sendResetLink($request->safe()->only('email'));
 
         throw_if($status !== Password::RESET_LINK_SENT, ValidationException::withMessages([
             'reset_link' => __($status),
@@ -45,7 +45,7 @@ class ResetPasswordController extends Controller
 
     public function update(ResetPasswordUpdateRequest $request)
     {
-        $status = Password::reset($request->only('token', 'email', 'password', 'password_confirmation'), function (User $user, string $password) {
+        $status = Password::reset($request->safe()->only('token', 'email', 'password', 'password_confirmation'), function (User $user, string $password) {
             $user->forceFill([
                 'password' => Hash::make($password),
             ])->setRememberToken(Str::random(60));

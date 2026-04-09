@@ -22,7 +22,7 @@ class LoginController extends Controller
     public function store(LoginStoreRequest $request)
     {
         throw_if(
-            ! auth()->guard()->attempt($request->only('email', 'password'), $request->boolean('remember')),
+            ! auth()->guard()->attempt($request->safe()->only('email', 'password'), $request->boolean('remember')),
             ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ])
