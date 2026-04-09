@@ -1,8 +1,15 @@
 name: laravel-inertia-vue-starter-kit
 icon: null
 processes:
-  'Test: Coverage':
-    command: composer test:coverage
+  Finalise:
+    command: bun run lint && bun run format && composer rector && composer format && composer test:coverage
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  'Prettier: Format':
+    command: bun run format
     working_dir: null
     auto_start: false
     auto_restart: false
@@ -15,6 +22,13 @@ processes:
     auto_restart: false
     restart_when_changed: []
     env: {}
+  'ESLint: Fix':
+    command: bun run lint
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
   Test:
     command: composer test
     working_dir: null
@@ -24,6 +38,20 @@ processes:
     env: {}
   'Build: Development':
     command: composer build:dev
+    working_dir: null
+    auto_start: false
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  'Vite: Dev':
+    command: bun run dev
+    working_dir: null
+    auto_start: true
+    auto_restart: false
+    restart_when_changed: []
+    env: {}
+  'Pint: Format':
+    command: vendor/bin/pint
     working_dir: null
     auto_start: false
     auto_restart: false
@@ -43,31 +71,10 @@ processes:
     auto_restart: false
     restart_when_changed: []
     env: {}
-  'Pint: Fix':
-    command: vendor/bin/pint
+  'Test: Coverage':
+    command: composer test:coverage
     working_dir: null
     auto_start: false
-    auto_restart: false
-    restart_when_changed: []
-    env: {}
-  'Prettier: Fix':
-    command: bun run format
-    working_dir: null
-    auto_start: false
-    auto_restart: false
-    restart_when_changed: []
-    env: {}
-  Finalise:
-    command: composer rector && composer format && composer test:coverage
-    working_dir: null
-    auto_start: false
-    auto_restart: false
-    restart_when_changed: []
-    env: {}
-  'Vite: Dev':
-    command: bun run dev
-    working_dir: null
-    auto_start: true
     auto_restart: false
     restart_when_changed: []
     env: {}
