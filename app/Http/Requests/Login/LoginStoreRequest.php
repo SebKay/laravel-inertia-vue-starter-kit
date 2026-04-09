@@ -12,7 +12,7 @@ class LoginStoreRequest extends FormRequest
             'email' => ['required', 'email', 'exists:users'],
             'password' => ['required'],
             'remember' => ['nullable'],
-            'redirect' => ['nullable', 'string'],
+            'redirect' => ['nullable', 'string', 'starts_with:/'],
         ];
     }
 }
