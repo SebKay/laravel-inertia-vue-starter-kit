@@ -7,7 +7,12 @@ use Illuminate\Validation\Rules\Password;
 
 class AccountUpdateRequest extends FormRequest
 {
-    public function rules()
+    public function authorize(): bool
+    {
+        return (bool) $this->user();
+    }
+
+    public function rules(): array
     {
         return [
             'name' => ['required', 'sometimes', 'string', 'max:255'],

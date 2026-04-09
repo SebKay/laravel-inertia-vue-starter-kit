@@ -6,13 +6,13 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class LoginStoreRequest extends FormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'exists:users'],
+            'email' => ['required', 'email'],
             'password' => ['required'],
             'remember' => ['nullable'],
-            'redirect' => ['nullable', 'string'],
+            'redirect' => ['nullable', 'string', 'starts_with:/'],
         ];
     }
 }

@@ -101,7 +101,7 @@ describe('Guests', function () {
             'password' => Hash::make($password),
         ]);
 
-        $redirectUrl = 'https://www.google.com/';
+        $redirectUrl = '/dashboard';
 
         assertGuest();
 
@@ -115,6 +115,26 @@ describe('Guests', function () {
             ->assertRedirect($redirectUrl);
 
         assertAuthenticated();
+    });
+
+    test("Can't be redirected to an external URL after login", function () {
+        $password = fake()->password();
+        $user = User::factory()->create([
+            'password' => Hash::make($password),
+        ]);
+
+        assertGuest();
+
+        from(route('login'))
+            ->post(route('login'), [
+                'email' => $user->email,
+                'password' => $password,
+                'redirect' => 'https://evil.com',
+            ])
+            ->assertSessionHasErrors('redirect')
+            ->assertRedirectToRoute('login');
+
+        assertGuest();
     });
 
     test("Can't login with invalid credentials", function () {

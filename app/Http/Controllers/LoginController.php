@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Enums\Environment;
 use App\Http\Requests\Login\LoginStoreRequest;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
+use Inertia\Response;
 
 class LoginController extends Controller
 {
-    public function show(Request $request)
+    public function show(Request $request): Response|array
     {
         return inertia('Login/Show', app()->environment([Environment::LOCAL->value, Environment::TESTING->value]) ? [
             'email' => config('seed.users.super.email'),
@@ -19,10 +21,10 @@ class LoginController extends Controller
         ] : []);
     }
 
-    public function store(LoginStoreRequest $request)
+    public function store(LoginStoreRequest $request): RedirectResponse
     {
         throw_if(
-            ! auth()->guard()->attempt($request->only('email', 'password'), $request->boolean('remember')),
+            ! auth()->guard()->attempt($request->safe()->only('email', 'password'), $request->boolean('remember')),
             ValidationException::withMessages([
                 'email' => __('auth.failed'),
             ])

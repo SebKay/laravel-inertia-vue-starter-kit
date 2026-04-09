@@ -7,11 +7,11 @@ use Illuminate\Validation\Rules\Password;
 
 class RegisterStoreRequest extends FormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
-            'name' => ['required', 'string'],
-            'email' => ['required', 'email', 'unique:users'],
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'email', 'max:255', 'unique:users'],
             'password' => ['required', Password::defaults()],
         ];
     }

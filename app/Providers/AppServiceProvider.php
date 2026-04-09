@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
         );
 
         Model::automaticallyEagerLoadRelationships();
-        Model::shouldBeStrict();
+        Model::shouldBeStrict(! app()->isProduction());
 
         Date::use(CarbonImmutable::class);
 

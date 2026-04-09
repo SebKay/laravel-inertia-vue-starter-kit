@@ -9,6 +9,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Auth;
 use Spatie\Permission\Models\Role as SpatieRole;
 
@@ -53,7 +54,13 @@ class UserForm
                         Select::make('roles')
                             ->preload()
                             ->searchable()
-                            ->relationship('roles', 'name')
+                            ->relationship(
+                                'roles',
+                                'name',
+                                modifyQueryUsing: fn (Builder $query) => Auth::user()?->hasRole(Role::SUPER)
+                                    ? $query
+                                    : $query->where('name', '!=', Role::SUPER->value),
+                            )
                             ->getOptionLabelFromRecordUsing(fn (SpatieRole $role): string => Role::tryFrom($role->name)?->getLabel() ?? $role->name),
                     ]),
             ]);

@@ -34,6 +34,7 @@ Route::controller(LoginController::class)
     });
 
 Route::controller(ResetPasswordController::class)
+    ->middleware(['guest'])
     ->group(function () {
         Route::get('forgot-password', 'show')->name('password');
         Route::post('forgot-password', 'store')->name('password.store')->middleware(['throttle:6,1']);
@@ -45,11 +46,9 @@ Route::post('logout', LogoutController::class)
     ->middleware(['auth'])
     ->name('logout');
 
-Route::controller(DashboardController::class)
+Route::get('/', DashboardController::class)
     ->middleware(['auth', 'verified'])
-    ->group(function () {
-        Route::get('/', 'index')->name('home');
-    });
+    ->name('home');
 
 Route::controller(AccountController::class)
     ->prefix('account')
