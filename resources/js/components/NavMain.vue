@@ -9,6 +9,7 @@
         SidebarMenuButton,
         SidebarMenuItem,
     } from "@/components/ui/sidebar";
+    import { hasActiveComponent } from "@/lib/navigation";
 
     interface NavItem {
         title: string;
@@ -24,9 +25,7 @@
     const page = usePage();
 
     function isActive(item: NavItem): boolean {
-        const current = String(page.component);
-
-        return (item.components ?? []).includes(current);
+        return hasActiveComponent(String(page.component), item.components);
     }
 </script>
 

@@ -19,6 +19,7 @@
         SidebarMenuItem,
     } from "@/components/ui/sidebar";
     import type { SidebarProps } from "@/components/ui/sidebar";
+    import { hasActiveComponent } from "@/lib/navigation";
     import { toUrl } from "@/lib/utils";
 
     import { edit as editAccount } from "@js/actions/App/Http/Controllers/AccountController";
@@ -29,6 +30,7 @@
     import { userCan } from "@js/utilities/permissions";
 
     const page = usePage();
+    const currentComponent = computed(() => String(page.component));
 
     const showElementsLink = computed(() =>
         userCan(page.props as unknown as PageProps, "access-filament"),
@@ -91,7 +93,14 @@
         <SidebarFooter>
             <SidebarMenu>
                 <SidebarMenuItem>
-                    <SidebarMenuButton as-child>
+                    <SidebarMenuButton
+                        :is-active="
+                            hasActiveComponent(currentComponent, [
+                                'Account/Edit',
+                            ])
+                        "
+                        as-child
+                    >
                         <Link :href="editAccount()" prefetch>
                             <SettingsIcon class="size-4" />
                             <span>Account</span>
