@@ -7,10 +7,12 @@ use App\Enums\Role;
 use App\Http\Requests\Register\RegisterStoreRequest;
 use App\Models\User;
 use Filament\Auth\Events\Registered;
+use Illuminate\Http\RedirectResponse;
+use Inertia\Response;
 
 class RegisterController extends Controller
 {
-    public function show()
+    public function show(): Response|array
     {
         return inertia('Register/Show', app()->environment([Environment::LOCAL->value, Environment::TESTING->value]) ? [
             'name' => fake()->name(),
@@ -19,7 +21,7 @@ class RegisterController extends Controller
         ] : []);
     }
 
-    public function store(RegisterStoreRequest $request)
+    public function store(RegisterStoreRequest $request): RedirectResponse
     {
         $user = new User($request->safe()->only('name', 'email'));
 
