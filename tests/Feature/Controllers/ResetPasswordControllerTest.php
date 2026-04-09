@@ -42,9 +42,7 @@ test("A password reset email can't be requested with invalid credentials", funct
         ->post(route('password.store'), [
             'email' => fake()->email(),
         ])
-        ->assertSessionHasErrors([
-            'email' => __('validation.exists', ['attribute' => 'email']),
-        ])
+        ->assertSessionHasErrors('reset_link')
         ->assertRedirectToRoute('password');
 
     Notification::assertNothingSent();

@@ -10,7 +10,7 @@ class ResetPasswordUpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'email' => ['required', 'email', 'exists:users'],
+            'email' => ['required', 'email'],
             'token' => ['required'],
             'password' => ['required', Password::defaults()],
             'password_confirmation' => ['required', 'same:password'],
