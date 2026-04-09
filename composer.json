@@ -21,12 +21,13 @@
         "symfony/postmark-mailer": "^8.0"
     },
     "require-dev": {
-        "fruitcake/laravel-debugbar": "^4.0",
         "driftingly/rector-laravel": "^2.1",
+        "fruitcake/laravel-debugbar": "^4.0",
         "laravel/boost": "^2.0",
         "laravel/pint": "^1.17",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.3",
+        "nunomaduro/pao": "^0.1",
         "pestphp/pest": "^4.0",
         "pestphp/pest-plugin-faker": "^4.0",
         "pestphp/pest-plugin-laravel": "^4.0",
