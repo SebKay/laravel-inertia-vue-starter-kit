@@ -1,4 +1,4 @@
-If you have access, use the /ui skills and MCP from uidotsh to implement any UI Tailwind.
+Use the `/ui` skill and MCP from `uidotsh` to implement any UI Tailwind.
 
 Always create reusable components where you can. If you're starting something new, see if a component for that already exists.
 

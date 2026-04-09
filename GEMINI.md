@@ -1,7 +1,7 @@
 <laravel-boost-guidelines>
 === .ai/planning rules ===
 
-When making plans, always use the following skills: /brainstorming and /planner.
+When making plans, always use the following skills: `/brainstorming` and `/planner`.
 
 You MUST make atomic commits for each task completed in a plan. Make sure the plan reflects that.
 
@@ -29,7 +29,7 @@ If you need to login as a user, use the following credentials:
 
 === .ai/ui-implementation rules ===
 
-If you have access, use the /ui skills and MCP from uidotsh to implement any UI Tailwind.
+Use the `/ui` skill and MCP from `uidotsh` to implement any UI Tailwind.
 
 Always create reusable components where you can. If you're starting something new, see if a component for that already exists.
 
@@ -64,6 +64,7 @@ This application is a Laravel application and its main Laravel ecosystems packag
 - rector/rector (RECTOR) - v2
 - \@inertiajs/vue3 (INERTIA_VUE) - v3
 - \@laravel/vite-plugin-wayfinder (WAYFINDER_VITE) - v0
+- eslint (ESLINT) - v10
 - prettier (PRETTIER) - v3
 - tailwindcss (TAILWINDCSS) - v4
 - vue (VUE) - v3
