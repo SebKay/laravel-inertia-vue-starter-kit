@@ -7,7 +7,7 @@ use Illuminate\Validation\Rules\Password;
 
 class ResetPasswordUpdateRequest extends FormRequest
 {
-    public function rules()
+    public function rules(): array
     {
         return [
             'email' => ['required', 'email'],
