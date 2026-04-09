@@ -10,7 +10,7 @@ class UsersSeeder extends Seeder
 {
     use WithoutModelEvents;
 
-    public function run()
+    public function run(): void
     {
         User::factory()->super()->create();
         User::factory()->admin()->create();
