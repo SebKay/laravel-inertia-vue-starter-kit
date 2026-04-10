@@ -9,9 +9,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
-      - uses: oven-sh/setup-bun@v2
-
       - name: Setup PHP and Composer
         uses: shivammathur/setup-php@v2
         with:
@@ -30,9 +27,9 @@ jobs:
           restore-keys: composer-cache-
 
       - name: Install Dependencies
-        run: |
-          composer install -q --no-interaction
-          bun install --silent
+        run: composer install -q --no-interaction
+
+      - uses: oven-sh/setup-bun@v2
 
       - name: Get Bun Cache Directory
         id: bun-cache-dir
@@ -50,9 +47,6 @@ jobs:
 
       - name: Build Assets
         run: bun run build
-
-      - name: Run Linter
-        run: composer format:check
 
   lint:
     name: Lint
@@ -98,7 +92,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-      - uses: oven-sh/setup-bun@v2
 
       - name: Setup PHP and Composer
         uses: shivammathur/setup-php@v2
@@ -118,9 +111,7 @@ jobs:
           restore-keys: composer-cache-
 
       - name: Install Dependencies
-        run: |
-          composer install -q --no-interaction
-          bun install --silent
+        run: composer install -q --no-interaction
 
       - name: Configure Application
         run: |
