@@ -9,30 +9,10 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-
       - uses: oven-sh/setup-bun@v2
 
-      - name: Setup PHP and Composer
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.4
-          tools: composer:v2
-
-      - name: Get Cache Directory
-        id: composer-cache-dir
-        run: echo dir=$(composer config cache-files-dir) >> $GITHUB_OUTPUT
-
-      - name: Cache Dependencies
-        uses: actions/cache@v4
-        with:
-          key: composer-cache-${{ hashFiles('**/composer.lock') }}
-          path: ${{ steps.composer-cache-dir.outputs.dir }}
-          restore-keys: composer-cache-
-
       - name: Install Dependencies
-        run: |
-          composer install -q --no-interaction
-          bun install --silent
+        run: bun install --silent
 
       - name: Get Bun Cache Directory
         id: bun-cache-dir
@@ -50,9 +30,6 @@ jobs:
 
       - name: Build Assets
         run: bun run build
-
-      - name: Run Linter
-        run: composer format:check
 
   lint:
     name: Lint
