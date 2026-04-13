@@ -32,7 +32,10 @@ class ResetPasswordController extends Controller
 
         session()->regenerate();
 
-        Inertia::flash('success', __('passwords.sent'));
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => __('passwords.sent'),
+        ]);
 
         return to_route('login');
     }
@@ -61,7 +64,10 @@ class ResetPasswordController extends Controller
             'reset' => __($status),
         ]));
 
-        Inertia::flash('success', __('passwords.reset'));
+        Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => __('passwords.reset'),
+        ]);
 
         return to_route('login');
     }

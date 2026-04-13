@@ -34,6 +34,9 @@ class EmailVerificationController extends Controller
             ]);
         }
 
-        return Inertia::flash('success', __('account.verification-resent'))->back();
+        return Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => __('account.verification-resent'),
+        ])->back();
     }
 }

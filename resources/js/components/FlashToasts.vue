@@ -29,26 +29,25 @@
     });
 
     function showFlashToast(flash: FlashData): void {
-        if (flash.success) {
-            toast.success(flash.success, { duration: TOAST_DURATION });
-
+        if (!flash.toast) {
             return;
         }
 
-        if (flash.error) {
-            toast.error(flash.error, { duration: TOAST_DURATION });
+        const { message, type } = flash.toast;
 
-            return;
-        }
-
-        if (flash.warning) {
-            toast.warning(flash.warning, { duration: TOAST_DURATION });
-
-            return;
-        }
-
-        if (flash.info) {
-            toast.info(flash.info, { duration: TOAST_DURATION });
+        switch (type) {
+            case "success":
+                toast.success(message, { duration: TOAST_DURATION });
+                break;
+            case "error":
+                toast.error(message, { duration: TOAST_DURATION });
+                break;
+            case "warning":
+                toast.warning(message, { duration: TOAST_DURATION });
+                break;
+            case "info":
+                toast.info(message, { duration: TOAST_DURATION });
+                break;
         }
     }
 </script>

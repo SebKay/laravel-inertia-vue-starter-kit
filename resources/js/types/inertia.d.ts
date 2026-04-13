@@ -26,10 +26,10 @@ export type JsonApiDocument<
 export type UserDocument = JsonApiDocument<UserAttributes, "users">;
 
 export interface FlashData {
-    success?: string;
-    error?: string;
-    warning?: string;
-    info?: string;
+    toast?: {
+        type: "success" | "error" | "warning" | "info";
+        message: string;
+    };
 }
 
 export interface LayoutProps {

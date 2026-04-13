@@ -46,7 +46,9 @@ describe('Users', function () {
             ->fromRoute('verification.notice')
             ->post(route('verification.send'))
             ->assertSessionDoesntHaveErrors()
-            ->assertRedirectToRoute('verification.notice');
+            ->assertRedirectToRoute('verification.notice')
+            ->assertInertiaFlash('toast.type', 'success')
+            ->assertInertiaFlash('toast.message', __('account.verification-resent'));
 
         Notification::assertSentTo($user, VerifyEmail::class);
     });

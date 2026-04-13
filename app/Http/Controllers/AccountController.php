@@ -26,6 +26,9 @@ class AccountController extends Controller
             $request->user()->update(['password' => $request->validated('password')]);
         }
 
-        return Inertia::flash('success', __('account.updated'))->back();
+        return Inertia::flash('toast', [
+            'type' => 'success',
+            'message' => __('account.updated'),
+        ])->back();
     }
 }

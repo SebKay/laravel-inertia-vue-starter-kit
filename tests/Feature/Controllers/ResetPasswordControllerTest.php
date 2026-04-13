@@ -30,7 +30,9 @@ test('A password reset email can be requested', function () {
             'email' => $user->email,
         ])
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirectToRoute('login');
+        ->assertRedirectToRoute('login')
+        ->assertInertiaFlash('toast.type', 'success')
+        ->assertInertiaFlash('toast.message', __('passwords.sent'));
 
     Notification::assertSentTo($user, ResetPassword::class);
 });
@@ -78,7 +80,9 @@ test('Users can reset their passwords', function () {
         'password_confirmation' => $newPassword,
     ]))
         ->assertSessionDoesntHaveErrors()
-        ->assertRedirectToRoute('login');
+        ->assertRedirectToRoute('login')
+        ->assertInertiaFlash('toast.type', 'success')
+        ->assertInertiaFlash('toast.message', __('passwords.reset'));
 
     expect(Hash::check($newPassword, $user->refresh()->password))->toBeTrue();
 });
