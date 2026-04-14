@@ -36,6 +36,13 @@ class UserFactory extends Factory
         ]);
     }
 
+    public function suspended(): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'suspended_at' => now(),
+        ]);
+    }
+
     public function super(): static
     {
         return $this
