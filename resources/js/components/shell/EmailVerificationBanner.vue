@@ -81,21 +81,19 @@
                 </div>
 
                 <div class="space-y-0.5">
-                    <p class="text-sm font-medium">
-                        Verify your email address to keep your account fully
-                        active.
-                    </p>
+                    <p class="text-sm font-medium">Verify your email address</p>
 
                     <p class="text-xs text-current/80">
                         <template v-if="emailAddress">
-                            We sent a verification link to
+                            We sent a link to
                             <strong>{{ emailAddress }}</strong
                             >.
                         </template>
                         <template v-else>
                             Check your inbox for your verification email.
                         </template>
-                        If you need another link, resend it here.
+                        Your account will be removed after 30 days without
+                        verification.
                     </p>
                 </div>
             </div>
