@@ -101,8 +101,8 @@
             </div>
 
             <Button
-                variant="outline"
-                class="border-amber-300 bg-amber-100 text-amber-950 hover:bg-amber-200 dark:border-amber-700 dark:bg-amber-900/50 dark:text-amber-100 dark:hover:bg-amber-900"
+                variant="amber"
+                size="sm"
                 :disabled="resendRequest.processing"
                 @click="resend"
             >
