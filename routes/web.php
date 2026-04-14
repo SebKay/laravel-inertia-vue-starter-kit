@@ -16,7 +16,7 @@ use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER->value]);
 
 Route::get('password-test', PasswordController::class)
-    ->middleware(['auth', 'verified', 'role:'.Role::SUPER->value, 'password.confirm'])
+    ->middleware(['auth', 'password.confirm'])
     ->name('password-test');
 
 Route::controller(RegisterController::class)
@@ -47,12 +47,12 @@ Route::post('logout', LogoutController::class)
     ->name('logout');
 
 Route::get('/', DashboardController::class)
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->name('home');
 
 Route::controller(AccountController::class)
     ->prefix('account')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->group(function () {
         Route::get('', 'edit')->name('account.edit');
         Route::patch('', 'update')->name('account.update');

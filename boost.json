@@ -3,8 +3,7 @@
         "copilot",
         "cursor",
         "opencode",
-        "codex",
-        "gemini"
+        "codex"
     ],
     "guidelines": true,
     "mcp": true,

@@ -107,6 +107,7 @@
         PageProps<{
             name?: string;
             email?: string;
+            password?: string;
         }>
     >();
 
@@ -123,9 +124,9 @@
         },
         "RegisterForm",
     );
-    const password = ref("");
+    const password = ref(props.password ?? "");
 
     const handleFinish = () => {
-        password.value = "";
+        password.value = props.password ?? "";
     };
 </script>

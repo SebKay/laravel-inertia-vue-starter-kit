@@ -6,7 +6,7 @@ use App\Enums\Environment;
 use App\Enums\Role;
 use App\Http\Requests\Register\RegisterStoreRequest;
 use App\Models\User;
-use Filament\Auth\Events\Registered;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Inertia\Response;
 
@@ -17,7 +17,7 @@ class RegisterController extends Controller
         return inertia('Register/Show', app()->environment([Environment::LOCAL->value, Environment::TESTING->value]) ? [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'password' => '123456Ab#',
+            'password' => '123456',
         ] : []);
     }
 
