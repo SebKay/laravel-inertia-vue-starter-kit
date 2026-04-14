@@ -64,8 +64,8 @@ it('supports a dry run mode', function () {
                 $staleUnverifiedUser->created_at->toDateTimeString(),
             ]],
         )
-        ->expectsPromptsInfo('Matched 1 stale unverified users.')
-        ->expectsPromptsInfo('Dry run enabled; no users were deleted.')
+        ->expectsPromptsInfo('Matched 1 stale unverified user.')
+        ->expectsPromptsInfo('Dry run enabled. No users were deleted.')
         ->assertSuccessful();
 
     $this->assertModelExists($staleUnverifiedUser);

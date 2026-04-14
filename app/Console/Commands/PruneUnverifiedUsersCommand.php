@@ -6,6 +6,7 @@ use App\Services\PruneUnverifiedUsersService;
 use Illuminate\Console\Attributes\Description;
 use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
+use Illuminate\Support\Str;
 
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\table;
@@ -30,16 +31,21 @@ class PruneUnverifiedUsersCommand extends Command
             );
         }
 
-        info("Matched {$results['matched_count']} stale unverified users.");
+        info($this->summaryMessage('Matched', $results['matched_count']));
 
         if ($this->option('dry-run')) {
-            info('Dry run enabled; no users were deleted.');
+            info('Dry run enabled. No users were deleted.');
 
             return self::SUCCESS;
         }
 
-        info("Deleted {$results['deleted_count']} stale unverified users.");
+        info($this->summaryMessage('Deleted', $results['deleted_count']));
 
         return self::SUCCESS;
+    }
+
+    protected function summaryMessage(string $verb, int $count): string
+    {
+        return "{$verb} ".Str::plural('stale unverified user', $count, prependCount: true).'.';
     }
 }
