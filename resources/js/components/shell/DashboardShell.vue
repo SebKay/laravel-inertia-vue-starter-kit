@@ -1,5 +1,6 @@
 <script setup lang="ts">
     import AppSidebar from "@/components/AppSidebar.vue";
+    import EmailVerificationBanner from "@/components/shell/EmailVerificationBanner.vue";
     import SiteHeader from "@/components/SiteHeader.vue";
     import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
     import type { LayoutProps } from "@js/types/inertia";
@@ -18,6 +19,7 @@
     >
         <AppSidebar variant="inset" />
         <SidebarInset>
+            <EmailVerificationBanner />
             <SiteHeader :title="heading" />
             <div class="flex flex-1 flex-col">
                 <div class="@container/main flex flex-1 flex-col">
