@@ -39,8 +39,8 @@ it('deletes stale unverified users with the console command', function () {
                 ],
             ],
         )
-        ->expectsOutputToContain('Matched 2 stale unverified users.')
-        ->expectsOutputToContain('Deleted 2 stale unverified users.')
+        ->expectsPromptsInfo('Matched 2 stale unverified users.')
+        ->expectsPromptsInfo('Deleted 2 stale unverified users.')
         ->assertSuccessful();
 
     $this->assertModelMissing($staleUnverifiedUser);
@@ -64,8 +64,8 @@ it('supports a dry run mode', function () {
                 $staleUnverifiedUser->created_at->toDateTimeString(),
             ]],
         )
-        ->expectsOutputToContain('Matched 1 stale unverified users.')
-        ->expectsOutputToContain('Dry run enabled; no users were deleted.')
+        ->expectsPromptsInfo('Matched 1 stale unverified users.')
+        ->expectsPromptsInfo('Dry run enabled; no users were deleted.')
         ->assertSuccessful();
 
     $this->assertModelExists($staleUnverifiedUser);
@@ -81,7 +81,7 @@ it('reports zero matches when no users are eligible for pruning', function () {
     ]);
 
     $this->artisan('app:prune-unverified')
-        ->expectsOutputToContain('Matched 0 stale unverified users.')
-        ->expectsOutputToContain('Deleted 0 stale unverified users.')
+        ->expectsPromptsInfo('Matched 0 stale unverified users.')
+        ->expectsPromptsInfo('Deleted 0 stale unverified users.')
         ->assertSuccessful();
 });
