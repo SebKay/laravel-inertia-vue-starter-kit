@@ -49,8 +49,27 @@ class UserPolicy
         return $user->hasRole(Role::SUPER);
     }
 
+    public function suspend(User $user, User $model): bool
+    {
+        return $this->canManageSuspension($user, $model);
+    }
+
+    public function reactivate(User $user, User $model): bool
+    {
+        return $this->canManageSuspension($user, $model);
+    }
+
     public function forceDelete(User $user, User $model): bool
     {
         return $user->hasRole(Role::SUPER);
+    }
+
+    protected function canManageSuspension(User $user, User $model): bool
+    {
+        if (! $model->hasRole(Role::USER)) {
+            return false;
+        }
+
+        return $user->hasRole([Role::SUPER, Role::ADMIN]);
     }
 }

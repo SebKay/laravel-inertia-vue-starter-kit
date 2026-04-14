@@ -51,6 +51,36 @@ describe('Super Admin', function () {
 
         expect($super->can('delete', $super))->toBeFalse();
     });
+
+    test('can suspend and reactivate regular users', function () {
+        $super = User::factory()->create();
+        $super->assignRole(Role::SUPER);
+        $user = User::factory()->create();
+        $user->assignRole(Role::USER);
+
+        expect($super->can('suspend', $user))->toBeTrue()
+            ->and($super->can('reactivate', $user))->toBeTrue();
+    });
+
+    test('cannot suspend or reactivate admin users', function () {
+        $super = User::factory()->create();
+        $super->assignRole(Role::SUPER);
+        $admin = User::factory()->create();
+        $admin->assignRole(Role::ADMIN);
+
+        expect($super->can('suspend', $admin))->toBeFalse()
+            ->and($super->can('reactivate', $admin))->toBeFalse();
+    });
+
+    test('cannot suspend or reactivate super users', function () {
+        $super = User::factory()->create();
+        $super->assignRole(Role::SUPER);
+        $otherSuper = User::factory()->create();
+        $otherSuper->assignRole(Role::SUPER);
+
+        expect($super->can('suspend', $otherSuper))->toBeFalse()
+            ->and($super->can('reactivate', $otherSuper))->toBeFalse();
+    });
 });
 
 describe('Admin', function () {
@@ -110,6 +140,36 @@ describe('Admin', function () {
 
         expect($admin->can('delete', $admin))->toBeFalse();
     });
+
+    test('can suspend and reactivate regular users', function () {
+        $admin = User::factory()->create();
+        $admin->assignRole(Role::ADMIN);
+        $user = User::factory()->create();
+        $user->assignRole(Role::USER);
+
+        expect($admin->can('suspend', $user))->toBeTrue()
+            ->and($admin->can('reactivate', $user))->toBeTrue();
+    });
+
+    test('cannot suspend or reactivate admin users', function () {
+        $admin = User::factory()->create();
+        $admin->assignRole(Role::ADMIN);
+        $otherAdmin = User::factory()->create();
+        $otherAdmin->assignRole(Role::ADMIN);
+
+        expect($admin->can('suspend', $otherAdmin))->toBeFalse()
+            ->and($admin->can('reactivate', $otherAdmin))->toBeFalse();
+    });
+
+    test('cannot suspend or reactivate super users', function () {
+        $admin = User::factory()->create();
+        $admin->assignRole(Role::ADMIN);
+        $super = User::factory()->create();
+        $super->assignRole(Role::SUPER);
+
+        expect($admin->can('suspend', $super))->toBeFalse()
+            ->and($admin->can('reactivate', $super))->toBeFalse();
+    });
 });
 
 describe('Regular User', function () {
@@ -143,5 +203,15 @@ describe('Regular User', function () {
         $other->assignRole(Role::USER);
 
         expect($user->can('delete', $other))->toBeFalse();
+    });
+
+    test('cannot suspend or reactivate users', function () {
+        $user = User::factory()->create();
+        $user->assignRole(Role::USER);
+        $other = User::factory()->create();
+        $other->assignRole(Role::USER);
+
+        expect($user->can('suspend', $other))->toBeFalse()
+            ->and($user->can('reactivate', $other))->toBeFalse();
     });
 });
