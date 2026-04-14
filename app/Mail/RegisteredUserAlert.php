@@ -9,6 +9,7 @@ use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Support\Facades\Date;
 
 class RegisteredUserAlert extends Mailable implements ShouldQueue
 {
@@ -37,7 +38,11 @@ class RegisteredUserAlert extends Mailable implements ShouldQueue
     {
         return new Content(
             markdown: 'mail.users.registered-alert',
-            with: $this->payload,
+            with: [
+                ...$this->payload,
+                'registered_at_human' => Date::parse($this->payload['registered_at'])
+                    ->format('F j, Y \a\t g:i A'),
+            ],
         );
     }
 }

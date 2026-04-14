@@ -17,5 +17,6 @@ test('registered user alert uses the mail queue and renders registration details
         ->and($mailable->render())->toContain('New user registered')
         ->toContain('Jane Doe')
         ->toContain('jane@example.com')
-        ->toContain('2026-04-14 21:15:00');
+        ->toContain('April 14, 2026 at 9:15 PM')
+        ->not->toContain('2026-04-14 21:15:00');
 });

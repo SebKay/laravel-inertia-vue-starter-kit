@@ -3,6 +3,6 @@
 
 - Name: {{ $registered_user_name }}
 - Email: {{ $registered_user_email }}
-- Registered at: {{ $registered_at }}
+- Registered at: {{ $registered_at_human }}
 
 </x-mail::message>
