@@ -7,14 +7,13 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
-use Inertia\Response;
 use Symfony\Component\HttpFoundation\Response as SymfonyResponse;
 
 class EmailVerificationController extends Controller
 {
-    public function show(): Response
+    public function show(): RedirectResponse
     {
-        return inertia('EmailVerification/Show');
+        return to_route('home');
     }
 
     public function store(EmailVerificationRequest $request): RedirectResponse

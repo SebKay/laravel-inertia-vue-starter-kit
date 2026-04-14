@@ -47,12 +47,12 @@ Route::post('logout', LogoutController::class)
     ->name('logout');
 
 Route::get('/', DashboardController::class)
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->name('home');
 
 Route::controller(AccountController::class)
     ->prefix('account')
-    ->middleware(['auth', 'verified'])
+    ->middleware(['auth'])
     ->group(function () {
         Route::get('', 'edit')->name('account.edit');
         Route::patch('', 'update')->name('account.update');

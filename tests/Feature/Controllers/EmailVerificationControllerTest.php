@@ -4,20 +4,27 @@ use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Routing\Middleware\ValidateSignature;
 use Illuminate\Support\Facades\Notification;
-use Inertia\Testing\AssertableInertia as Assert;
 
 use function Pest\Laravel\actingAs;
 use function Pest\Laravel\get;
 
 describe('Users', function () {
-    test('Can access the verification page', function () {
+    test('Can access the dashboard without verifying their email address', function () {
+        actingAs(User::factory()->unverified()->create())
+            ->get(route('home'))
+            ->assertSuccessful();
+    });
+
+    test('Can access the account page without verifying their email address', function () {
+        actingAs(User::factory()->unverified()->create())
+            ->get(route('account.edit'))
+            ->assertSuccessful();
+    });
+
+    test('The verification notice route redirects into the app shell', function () {
         actingAs(User::factory()->unverified()->create())
             ->get(route('verification.notice'))
-            ->assertOk()
-            ->assertInertia(
-                fn (Assert $page) => $page
-                    ->component('EmailVerification/Show')
-            );
+            ->assertRedirectToRoute('home');
     });
 
     test('Can verify their email address', function () {
@@ -43,10 +50,10 @@ describe('Users', function () {
         $user = User::factory()->unverified()->create();
 
         actingAs($user)
-            ->fromRoute('verification.notice')
+            ->fromRoute('home')
             ->post(route('verification.send'))
             ->assertSessionDoesntHaveErrors()
-            ->assertRedirectToRoute('verification.notice')
+            ->assertRedirectToRoute('home')
             ->assertInertiaFlash('toast.type', 'success')
             ->assertInertiaFlash('toast.message', __('account.verification-resent'));
 
