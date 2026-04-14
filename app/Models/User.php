@@ -49,7 +49,7 @@ class User extends Authenticatable implements FilamentUser, HasName, MustVerifyE
 
     public function isSuspended(): bool
     {
-        return $this->suspended_at !== null;
+        return $this->getAttributeFromArray('suspended_at') !== null;
     }
 
     public function suspend(): void

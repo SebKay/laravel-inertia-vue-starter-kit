@@ -1,6 +1,7 @@
 <?php
 
 use App\Enums\Environment;
+use App\Http\Middleware\EnsureUserIsNotSuspended;
 use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Auth\Middleware\RequirePassword;
 use Illuminate\Foundation\Application;
@@ -20,6 +21,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
+            'not_suspended' => EnsureUserIsNotSuspended::class,
             'password.confirm' => RequirePassword::class,
             'role' => RoleMiddleware::class,
             'permission' => PermissionMiddleware::class,
