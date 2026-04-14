@@ -72,6 +72,17 @@ describe('Super Admin', function () {
             ->and($super->can('reactivate', $admin))->toBeFalse();
     });
 
+    test('cannot suspend or reactivate mixed-role privileged users', function () {
+        $super = User::factory()->create();
+        $super->assignRole(Role::SUPER);
+        $privilegedUser = User::factory()->create();
+        $privilegedUser->assignRole(Role::ADMIN);
+        $privilegedUser->assignRole(Role::USER);
+
+        expect($super->can('suspend', $privilegedUser))->toBeFalse()
+            ->and($super->can('reactivate', $privilegedUser))->toBeFalse();
+    });
+
     test('cannot suspend or reactivate super users', function () {
         $super = User::factory()->create();
         $super->assignRole(Role::SUPER);

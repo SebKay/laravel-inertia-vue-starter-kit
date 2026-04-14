@@ -66,6 +66,10 @@ class UserPolicy
 
     protected function canManageSuspension(User $user, User $model): bool
     {
+        if ($model->hasRole([Role::SUPER, Role::ADMIN])) {
+            return false;
+        }
+
         if (! $model->hasRole(Role::USER)) {
             return false;
         }
