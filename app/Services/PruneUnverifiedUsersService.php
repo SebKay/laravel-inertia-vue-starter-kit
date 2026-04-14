@@ -8,6 +8,11 @@ use Illuminate\Database\Eloquent\Builder;
 class PruneUnverifiedUsersService
 {
     /**
+     * @var array<int, string>
+     */
+    protected array $userColumns = ['id', 'name', 'email', 'created_at'];
+
+    /**
      * Preview the number of stale unverified users eligible for pruning.
      *
      * @return array{
@@ -43,7 +48,7 @@ class PruneUnverifiedUsersService
         $deletedCount = 0;
 
         $this->staleUsersQuery()
-            ->select('id', 'name', 'email', 'email_verified_at', 'password', 'remember_token', 'created_at', 'updated_at')
+            ->select($this->userColumns)
             ->chunkById(100, function ($users) use (&$deletedCount): void {
                 foreach ($users as $user) {
                     if ($user->delete()) {
@@ -66,7 +71,7 @@ class PruneUnverifiedUsersService
     {
         return $this->staleUsersQuery()
             ->orderBy('id')
-            ->get(['id', 'name', 'email', 'created_at'])
+            ->get($this->userColumns)
             ->map(fn (User $user): array => [
                 'id' => $user->getKey(),
                 'name' => $user->name,

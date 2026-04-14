@@ -34,7 +34,9 @@ test('it previews and prunes stale unverified users', function () {
             'id' => $staleUnverifiedUser->getKey(),
             'name' => $staleUnverifiedUser->name,
             'email' => $staleUnverifiedUser->email,
-        ]);
+        ])
+        ->and(array_keys($previewResults['users'][0]))
+        ->toBe(['id', 'name', 'email', 'created_at']);
 
     expect($pruneResults)
         ->toMatchArray([
@@ -48,7 +50,9 @@ test('it previews and prunes stale unverified users', function () {
             'id' => $staleUnverifiedUser->getKey(),
             'name' => $staleUnverifiedUser->name,
             'email' => $staleUnverifiedUser->email,
-        ]);
+        ])
+        ->and(array_keys($pruneResults['users'][0]))
+        ->toBe(['id', 'name', 'email', 'created_at']);
 
     $this->assertModelMissing($staleUnverifiedUser);
     $this->assertModelExists($freshUnverifiedUser);
