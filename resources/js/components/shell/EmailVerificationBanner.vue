@@ -66,20 +66,21 @@
 <template>
     <section
         v-if="showBanner"
+        data-email-verification-banner
         role="alert"
-        class="border-x border-t border-b border-amber-200 bg-amber-50 text-amber-950 dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200 md:rounded-t-xl"
+        class="bg-amber-50 text-amber-950 md:rounded-xl dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200"
     >
         <div
             class="flex flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6"
         >
-            <div class="flex items-start gap-3">
+            <div class="flex items-center gap-3">
                 <div
-                    class="mt-0.5 rounded-full bg-amber-100 p-2 text-amber-900 dark:bg-amber-900/60 dark:text-amber-100"
+                    class="mt-0.5 self-start rounded-full bg-amber-100 p-2 text-amber-900 dark:bg-amber-900/60 dark:text-amber-100"
                 >
                     <TriangleAlertIcon class="size-4" />
                 </div>
 
-                <div class="space-y-1">
+                <div>
                     <p class="text-sm font-medium">
                         Verify your email address to keep your account fully
                         active.

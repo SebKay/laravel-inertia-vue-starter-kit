@@ -18,12 +18,25 @@
         }"
     >
         <AppSidebar variant="inset" />
-        <SidebarInset>
-            <EmailVerificationBanner />
-            <SiteHeader :title="heading" />
+        <SidebarInset
+            class="bg-transparent md:peer-data-[variant=inset]:overflow-visible md:peer-data-[variant=inset]:rounded-none"
+        >
             <div class="flex flex-1 flex-col">
-                <div class="@container/main flex flex-1 flex-col">
-                    <slot />
+                <div
+                    class="*:data-email-verification-banner:-mb-4 *:data-email-verification-banner:rounded-b-none *:data-email-verification-banner:pb-4"
+                >
+                    <EmailVerificationBanner />
+                </div>
+
+                <div
+                    class="flex flex-1 flex-col overflow-hidden rounded-xl bg-background"
+                >
+                    <SiteHeader :title="heading" />
+                    <div class="flex flex-1 flex-col">
+                        <div class="@container/main flex flex-1 flex-col">
+                            <slot />
+                        </div>
+                    </div>
                 </div>
             </div>
         </SidebarInset>
