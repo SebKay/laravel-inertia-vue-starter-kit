@@ -3,14 +3,14 @@
 namespace App\Console\Commands;
 
 use App\Services\PruneUnverifiedUsersService;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
+#[Signature('app:prune-unverified {--dry-run : Preview stale unverified users without deleting them}')]
+#[Description('Delete stale unverified users that are older than 30 days')]
 class PruneUnverifiedUsersCommand extends Command
 {
-    protected $signature = 'users:prune-unverified {--dry-run : Preview stale unverified users without deleting them}';
-
-    protected $description = 'Delete stale unverified users that are older than 30 days';
-
     public function handle(PruneUnverifiedUsersService $service): int
     {
         $results = $this->option('dry-run')

@@ -3,17 +3,17 @@
 namespace App\Console\Commands;
 
 use App\Services\RolesAndPermissionsService;
+use Illuminate\Console\Attributes\Description;
+use Illuminate\Console\Attributes\Signature;
 use Illuminate\Console\Command;
 
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
 
+#[Signature('app:permissions:sync {--fresh}')]
+#[Description('Sync roles and permissions from enums to the database')]
 class SyncRolesAndPermissionsCommand extends Command
 {
-    protected $signature = 'permissions:sync {--fresh}';
-
-    protected $description = 'Sync roles and permissions from enums to the database';
-
     public function handle(RolesAndPermissionsService $service): int
     {
         $fresh = $this->option('fresh');

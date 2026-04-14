@@ -12,7 +12,7 @@ it('delegates the default command path to the sync service', function () {
             ->with(false);
     });
 
-    $this->artisan('permissions:sync')
+    $this->artisan('app:permissions:sync')
         ->expectsOutputToContain('Roles and permissions synced successfully.')
         ->assertSuccessful();
 });
@@ -24,7 +24,7 @@ it('delegates the fresh command path to the sync service', function () {
             ->with(true);
     });
 
-    $this->artisan('permissions:sync --fresh')
+    $this->artisan('app:permissions:sync --fresh')
         ->expectsOutputToContain('Truncating existing roles and permissions...')
         ->expectsOutputToContain('Roles and permissions synced successfully.')
         ->assertSuccessful();
