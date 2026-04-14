@@ -9,6 +9,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Str;
 
 use function Laravel\Prompts\info;
+use function Laravel\Prompts\spin;
 use function Laravel\Prompts\table;
 
 #[Signature('app:prune-unverified {--dry-run : Preview stale unverified users without deleting them}')]
@@ -17,9 +18,16 @@ class PruneUnverifiedUsersCommand extends Command
 {
     public function handle(PruneUnverifiedUsersService $service): int
     {
-        $results = $this->option('dry-run')
-            ? $service->preview()
-            : $service->prune();
+        $isDryRun = $this->option('dry-run');
+
+        $results = spin(
+            message: $isDryRun
+                ? 'Checking for stale unverified users...'
+                : 'Pruning stale unverified users...',
+            callback: fn (): array => $isDryRun
+                ? $service->preview()
+                : $service->prune(),
+        );
 
         if ($results['users'] !== []) {
             table(
@@ -33,7 +41,7 @@ class PruneUnverifiedUsersCommand extends Command
 
         info($this->summaryMessage('Matched', $results['matched_count']));
 
-        if ($this->option('dry-run')) {
+        if ($isDryRun) {
             info('Dry run enabled. No users were deleted.');
 
             return self::SUCCESS;
