@@ -7,26 +7,26 @@ use App\Mail\RegisteredUserAlert;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Queue\Attributes\DeleteWhenMissingModels;
+use Illuminate\Queue\Attributes\WithoutRelations;
 use Illuminate\Support\Facades\Mail;
 
+#[DeleteWhenMissingModels]
 class SendRegisteredUserAlertToSuperAdmins implements ShouldQueue
 {
     use Queueable;
 
-    public function __construct(public int $userId) {}
+    public function __construct(
+        #[WithoutRelations]
+        public User $registeredUser,
+    ) {}
 
     public function handle(): void
     {
-        $registeredUser = User::query()->find($this->userId);
-
-        if (! $registeredUser) {
-            return;
-        }
-
         $payload = [
-            'registered_user_name' => $registeredUser->name,
-            'registered_user_email' => $registeredUser->email,
-            'registered_at' => $registeredUser->created_at?->toDateTimeString() ?? now()->toDateTimeString(),
+            'registered_user_name' => $this->registeredUser->name,
+            'registered_user_email' => $this->registeredUser->email,
+            'registered_at' => $this->registeredUser->created_at?->toDateTimeString() ?? now()->toDateTimeString(),
         ];
 
         User::role(Role::SUPER->value)

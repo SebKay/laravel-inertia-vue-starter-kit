@@ -83,7 +83,7 @@ describe('Guests', function () {
 
         Queue::assertPushed(
             SendRegisteredUserAlertToSuperAdmins::class,
-            fn (SendRegisteredUserAlertToSuperAdmins $job): bool => $job->userId === $user->id,
+            fn (SendRegisteredUserAlertToSuperAdmins $job): bool => $job->registeredUser->is($user),
         );
 
         assertAuthenticated();

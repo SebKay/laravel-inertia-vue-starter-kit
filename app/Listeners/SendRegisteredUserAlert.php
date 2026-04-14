@@ -9,7 +9,7 @@ class SendRegisteredUserAlert
 {
     public function handle(Registered $event): void
     {
-        SendRegisteredUserAlertToSuperAdmins::dispatch($event->user->getKey())
+        SendRegisteredUserAlertToSuperAdmins::dispatch($event->user)
             ->afterCommit();
     }
 }
