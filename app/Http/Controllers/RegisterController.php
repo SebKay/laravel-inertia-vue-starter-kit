@@ -17,7 +17,7 @@ class RegisterController extends Controller
         return inertia('Register/Show', app()->environment([Environment::LOCAL->value, Environment::TESTING->value]) ? [
             'name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
-            'password' => '123456Ab#',
+            'password' => '123456',
         ] : []);
     }
 

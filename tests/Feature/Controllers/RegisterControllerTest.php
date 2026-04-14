@@ -30,7 +30,7 @@ describe('Guests', function () {
                     ->component('Register/Show')
                     ->has('name')
                     ->has('email')
-                    ->has('password')
+                    ->where('password', '123456')
             );
     });
 
