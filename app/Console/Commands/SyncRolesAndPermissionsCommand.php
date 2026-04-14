@@ -10,7 +10,7 @@ use Illuminate\Console\Command;
 use function Laravel\Prompts\info;
 use function Laravel\Prompts\spin;
 
-#[Signature('app:permissions:sync {--fresh}')]
+#[Signature('app:sync-permissions {--fresh}')]
 #[Description('Sync roles and permissions from enums to the database')]
 class SyncRolesAndPermissionsCommand extends Command
 {
