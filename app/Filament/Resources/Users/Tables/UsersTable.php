@@ -45,11 +45,6 @@ class UsersTable
                     ->searchable()
                     ->sortable(),
 
-                TextColumn::make('status')
-                    ->badge()
-                    ->getStateUsing(fn (User $user): string => $user->isSuspended() ? 'Suspended' : 'Active')
-                    ->color(fn (User $user): string => $user->isSuspended() ? 'warning' : 'success'),
-
                 TextColumn::make('created_at')
                     ->toggleable(isToggledHiddenByDefault: true)
                     ->sortable(),
