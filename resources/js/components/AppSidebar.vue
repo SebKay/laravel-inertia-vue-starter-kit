@@ -26,36 +26,25 @@
     import DashboardController from "@js/actions/App/Http/Controllers/DashboardController";
     import LogoutController from "@js/actions/App/Http/Controllers/LogoutController";
     import PasswordController from "@js/actions/App/Http/Controllers/PasswordController";
-    import type { PageProps } from "@js/types/inertia";
-    import { userCan } from "@js/utilities/permissions";
 
     const page = usePage();
     const currentComponent = computed(() => String(page.component));
 
-    const showElementsLink = computed(() =>
-        userCan(page.props as unknown as PageProps, "access-filament"),
-    );
-
     const navItems = computed(() => {
-        const items = [
+        return [
             {
                 title: "Dashboard",
                 url: toUrl(DashboardController()),
                 icon: LayoutDashboardIcon,
                 components: ["Dashboard/Index"],
             },
-        ];
-
-        if (showElementsLink.value) {
-            items.push({
+            {
                 title: "Password Test",
                 url: toUrl(PasswordController()),
                 icon: LayoutListIcon,
                 components: ["Password"],
-            });
-        }
-
-        return items;
+            },
+        ];
     });
 
     withDefaults(
