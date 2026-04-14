@@ -24,20 +24,16 @@ test('it queues one registered user alert per super admin on the mail queue', fu
 
     $user = User::whereEmail(config('seed.users.user.email'))->firstOrFail();
 
-    (new SendRegisteredUserAlertToSuperAdmins($registeredUser->id))->handle();
+    new SendRegisteredUserAlertToSuperAdmins($registeredUser->id)->handle();
 
     Mail::assertQueuedCount(2);
-    Mail::assertQueued(RegisteredUserAlert::class, function (RegisteredUserAlert $mail) use ($registeredUser) {
-        return $mail->hasTo(superUser()->email)
-            && $mail->queue === Queue::MAIL->value
-            && $mail->payload['registered_user_name'] === $registeredUser->name
-            && $mail->payload['registered_user_email'] === $registeredUser->email
-            && $mail->payload['registered_at'] === $registeredUser->created_at->toDateTimeString();
-    });
-    Mail::assertQueued(RegisteredUserAlert::class, function (RegisteredUserAlert $mail) use ($additionalSuperAdmin) {
-        return $mail->hasTo($additionalSuperAdmin->email)
-            && $mail->queue === Queue::MAIL->value;
-    });
+    Mail::assertQueued(RegisteredUserAlert::class, fn (RegisteredUserAlert $mail) => $mail->hasTo(superUser()->email)
+        && $mail->queue === Queue::MAIL->value
+        && $mail->payload['registered_user_name'] === $registeredUser->name
+        && $mail->payload['registered_user_email'] === $registeredUser->email
+        && $mail->payload['registered_at'] === $registeredUser->created_at->toDateTimeString());
+    Mail::assertQueued(RegisteredUserAlert::class, fn (RegisteredUserAlert $mail) => $mail->hasTo($additionalSuperAdmin->email)
+        && $mail->queue === Queue::MAIL->value);
     Mail::assertNotQueued(RegisteredUserAlert::class, fn (RegisteredUserAlert $mail): bool => $mail->hasTo(adminUser()->email));
     Mail::assertNotQueued(RegisteredUserAlert::class, fn (RegisteredUserAlert $mail): bool => $mail->hasTo($user->email));
 });
@@ -51,7 +47,7 @@ test('it exits cleanly when there are no super admins', function () {
 
     $registeredUser = User::factory()->create();
 
-    (new SendRegisteredUserAlertToSuperAdmins($registeredUser->id))->handle();
+    new SendRegisteredUserAlertToSuperAdmins($registeredUser->id)->handle();
 
     Mail::assertNothingQueued();
 });
@@ -59,7 +55,7 @@ test('it exits cleanly when there are no super admins', function () {
 test('it exits cleanly when the registered user no longer exists', function () {
     Mail::fake();
 
-    (new SendRegisteredUserAlertToSuperAdmins(999_999))->handle();
+    new SendRegisteredUserAlertToSuperAdmins(999_999)->handle();
 
     Mail::assertNothingQueued();
 });
