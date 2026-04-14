@@ -74,6 +74,23 @@ describe('Users', function () {
 
         Notification::assertSentTo($user, VerifyEmail::class);
     });
+
+    test('The verification resend endpoint is rate limited', function () {
+        Notification::fake();
+
+        $user = User::factory()->unverified()->create();
+
+        actingAs($user);
+
+        foreach (range(1, 6) as $attempt) {
+            $this->postJson(route('verification.send'))
+                ->assertSuccessful();
+        }
+
+        $this->postJson(route('verification.send'))
+            ->assertTooManyRequests()
+            ->assertHeader('Retry-After');
+    });
 });
 
 describe('Guests', function () {
