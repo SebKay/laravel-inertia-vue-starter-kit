@@ -2,9 +2,11 @@
 
 use App\Enums\Environment;
 use App\Enums\Role;
+use App\Jobs\SendRegisteredUserAlertToSuperAdmins;
 use App\Models\User;
 use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Queue;
 use Inertia\Testing\AssertableInertia as Assert;
 
 use function Pest\Laravel\actingAs;
@@ -54,6 +56,7 @@ describe('Guests', function () {
         $email = fake()->email();
 
         Notification::fake();
+        Queue::fake();
 
         assertGuest();
 
@@ -69,11 +72,18 @@ describe('Guests', function () {
             'email' => $email,
         ]);
 
-        expect(User::where('email', $email)->firstOrFail()->roles->first()->name)->toBe(Role::USER->value);
+        $user = User::where('email', $email)->firstOrFail();
+
+        expect($user->roles->first()->name)->toBe(Role::USER->value);
 
         Notification::assertSentTo(
-            User::where('email', $email)->firstOrFail(),
+            $user,
             VerifyEmail::class,
+        );
+
+        Queue::assertPushed(
+            SendRegisteredUserAlertToSuperAdmins::class,
+            fn (SendRegisteredUserAlertToSuperAdmins $job): bool => $job->userId === $user->id,
         );
 
         assertAuthenticated();
