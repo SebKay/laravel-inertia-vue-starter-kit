@@ -3,13 +3,16 @@
 namespace App\Providers;
 
 use App\Enums\Environment;
+use App\Listeners\SendRegisteredUserAlert;
 use Carbon\CarbonImmutable;
 use Filament\Tables\Table;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Client\RequestException;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -26,6 +29,8 @@ class AppServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
+        Event::listen(Registered::class, SendRegisteredUserAlert::class);
+
         URL::forceHttps(
             app()->environment([Environment::PRODUCTION->value, Environment::STAGING->value])
         );
