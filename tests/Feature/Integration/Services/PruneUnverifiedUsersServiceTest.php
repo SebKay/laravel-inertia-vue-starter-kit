@@ -19,16 +19,36 @@ test('it previews and prunes stale unverified users', function () {
     ]);
 
     $service = app(PruneUnverifiedUsersService::class);
+    $previewResults = $service->preview();
+    $pruneResults = $service->prune();
 
-    expect($service->preview())->toBe([
-        'matched_count' => 1,
-        'deleted_count' => 0,
-    ]);
+    expect($previewResults)
+        ->toMatchArray([
+            'matched_count' => 1,
+            'deleted_count' => 0,
+        ])
+        ->and($previewResults['users'])
+        ->toHaveCount(1)
+        ->and($previewResults['users'][0])
+        ->toMatchArray([
+            'id' => $staleUnverifiedUser->getKey(),
+            'name' => $staleUnverifiedUser->name,
+            'email' => $staleUnverifiedUser->email,
+        ]);
 
-    expect($service->prune())->toBe([
-        'matched_count' => 1,
-        'deleted_count' => 1,
-    ]);
+    expect($pruneResults)
+        ->toMatchArray([
+            'matched_count' => 1,
+            'deleted_count' => 1,
+        ])
+        ->and($pruneResults['users'])
+        ->toHaveCount(1)
+        ->and($pruneResults['users'][0])
+        ->toMatchArray([
+            'id' => $staleUnverifiedUser->getKey(),
+            'name' => $staleUnverifiedUser->name,
+            'email' => $staleUnverifiedUser->email,
+        ]);
 
     $this->assertModelMissing($staleUnverifiedUser);
     $this->assertModelExists($freshUnverifiedUser);

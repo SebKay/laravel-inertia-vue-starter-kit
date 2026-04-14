@@ -22,6 +22,23 @@ it('deletes stale unverified users with the console command', function () {
     ]);
 
     $this->artisan('app:prune-unverified')
+        ->expectsPromptsTable(
+            headers: ['ID', 'Name', 'Email', 'Created At'],
+            rows: [
+                [
+                    $staleUnverifiedUser->getKey(),
+                    $staleUnverifiedUser->name,
+                    $staleUnverifiedUser->email,
+                    $staleUnverifiedUser->created_at->toDateTimeString(),
+                ],
+                [
+                    $staleAdminUser->getKey(),
+                    $staleAdminUser->name,
+                    $staleAdminUser->email,
+                    $staleAdminUser->created_at->toDateTimeString(),
+                ],
+            ],
+        )
         ->expectsOutputToContain('Matched 2 stale unverified users.')
         ->expectsOutputToContain('Deleted 2 stale unverified users.')
         ->assertSuccessful();
@@ -38,6 +55,15 @@ it('supports a dry run mode', function () {
     ]);
 
     $this->artisan('app:prune-unverified --dry-run')
+        ->expectsPromptsTable(
+            headers: ['ID', 'Name', 'Email', 'Created At'],
+            rows: [[
+                $staleUnverifiedUser->getKey(),
+                $staleUnverifiedUser->name,
+                $staleUnverifiedUser->email,
+                $staleUnverifiedUser->created_at->toDateTimeString(),
+            ]],
+        )
         ->expectsOutputToContain('Matched 1 stale unverified users.')
         ->expectsOutputToContain('Dry run enabled; no users were deleted.')
         ->assertSuccessful();
