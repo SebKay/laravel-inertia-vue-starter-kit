@@ -3,6 +3,8 @@
 use App\Enums\Environment;
 use App\Enums\Role;
 use App\Models\User;
+use Illuminate\Auth\Notifications\VerifyEmail;
+use Illuminate\Support\Facades\Notification;
 use Inertia\Testing\AssertableInertia as Assert;
 
 use function Pest\Laravel\actingAs;
@@ -51,6 +53,8 @@ describe('Guests', function () {
     test('Can register', function () {
         $email = fake()->email();
 
+        Notification::fake();
+
         assertGuest();
 
         post(route('register.store'), [
@@ -66,6 +70,11 @@ describe('Guests', function () {
         ]);
 
         expect(User::where('email', $email)->firstOrFail()->roles->first()->name)->toBe(Role::USER->value);
+
+        Notification::assertSentTo(
+            User::where('email', $email)->firstOrFail(),
+            VerifyEmail::class,
+        );
 
         assertAuthenticated();
     });
