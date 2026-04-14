@@ -71,7 +71,7 @@
         class="bg-amber-50 text-amber-950 md:rounded-xl dark:border-amber-800 dark:bg-amber-950 dark:text-amber-200"
     >
         <div
-            class="flex flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:px-6"
+            class="flex flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between lg:gap-6 lg:px-6"
         >
             <div class="flex items-center gap-3">
                 <div
@@ -80,13 +80,13 @@
                     <TriangleAlertIcon class="size-4" />
                 </div>
 
-                <div>
+                <div class="space-y-0.5">
                     <p class="text-sm font-medium">
                         Verify your email address to keep your account fully
                         active.
                     </p>
 
-                    <p class="text-sm/6 text-current/80">
+                    <p class="text-xs text-current/80">
                         <template v-if="emailAddress">
                             We sent a verification link to
                             <strong>{{ emailAddress }}</strong
@@ -100,24 +100,26 @@
                 </div>
             </div>
 
-            <Button
-                variant="amber"
-                size="sm"
-                :disabled="resendRequest.processing"
-                @click="resend"
-            >
-                <Loader2Icon
-                    v-if="resendRequest.processing"
-                    class="size-4 animate-spin"
-                />
-                <span>
-                    {{
-                        resendRequest.processing
-                            ? "Sending..."
-                            : "Resend verification email"
-                    }}
-                </span>
-            </Button>
+            <div class="max-lg:pl-11">
+                <Button
+                    variant="amber"
+                    size="sm"
+                    :disabled="resendRequest.processing"
+                    @click="resend"
+                >
+                    <Loader2Icon
+                        v-if="resendRequest.processing"
+                        class="size-4 animate-spin"
+                    />
+                    <span>
+                        {{
+                            resendRequest.processing
+                                ? "Sending..."
+                                : "Resend verification email"
+                        }}
+                    </span>
+                </Button>
+            </div>
         </div>
     </section>
 </template>
