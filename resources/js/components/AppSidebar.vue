@@ -120,7 +120,7 @@
                     </SidebarMenuButton>
                 </SidebarMenuItem>
                 <SidebarMenuItem
-                    class="mt-4 border-t border-sidebar-border/50 px-2 pt-4 text-xs text-muted-foreground"
+                    class="mt-4 px-2 text-xs text-muted-foreground"
                 >
                     <span>
                         &copy; 2026
