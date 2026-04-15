@@ -16,7 +16,7 @@ use Spatie\Health\Http\Controllers\HealthCheckResultsController;
 Route::get('health', HealthCheckResultsController::class)->middleware(['auth', 'role:'.Role::SUPER->value]);
 
 Route::get('password-test', PasswordController::class)
-    ->middleware(['auth', 'password.confirm'])
+    ->middleware(['auth', 'not_suspended', 'password.confirm'])
     ->name('password-test');
 
 Route::controller(RegisterController::class)
@@ -43,16 +43,16 @@ Route::controller(ResetPasswordController::class)
     });
 
 Route::post('logout', LogoutController::class)
-    ->middleware(['auth'])
+    ->middleware(['auth', 'not_suspended'])
     ->name('logout');
 
 Route::get('/', DashboardController::class)
-    ->middleware(['auth'])
+    ->middleware(['auth', 'not_suspended'])
     ->name('home');
 
 Route::controller(AccountController::class)
     ->prefix('account')
-    ->middleware(['auth'])
+    ->middleware(['auth', 'not_suspended'])
     ->group(function () {
         Route::get('', 'edit')->name('account.edit');
         Route::patch('', 'update')->name('account.update');
@@ -60,7 +60,7 @@ Route::controller(AccountController::class)
 
 Route::controller(ConfirmPasswordController::class)
     ->prefix('account')
-    ->middleware(['auth'])
+    ->middleware(['auth', 'not_suspended'])
     ->group(function () {
         Route::get('password', 'show')->name('password.confirm');
         Route::post('password', 'store')->name('password.confirm.store')->middleware(['throttle:6,1']);
@@ -68,9 +68,9 @@ Route::controller(ConfirmPasswordController::class)
 
 Route::controller(EmailVerificationController::class)
     ->prefix('account')
-    ->middleware(['auth'])
+    ->middleware(['auth', 'not_suspended'])
     ->group(function () {
         Route::get('verify', 'show')->name('verification.notice');
         Route::get('verify/{id}/{hash}', 'store')->middleware(['signed'])->name('verification.verify');
-        Route::post('verify/resend', 'update')->middleware(['auth', 'throttle:6,1'])->name('verification.send');
+        Route::post('verify/resend', 'update')->middleware(['auth', 'not_suspended', 'throttle:6,1'])->name('verification.send');
     });

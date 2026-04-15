@@ -95,6 +95,26 @@ describe('Guests', function () {
         assertAuthenticated();
     });
 
+    test('Suspended users cannot login and receive a warning toast', function () {
+        $password = fake()->password();
+        $user = User::factory()->suspended()->create([
+            'password' => Hash::make($password),
+        ]);
+
+        assertGuest();
+
+        post(route('login.store'), [
+            'email' => $user->email,
+            'password' => $password,
+        ])
+            ->assertSessionDoesntHaveErrors()
+            ->assertRedirectToRoute('login')
+            ->assertInertiaFlash('toast.type', 'warning')
+            ->assertInertiaFlash('toast.message', __('auth.suspended'));
+
+        assertGuest();
+    });
+
     test('Can be redirected after login', function () {
         $password = fake()->password();
         $user = User::factory()->create([
@@ -135,6 +155,26 @@ describe('Guests', function () {
             ->assertRedirectToRoute('login');
 
         assertGuest();
+    });
+
+    test('Reactivated users can login again', function () {
+        $password = fake()->password();
+        $user = User::factory()->suspended()->create([
+            'password' => Hash::make($password),
+        ]);
+
+        $user->reactivate();
+
+        assertGuest();
+
+        post(route('login.store'), [
+            'email' => $user->email,
+            'password' => $password,
+        ])
+            ->assertSessionDoesntHaveErrors()
+            ->assertRedirectToRoute('home');
+
+        assertAuthenticated();
     });
 
     test("Can't login with invalid credentials", function () {
