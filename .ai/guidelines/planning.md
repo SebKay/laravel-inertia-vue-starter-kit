@@ -1,3 +1,3 @@
-When making plans, always use the following skills: `/brainstorming` and `/planner`.
+## Planning Guidelines
 
-You MUST make atomic commits for each task completed in a plan. Make sure the plan reflects that.
+When making plans, always use the following skill: `/brainstorming`.

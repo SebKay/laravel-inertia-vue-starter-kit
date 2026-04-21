@@ -7,7 +7,7 @@
     ],
     "guidelines": true,
     "mcp": true,
-    "nightwatch_mcp": false,
+    "nightwatch_mcp": true,
     "packages": [
         "filament/filament",
         "spatie/laravel-ray",

@@ -76,6 +76,13 @@
         "test:coverage": [
             "XDEBUG_MODE=coverage ./vendor/bin/pest --parallel --stop-on-failure --coverage --min=85"
         ],
+        "finalise": [
+            "bun run format",
+            "bun run lint",
+            "@rector",
+            "@format",
+            "@test:coverage"
+        ],
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
             "@php artisan package:discover --ansi",
