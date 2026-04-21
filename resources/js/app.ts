@@ -4,9 +4,6 @@ import { defineAsyncComponent } from "vue";
 const appName = import.meta.env.VITE_APP_NAME || "Template";
 
 const AppLayout = defineAsyncComponent(() => import("@js/layouts/App.vue"));
-const PageTitle = defineAsyncComponent(
-    () => import("@js/components/PageTitle.vue"),
-);
 
 createInertiaApp({
     pages: "./pages",
@@ -14,9 +11,7 @@ createInertiaApp({
     layout: () => AppLayout,
 
     withApp(app) {
-        app.component("Head", Head)
-            .component("Link", Link)
-            .component("PageTitle", PageTitle);
+        app.component("Head", Head).component("Link", Link);
     },
 
     defaults: {
